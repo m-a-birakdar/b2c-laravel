@@ -1,0 +1,8 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Modules\$STUDLY_NAME$\Http\Controllers\Api\V1\$STUDLY_NAME$Controller;
+
+Route::prefix('v1')->group(function (){
+    Route::apiResource('$LOWER_NAME_PLURAL$', $STUDLY_NAME$Controller::class);
+});

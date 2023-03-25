@@ -1,0 +1,59 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Modules\$STUDLY_NAME$\Http\Requests\Web\$STUDLY_NAME$Request;
+use Illuminate\Routing\Controller;
+use Modules\$STUDLY_NAME$\Interfaces\Web\$STUDLY_NAME$RepositoryInterface;
+
+class $CLASS$ extends Controller
+{
+    public $STUDLY_NAME$RepositoryInterface $repository;
+
+    public function __construct($STUDLY_NAME$RepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('$LOWER_NAME$::index');
+    }
+
+    public function create(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('$LOWER_NAME$::create');
+    }
+
+    public function store($STUDLY_NAME$Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $this->repository->store($request->validated());
+        return back();
+    }
+
+    public function show($id): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('$LOWER_NAME$::show')->with([
+            '$LOWER_NAME$' => $this->repository->show($id)
+        ]);
+    }
+
+    public function edit($id): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('$LOWER_NAME$::edit')->with([
+            '$LOWER_NAME$' => $this->repository->find($id)
+        ]);
+    }
+
+    public function update($STUDLY_NAME$Request $request, $id): \Illuminate\Http\RedirectResponse
+    {
+        $this->repository->update($request->validated(), $id);
+        return back();
+    }
+
+    public function destroy($id): \Illuminate\Http\RedirectResponse
+    {
+        $this->repository->destroy($id);
+        return back();
+    }
+}

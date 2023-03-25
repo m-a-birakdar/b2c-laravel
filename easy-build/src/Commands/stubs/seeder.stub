@@ -1,0 +1,14 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Database\Seeder;
+use Modules\$MODULE$\Entities\$MODULE$;
+
+class $NAME$ extends Seeder
+{
+    public function run()
+    {
+        $MODULE$::factory()->count(10)->create();
+    }
+}

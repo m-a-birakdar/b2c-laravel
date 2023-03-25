@@ -1,0 +1,15 @@
+{
+    "User": true,
+    "Category": true,
+    "Tag": true,
+    "Product": true,
+    "Cart": true,
+    "Coupon": true,
+    "Order": true,
+    "Shipment": true,
+    "Invoice": true,
+    "Notification": true,
+    "Advertise": true,
+    "Currency": true,
+    "Tenant": true
+}

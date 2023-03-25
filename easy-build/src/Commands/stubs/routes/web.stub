@@ -1,0 +1,6 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Modules\$STUDLY_NAME$\Http\Controllers\Web\$STUDLY_NAME$Controller;
+
+Route::resource('$LOWER_NAME_PLURAL$', $STUDLY_NAME$Controller::class);

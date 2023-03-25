@@ -1,0 +1,10 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Birakdar\EasyBuild\Interfaces\BaseInterface;
+
+interface $INTERFACE$ extends BaseInterface
+{
+
+}

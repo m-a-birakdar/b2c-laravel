@@ -1,0 +1,43 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Modules\$STUDLY_NAME$\Http\Requests\Api\V1\$STUDLY_NAME$Request;
+use Illuminate\Routing\Controller;
+use Modules\$STUDLY_NAME$\Interfaces\Api\V1\$STUDLY_NAME$RepositoryInterface;
+use Modules\$STUDLY_NAME$\Transformers\Api\V1\$STUDLY_NAME$Resource;
+
+class $CLASS$ extends Controller
+{
+    public $STUDLY_NAME$RepositoryInterface $repository;
+
+    public function __construct($STUDLY_NAME$RepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        return $STUDLY_NAME$Resource::collection($this->repository->index());
+    }
+
+    public function store($STUDLY_NAME$Request $request)
+    {
+        return $this->repository->store($request->validated());
+    }
+
+    public function show($id): $STUDLY_NAME$Resource
+    {
+        return $STUDLY_NAME$Resource::make($this->repository->show($id));
+    }
+
+    public function update($STUDLY_NAME$Request $request, $id)
+    {
+        return $this->repository->update($request->validated(), $id);
+    }
+
+    public function destroy($id)
+    {
+        return $this->repository->destroy($id);
+    }
+}
