@@ -17,28 +17,13 @@ class ProductRepository implements ProductRepositoryInterface
         $this->model = $model;
     }
 
-    public function index($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
+    public function index($categoryId, $columns = ['*'])
     {
-        return $this->model->query()->get();
-    }
-
-    public function store(array $array): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder
-    {
-        return $this->model->query()->create($array);
+        return $this->model->where('category_id', $categoryId)->simplePaginate();
     }
 
     public function show($id, $with = null, $columns = ['*'])
     {
-        // TODO: Implement show() method.
-    }
-
-    public function update(array $array, $id): int
-    {
-        return $this->model->query()->where('id', $id)->update($array);
-    }
-
-    public function destroy($id)
-    {
-        return $this->model->query()->where('id', $id)->delete();
+        return $this->model->with(is_null($with) ? [] : $with)->findOrFail($id, $columns);
     }
 }

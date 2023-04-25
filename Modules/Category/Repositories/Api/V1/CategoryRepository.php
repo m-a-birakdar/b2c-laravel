@@ -17,28 +17,13 @@ class CategoryRepository implements CategoryRepositoryInterface
         $this->model = $model;
     }
 
-    public function index($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
+    public function main($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
     {
-        return $this->model->query()->get();
+        return $this->model->available()->whereNull('parent_id')->get($columns);
     }
 
-    public function store(array $array): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder
+    public function sub($categoryId, $columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
     {
-        return $this->model->query()->create($array);
-    }
-
-    public function show($id, $with = null, $columns = ['*'])
-    {
-        // TODO: Implement show() method.
-    }
-
-    public function update(array $array, $id): int
-    {
-        return $this->model->query()->where('id', $id)->update($array);
-    }
-
-    public function destroy($id)
-    {
-        return $this->model->query()->where('id', $id)->delete();
+        return $this->model->available()->where('parent_id', $categoryId)->get($columns);
     }
 }

@@ -13,6 +13,7 @@ class UserDatabaseSeeder extends Seeder
         $user = User::create([
             'name' => 'Manager',
             'email' => '1@manager.com',
+            'phone' => '00905352646729',
             'password' => Hash::make('123')
         ]);
         $user->syncRoles('manager');

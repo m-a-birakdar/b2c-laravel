@@ -4,11 +4,12 @@ namespace Modules\Product\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Product\Entities\Product;
+use Modules\Product\Entities\ProductDetails;
 
 class ProductDatabaseSeeder extends Seeder
 {
     public function run()
     {
-        Product::factory()->count(10)->create();
+        Product::factory()->count(10)->has(ProductDetails::factory(), 'details')->create();
     }
 }

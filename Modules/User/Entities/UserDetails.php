@@ -12,7 +12,7 @@ class UserDetails extends Model
 
     protected $table = 'user_details';
 
-    protected $fillable = ['user_id', 'gender', 'birth_date', 'last_login_at', 'fcm_token', 'device_info'];
+    protected $fillable = ['user_id', 'gender', 'birth_date', 'last_login_at', 'fcm_token', 'device_info', 'email_verified_at', 'phone_verified_at'];
 
 //    protected $appends = ['gender_string', 'last_login_human'];
 

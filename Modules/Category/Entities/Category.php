@@ -17,6 +17,10 @@ class Category extends Model
 
     protected $fillable = ['name', 'status', 'image', 'rank', 'parent_id'];
 
+    protected $casts = [
+        'status' => 'bool',
+    ];
+
     public function subCategories(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(SubCategory::class, 'parent_id');
