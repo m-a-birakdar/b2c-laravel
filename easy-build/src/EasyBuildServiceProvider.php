@@ -20,7 +20,7 @@ class EasyBuildServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/easy-build.php', 'easy-build');
+        $this->mergeConfigFrom(__DIR__ . '/Config/easy-build.php', 'easy-build');
 //        $this->loadRoutesFrom(__DIR__ . '/routes/auth.php');
         $this->loadViewsFrom(__DIR__ . '/views', 'easy-build');
         if ($this->app->runningInConsole()) {

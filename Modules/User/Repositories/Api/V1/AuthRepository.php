@@ -19,9 +19,9 @@ class AuthRepository implements AuthRepositoryInterface
         $this->model = $model;
     }
 
-    public function login(User $user, $array)
+    public function login(User $user)
     {
-        $user->setAttribute('token', $user->createToken($array['phone'])->plainTextToken);
+        $user->setAttribute('token', $user->createToken($user->phone)->plainTextToken);
         return $user;
     }
 
@@ -54,6 +54,6 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function existsForLogin($phone)
     {
-        return $this->findWhere('phone', $phone, null, ['phone', 'password', 'status']);
+        return $this->findWhere('phone', $phone, null, ['id', 'name', 'phone', 'password', 'status']);
     }
 }

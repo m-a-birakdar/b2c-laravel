@@ -14,14 +14,15 @@ class MigrateTenantTablesCommand extends Command
 
     public function handle()
     {
+        $this->call('module:publish-migration');
         $this->call('tenants:migrate-fresh');
-        $dirs = Arr::map(array_map('basename', File::directories(base_path('Modules'))), function (string $value) {
-            return 'Modules/' . $value . '/database/migrations/tenant';
-        });
-        foreach ($dirs as $dir)
-            $this->call('tenants:migrate', [
-                '--path' => $dir
-            ]);
+//        $dirs = Arr::map(array_map('basename', File::directories(base_path('Modules'))), function (string $value) {
+//            return 'Modules/' . $value . '/database/migrations/tenant';
+//        });
+//        foreach ($dirs as $dir)
+//            $this->call('tenants:migrate', [
+//                '--path' => $dir
+//            ]);
         $this->call('tenants:seed');
     }
 }

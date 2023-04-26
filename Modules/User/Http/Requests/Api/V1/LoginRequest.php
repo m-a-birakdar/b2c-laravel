@@ -20,6 +20,7 @@ class LoginRequest extends FormRequest
 
     public function __construct(AuthRepositoryInterface $authRepository)
     {
+        parent::__construct();
         $this->authRepository = $authRepository;
     }
 
@@ -30,11 +31,11 @@ class LoginRequest extends FormRequest
     {
         $this->user = $this->authRepository->existsForLogin($this->input('phone'));
         if (is_null($this->user))
-            throw new MainException(false, 'تأكد من رقم الهاتف وكلمة السر', 422);
+            throw new MainException(false, tr('check_phone'), 422);
         if (! Hash::check($this->input('password'), $this->user->password))
-            throw new MainException(false, 'تأكد من كلمة السر', 422);
+            throw new MainException(false, tr('check_password'), 422);
         if (! $this->user->status)
-            throw new MainException(false, 'الحساب غير متاح حالياً', 422);
+            throw new MainException(false, tr('account_is_not_available_now'), 422);
     }
 
     public function rules(): array

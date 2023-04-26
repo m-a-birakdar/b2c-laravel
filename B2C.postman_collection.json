@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "13edda28-17b0-47a7-86a3-385f80747da1",
+		"name": "B2C",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26121089"
+	},
+	"item": [
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/products/index/3",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"products",
+								"index",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/products/show/3",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"products",
+								"show",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "carts",
+			"item": [
+				{
+					"name": "add",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/carts/add/4",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"carts",
+								"add",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/carts/index",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"carts",
+								"index"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/carts/remove/4",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"carts",
+								"remove",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "main",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/categories/main",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"categories",
+								"main"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sub",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/categories/sub/1",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"categories",
+								"sub",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/auth/login?phone=00901010101010&password=123",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"login"
+									],
+									"query": [
+										{
+											"key": "phone",
+											"value": "00901010101010"
+										},
+										{
+											"key": "password",
+											"value": "123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/auth/logout",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/auth/register?phone=009053526461&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"register"
+									],
+									"query": [
+										{
+											"key": "phone",
+											"value": "009053526461"
+										},
+										{
+											"key": "password",
+											"value": "123123"
+										},
+										{
+											"key": "name",
+											"value": "Amer"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123123"
+										},
+										{
+											"key": "fcm_token",
+											"value": "123"
+										},
+										{
+											"key": "device_info",
+											"value": "123"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://bar.tenant.local/",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "1|bdwmShAcnfQjpNubNdgZtAEQceVppNYdSgV9DIgo",
+			"type": "string"
+		}
+	]
+}

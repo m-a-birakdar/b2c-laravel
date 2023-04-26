@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Modules\Category\Database\Seeders\CategoryDatabaseSeeder;
 use Modules\Product\Database\Seeders\ProductDatabaseSeeder;
 use Modules\Tenant\Database\Seeders\TenantDatabaseSeeder;

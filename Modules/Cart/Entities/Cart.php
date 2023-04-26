@@ -3,20 +3,25 @@
 namespace Modules\Cart\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Product\Entities\Product;
+use Modules\User\Entities\User;
 
 class Cart extends Model
 {
-    use HasFactory;
+    protected $fillable = ['user_id', 'items_count', 'items_qty'];
 
-    protected $table = 'carts';
-
-    protected $fillable = ["name"];
-
-    protected $casts = [];
-
-    protected static function newFactory(): \Modules\Cart\Database\factories\CartFactory
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return \Modules\Cart\Database\factories\CartFactory::new();
+        return $this->belongsTo(User::class);
+    }
+
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'cart_items')->withPivot('quantity');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(CartItem::class);
     }
 }

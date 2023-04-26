@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): AuthResource
     {
-        return AuthResource::make($this->repository->login($request->user, $request->validated()));
+        return AuthResource::make($this->repository->login($request->user));
     }
 
     public function register(RegisterRequest $request): AuthResource

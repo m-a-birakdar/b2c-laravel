@@ -2,15 +2,15 @@
 
 namespace Modules\User\Entities;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Cart\Entities\Cart;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, SoftDeletes, HasRoles, HasApiTokens;
+    use SoftDeletes, HasRoles, HasApiTokens;
 
     protected $table = 'users';
 
@@ -25,8 +25,8 @@ class User extends Authenticatable
         return $this->hasOne(UserDetails::class);
     }
 
-    protected static function newFactory(): \Modules\User\Database\factories\UserFactory
+    public function cart(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return \Modules\User\Database\factories\UserFactory::new();
+        return $this->hasOne(Cart::class);
     }
 }

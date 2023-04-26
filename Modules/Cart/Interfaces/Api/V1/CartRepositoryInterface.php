@@ -2,9 +2,9 @@
 
 namespace Modules\Cart\Interfaces\Api\V1;
 
-use Birakdar\EasyBuild\Interfaces\BaseInterface;
-
-interface CartRepositoryInterface extends BaseInterface
+interface CartRepositoryInterface
 {
-
+    public function index();
+    public function add($productId);
+    public function remove($productId);
 }

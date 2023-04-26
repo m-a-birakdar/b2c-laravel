@@ -8,17 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('product_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('user_id')->constrained();
-            $table->integer('items_count');
-            $table->integer('items_qty');
-            $table->timestamps();
+            $table->foreignId('product_id')->constrained();
+            $table->longText('description');
+            $table->integer('quantity');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('product_details');
     }
 };

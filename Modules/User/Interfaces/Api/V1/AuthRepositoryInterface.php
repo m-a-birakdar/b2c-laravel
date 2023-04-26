@@ -6,7 +6,7 @@ use Modules\User\Entities\User;
 
 interface AuthRepositoryInterface
 {
-    public function login(User $user, $array);
+    public function login(User $user);
     public function register($array);
     public function existsForLogin($phone);
 }
