@@ -59,7 +59,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAuthRoutes()
     {
         Route::middleware(['web', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
-            ->namespace($this->moduleNamespace)->prefix('auth')->name('tenant.')
+            ->namespace($this->moduleNamespace)->prefix('auth')
             ->group(module_path('User', '/Routes/auth.php'));
     }
 

@@ -13,6 +13,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->integer('items_count');
             $table->integer('items_qty');
+            $table->decimal('shipping_amount')->nullable();
+            $table->decimal('items_amount')->nullable();
             $table->timestamps();
         });
     }

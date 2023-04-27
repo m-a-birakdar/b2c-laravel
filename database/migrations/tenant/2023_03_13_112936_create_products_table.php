@@ -15,8 +15,9 @@ return new class extends Migration
             $table->string('sku')->unique();
             $table->boolean('status')->default(true);
             $table->string('thumbnail');
-            $table->string('price');
-            $table->string('discount')->nullable();
+            $table->decimal('price');
+            $table->decimal('discount')->nullable();
+            $table->integer('rank')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

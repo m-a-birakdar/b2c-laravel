@@ -16,9 +16,10 @@ class ProductFactory extends Factory
             'title' => $this->faker->name,
             'sku' => $this->faker->buildingNumber,
             'status' => $this->faker->randomElement([true, false]),
+            'rank' => $this->faker->randomElement([0, rand(1,10)]),
             'thumbnail' => $this->faker->imageUrl,
-            'price' => $this->faker->numberBetween(100,1000),
-            'discount' => $this->faker->numberBetween(1,2),
+            'price' => $this->faker->randomFloat(2, 100,1000),
+            'discount' => $this->faker->randomFloat(2, 1,10),
         ];
     }
 }

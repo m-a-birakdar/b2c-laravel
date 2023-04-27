@@ -21,6 +21,7 @@ export function chat(socket) {
             console.log(`Received message from client ${socket.id}: receive_message`);
         });
     });
+
     socket.on('connected', (data) => {
         users[data['id']] = socket.id;
     });

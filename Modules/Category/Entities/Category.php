@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Product\Entities\Product;
 
+/**
+ * @method available()
+ */
+
 class Category extends Model
 {
     use HasFactory, ScopeModels;

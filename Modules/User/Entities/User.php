@@ -5,6 +5,7 @@ namespace Modules\User\Entities;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Address\Entities\Address;
 use Modules\Cart\Entities\Cart;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -14,7 +15,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    protected $fillable = ['name', 'email', 'phone', 'password'];
+    protected $fillable = ['name', 'email', 'phone', 'password', 'status'];
 
     protected $casts = ['email_verified_at' => 'bool', 'phone_verified_at' => 'bool'];
 
@@ -28,5 +29,10 @@ class User extends Authenticatable
     public function cart(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Cart::class);
+    }
+
+    public function addresses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 }

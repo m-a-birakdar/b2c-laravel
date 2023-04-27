@@ -2,9 +2,9 @@
 
 namespace Modules\Order\Interfaces\Api\V1;
 
-use Birakdar\EasyBuild\Interfaces\BaseInterface;
-
-interface OrderRepositoryInterface extends BaseInterface
+interface OrderRepositoryInterface
 {
-
+    public function save();
+    public function index();
+    public function show($orderId);
 }

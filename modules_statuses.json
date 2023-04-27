@@ -11,5 +11,6 @@
     "Notification": true,
     "Advertise": true,
     "Currency": true,
-    "Tenant": true
+    "Tenant": true,
+    "Address": true
 }

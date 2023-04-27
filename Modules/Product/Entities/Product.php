@@ -10,9 +10,12 @@ class Product extends Model
 {
     use HasFactory, ScopeModels;
 
-    protected $fillable = ['category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount'];
+    protected $fillable = ['category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
 
     protected $casts = [
+        'price' => 'double',
+        'discount' => 'double',
+        'status' => 'bool',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];

@@ -12,23 +12,40 @@ class CartRepository implements CartRepositoryInterface
 {
     use BaseRepositoryTrait;
 
-    public Cart|null $model;
+    public Cart $model;
 
-    public function __construct(Cart $model)
+    public function __construct()
     {
-        $this->model = $model;
+        $this->model = new Cart();
+    }
+
+    public function checkout()
+    {
+        $cart = $this->findWhere('user_id', sanctum()->id, [
+            'products:id,title,price,discount,thumbnail'
+        ]);
+        $shippingLimitPrice = 1000;
+        $shippingPrice = 25;
+        $totalAmount = 0;
+        foreach ($cart->products as $product)
+            $totalAmount += $product->price * $product->pivot->quantity;
+        $cart->update([
+            'shipping_amount' => $totalAmount > $shippingLimitPrice ? 0 : $shippingPrice,
+            'items_amount' => $totalAmount
+        ]);
+        return $cart;
     }
 
     public function index()
     {
-        return $this->findWhere('user_id', auth('sanctum')->id(), [
+        return $this->findWhere('user_id', sanctum()->id, [
             'products:id,title,price,discount,thumbnail'
         ]);
     }
 
     public function getCartAndItems($productId, $add = true): array
     {
-        $user = auth('sanctum')->user();
+        $user = sanctum();
         $cart = $this->findWhere('user_id', $user->id);
         if (is_null($cart) && $add)
             $cart = $user->cart()->create(['items_count' => 0, 'items_qty' => 0]);
@@ -36,6 +53,9 @@ class CartRepository implements CartRepositoryInterface
         return [$cart, $item];
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function add($productId): bool
     {
         DB::beginTransaction();
@@ -57,6 +77,9 @@ class CartRepository implements CartRepositoryInterface
         }
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function remove($productId): bool
     {
         DB::beginTransaction();

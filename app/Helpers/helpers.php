@@ -2,12 +2,55 @@
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Modules\Order\Enums\OrderStatusEnum;
+use Modules\Shipment\Enums\ShipmentStatusEnum;
 
 if (! function_exists('tr'))
 {
     function tr($value)
     {
-        return app('translator')->get('site.' . $value);
+        $word = app('translator')->get('site.' . $value);
+        if (str_contains($word, 'site.')){
+            return str_replace('_',  ' ', ucfirst(explode('site.', $word)[1]));
+        }
+        return $word;
+    }
+}
+
+if (! function_exists('sanctum'))
+{
+    function sanctum()
+    {
+        return app(AuthFactory::class)->guard('sanctum')->user();
+    }
+}
+
+if (! function_exists('all_order_status'))
+{
+    function all_order_status(): array
+    {
+        return [
+            OrderStatusEnum::Pending->name,
+            OrderStatusEnum::Processing->name,
+            OrderStatusEnum::Shipment->name,
+            OrderStatusEnum::Delivered->name,
+        ];
+    }
+}
+
+if (! function_exists('all_shipment_status'))
+{
+    function all_shipment_status(): array
+    {
+        return [
+            ShipmentStatusEnum::NotYetShipped->name,
+            ShipmentStatusEnum::InTransit->name,
+            ShipmentStatusEnum::OutForDelivery->name,
+            ShipmentStatusEnum::Delivered->name,
+            ShipmentStatusEnum::FailedDelivery->name,
+            ShipmentStatusEnum::ReturnInProgress->name,
+        ];
     }
 }
 

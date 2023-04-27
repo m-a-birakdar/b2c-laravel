@@ -3,6 +3,7 @@
 namespace Modules\Shipment\Repositories\Api\V1;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
+use Modules\Order\Repositories\Api\V1\OrderRepository;
 use Modules\Shipment\Interfaces\Api\V1\ShipmentRepositoryInterface;
 use Modules\Shipment\Entities\Shipment;
 
@@ -12,33 +13,15 @@ class ShipmentRepository implements ShipmentRepositoryInterface
 
     public Shipment|null $model;
 
-    public function __construct(Shipment $model)
+    public function __construct(Shipment $model = new Shipment())
     {
         $this->model = $model;
     }
 
-    public function index($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
+    public function show($orderId): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
-        return $this->model->query()->get();
-    }
-
-    public function store(array $array): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder
-    {
-        return $this->model->query()->create($array);
-    }
-
-    public function show($id, $with = null, $columns = ['*'])
-    {
-        // TODO: Implement show() method.
-    }
-
-    public function update(array $array, $id): int
-    {
-        return $this->model->query()->where('id', $id)->update($array);
-    }
-
-    public function destroy($id)
-    {
-        return $this->model->query()->where('id', $id)->delete();
+        $order = (new OrderRepository())->find($orderId);
+        $shipmentId = $order->shipment->id;
+        return $this->find($shipmentId, [ 'address', 'user']);
     }
 }

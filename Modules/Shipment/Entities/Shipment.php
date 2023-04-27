@@ -3,20 +3,44 @@
 namespace Modules\Shipment\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Address\Entities\Address;
+use Modules\Order\Entities\Order;
+use Modules\Shipment\Enums\ShipmentStatusEnum;
+use Modules\User\Entities\User;
 
 class Shipment extends Model
 {
-    use HasFactory;
+    protected $fillable = ['track_number', 'user_id', 'status', 'address_id', 'order_id'];
 
-    protected $table = 'shipments';
-
-    protected $fillable = ["name"];
-
-    protected $casts = [];
-
-    protected static function newFactory(): \Modules\Shipment\Database\factories\ShipmentFactory
+    public function getStatusHumanAttribute(): string
     {
-        return \Modules\Shipment\Database\factories\ShipmentFactory::new();
+        return match ($this->status){
+            ShipmentStatusEnum::NotYetShipped->value => 'NotYetShipped',
+            ShipmentStatusEnum::InTransit->value => 'InTransit',
+            ShipmentStatusEnum::OutForDelivery->value => 'OutForDelivery',
+            ShipmentStatusEnum::Delivered->value => 'Delivered',
+            ShipmentStatusEnum::FailedDelivery->value => 'FailedDelivery',
+            ShipmentStatusEnum::ReturnInProgress->value => 'ReturnInProgress',
+        };
+    }
+
+    public function getCreatedAtHumanAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function address(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 }

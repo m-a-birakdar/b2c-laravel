@@ -12,18 +12,18 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public Category|null $model;
 
-    public function __construct(Category $model)
+    public function __construct(Category $model = new Category())
     {
         $this->model = $model;
     }
 
     public function main($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
     {
-        return $this->model->available()->whereNull('parent_id')->get($columns);
+        return $this->model->available()->whereNull('parent_id')->orderBy('rank')->get($columns);
     }
 
     public function sub($categoryId, $columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
     {
-        return $this->model->available()->where('parent_id', $categoryId)->get($columns);
+        return $this->model->available()->where('parent_id', $categoryId)->orderBy('rank')->get($columns);
     }
 }

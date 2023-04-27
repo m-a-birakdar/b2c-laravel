@@ -49,7 +49,7 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function logout()
     {
-        return auth('sanctum')->user()->tokens()->delete();
+        return sanctum()->tokens()->delete();
     }
 
     public function existsForLogin($phone)

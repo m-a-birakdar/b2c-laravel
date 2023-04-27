@@ -5,6 +5,7 @@ namespace Modules\Cart\Http\Controllers\Api\V1;
 use App\Http\Resources\MainResource;
 use Illuminate\Routing\Controller;
 use Modules\Cart\Interfaces\Api\V1\CartRepositoryInterface;
+use Modules\Cart\Transformers\Api\V1\CartCheckoutResource;
 use Modules\Cart\Transformers\Api\V1\CartResource;
 
 class CartController extends Controller
@@ -19,6 +20,11 @@ class CartController extends Controller
     public function index(): CartResource
     {
         return CartResource::make($this->repository->index());
+    }
+
+    public function checkout(): CartResource
+    {
+        return CartResource::make($this->repository->checkout());
     }
 
     public function add($productId): MainResource
