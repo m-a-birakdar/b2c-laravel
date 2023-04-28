@@ -22,6 +22,10 @@ socket.on('new_chat', (data) => {
     console.log(data);
 });
 
+socket.on('news', (data) => {
+    console.log(data);
+});
+
 socket.on('disconnect', () => {
     console.log('Disconnected from server');
 });

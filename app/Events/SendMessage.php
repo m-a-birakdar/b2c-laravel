@@ -24,19 +24,18 @@ class SendMessage implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        return new Channel('message');
-//        return [
-//            new PrivateChannel('channel-name'),
-//        ];
+        return new Channel('user-channel');
     }
 
     public function broadcastAs()
     {
-        return 'message';
+        return 'UserEvent';
     }
 
     public function broadcastWith()
     {
-        return ['title'=>'This notification from ItSolutionStuff.com'];
+        return [
+            'title' => 'This notification from ItSolutionStuff.com'
+        ];
     }
 }

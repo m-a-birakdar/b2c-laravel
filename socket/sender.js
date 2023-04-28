@@ -7,7 +7,12 @@ const messageInterval = setInterval(() => {
     console.log(`Sending message: ${message}`);
     let chat_id = Math.floor(Math.random() * 3);
     console.log('chat ID = ' + chat_id);
-    socket.emit('receive_message', {
+    // socket.emit('receive_message', {
+    //     sender_id: Math.floor(Math.random() * 11),
+    //     chat_id: chat_id,
+    //     text: 'text'
+    // });
+    socket.emit('news', {
         sender_id: Math.floor(Math.random() * 11),
         chat_id: chat_id,
         text: 'text'

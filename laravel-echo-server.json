@@ -1,5 +1,5 @@
 {
-	"authHost": "http://localhost",
+	"authHost": "http://tenant.local/",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
