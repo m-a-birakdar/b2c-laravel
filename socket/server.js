@@ -7,11 +7,14 @@ const httpServer = createServer();
 const io = new Server(httpServer, {cors: {origin: '*'}});
 
 io.on('connection', (socket) => {
+    const data = socket.handshake.query;
+    console.log(data);
     console.log(`Client connected with ID ${socket.id}`);
     startEndConnection(io, socket);
     chat(io, socket);
     socket.on('disconnect', () => {
         console.log(`Client disconnected with ID ${socket.id}`);
+        console.log(data);
     });
     socket.on('news', (data) => {
         io.emit('news', data);

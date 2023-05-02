@@ -11,12 +11,14 @@
 @endsection
 
 @section('content')
+    <input type="hidden" id="userId" value="{{ auth()->id() }}">
+    <input type="hidden" id="tenant" value="{{ tenant('id') }}">
     <div class="row">
         <div class="col-md-4">
-            <a href="compose.html" class="btn btn-primary btn-block mb-3">Compose</a>
+            <a href="#" class="btn btn-primary btn-block mb-3">Compose</a>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Folders</h3>
+                    <h3 class="card-title">{{ tr('users') }}</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -56,40 +58,6 @@
                 </div>
 
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Labels</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <ul class="nav nav-pills flex-column">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle text-danger"></i>
-                                Important
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle text-warning"></i> Promotions
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle text-primary"></i>
-                                Social
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
         </div>
         <div class="col-md-8">
             <div class="card direct-chat direct-chat-primary">
@@ -284,15 +252,16 @@ Kenneth M.
 @endsection
 
 @push('js')
-    <script src="{{ asset('js/vendor/socket.io.min.js') }}"></script>
-{{--    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>--}}
-    <script type="text/javascript">
-        const socket = io('http://localhost:6001');
-        socket.on('connect', () => {
-            console.log(`Connected to server with ID ${socket.id}`);
-        });
-        socket.on('news', (data) => {
-            console.log(data);
-        });
-    </script>
+{{--    <script src="{{ asset('js/vendor/socket.io.min.js') }}"></script>--}}
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/support-client.js') }}"></script>
+{{--    <script type="text/javascript">--}}
+{{--        const socket = io('http://localhost:6001');--}}
+{{--        socket.on('connect', () => {--}}
+{{--            console.log(`Connected to server with ID ${socket.id}`);--}}
+{{--        });--}}
+{{--        socket.on('news', (data) => {--}}
+{{--            console.log(data);--}}
+{{--        });--}}
+{{--    </script>--}}
 @endpush

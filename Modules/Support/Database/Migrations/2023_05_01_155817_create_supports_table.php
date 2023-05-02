@@ -8,17 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('supports', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('user_id')->constrained();
-            $table->string('city');
-            $table->longText('address');
+            $table->string('name');
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('supports');
     }
 };

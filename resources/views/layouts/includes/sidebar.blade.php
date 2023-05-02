@@ -12,6 +12,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p class="text">{{ tr('dashboard') }}</p></a></li>--}}
 {{--                <li class="nav-header">{{ tr('operations') }}</li>--}}
+                <li class="nav-item"><a href="{{ route('supports.index') }}" class="nav-link"><i class="nav-icon far fa-circle text-danger"></i><p class="text">{{ tr('support') }}</p></a></li>
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon far fa-circle text-danger"></i><p class="text">{{ tr('orders') }}</p></a></li>--}}
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon far fa-circle text-info"></i><p class="text">{{ tr('invoices') }}</p></a></li>--}}
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon far fa-circle text-warning"></i><p class="text">{{ tr('shipment') }}</p></a></li>--}}

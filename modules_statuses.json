@@ -12,5 +12,6 @@
     "Advertise": true,
     "Currency": true,
     "Tenant": true,
-    "Address": true
+    "Address": true,
+    "Support": true
 }

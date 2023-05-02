@@ -12,7 +12,7 @@ class UserRepository implements UserRepositoryInterface
 
     public User|null $model;
 
-    public function __construct(User $model)
+    public function __construct(User $model = new User())
     {
         $this->model = $model;
     }

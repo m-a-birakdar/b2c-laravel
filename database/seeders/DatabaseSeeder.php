@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        event(new SendMessage());
 //        $client = new Client(Client::engine(Client::CLIENT_4X, 'http://localhost:6001'));
 //        try {
 //            $client->initialize();
