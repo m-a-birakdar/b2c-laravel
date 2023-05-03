@@ -53,7 +53,11 @@ class CategoryController extends Controller
 
     public function destroy($id): \Illuminate\Http\RedirectResponse
     {
-        $this->repository->destroy($id);
-        return back();
+        if (! $this->repository->checkBeforeDelete($id)) {
+            $this->repository->destroy($id);
+            return ba(tr('category_was_deleted_successfully'));
+        } else {
+            return ba(tr('cant_delete_category'), [], 'error');
+        }
     }
 }

@@ -13,7 +13,6 @@
 
 @section('content')
     <input type="hidden" id="userId" value="{{ auth()->id() }}">
-    <input type="hidden" id="tenant" value="{{ tenant('id') }}">
     <input type="hidden" id="load-users" value="{{ route('supports.load-users') }}">
     <div class="row">
         <div class="col-md-4">

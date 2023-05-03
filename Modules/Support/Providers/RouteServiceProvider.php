@@ -56,13 +56,6 @@ class RouteServiceProvider extends ServiceProvider
             ->group(module_path('Support', '/Routes/web.php'));
     }
 
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
     protected function mapApiRoutes()
     {
         Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
@@ -73,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapAjaxRoutes()
     {
-        Route::middleware(['check_is_ajax', 'auth', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class])
+        Route::middleware(['check_is_ajax', 'web', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class])
             ->prefix('ajax/supports')
             ->name('supports.')
             ->namespace($this->moduleNamespace)

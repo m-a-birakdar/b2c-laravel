@@ -7,7 +7,7 @@
 @endpush
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Dashboard</li>
+    <li class="breadcrumb-item active">{{ tr('dashboard') }}</li>
 @endsection
 
 @section('content')
