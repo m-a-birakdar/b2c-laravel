@@ -7,11 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Address\Entities\Address;
 use Modules\Cart\Entities\Cart;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 use Spatie\Permission\Traits\HasRoles;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Auditable
 {
-    use SoftDeletes, HasRoles, HasApiTokens;
+    use SoftDeletes, HasRoles, HasApiTokens, AuditableTrait;
 
     protected $table = 'users';
 

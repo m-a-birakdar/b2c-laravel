@@ -2,10 +2,10 @@
 
 namespace Modules\Address\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\OverrideModel;
 use Modules\User\Entities\User;
 
-class Address extends Model
+class Address extends OverrideModel
 {
     protected $fillable = ['user_id', 'city', 'address'];
 

@@ -12,33 +12,18 @@ class AdvertiseRepository implements AdvertiseRepositoryInterface
 
     public Advertise|null $model;
 
-    public function __construct(Advertise $model)
+    public function __construct(Advertise $model = new Advertise())
     {
         $this->model = $model;
     }
 
-    public function index($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
+    public function index($type)
     {
-        return $this->model->query()->get();
+        return $this->model->where('type', $type)->orderBy('rank')->get();
     }
 
-    public function store(array $array): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder
+    public function one($type)
     {
-        return $this->model->query()->create($array);
-    }
-
-    public function show($id, $with = null, $columns = ['*'])
-    {
-        // TODO: Implement show() method.
-    }
-
-    public function update(array $array, $id): int
-    {
-        return $this->model->query()->where('id', $id)->update($array);
-    }
-
-    public function destroy($id)
-    {
-        return $this->model->query()->where('id', $id)->delete();
+        return $this->model->where('type', $type)->orderBy('rank')->first();
     }
 }

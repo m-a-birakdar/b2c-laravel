@@ -2,21 +2,26 @@
 
 namespace Modules\Advertise\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\OverrideModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\User\Entities\User;
 
-class Advertise extends Model
+class Advertise extends OverrideModel
 {
-    use HasFactory;
-
-    protected $table = 'advertises';
-
-    protected $fillable = ["name"];
+    protected $fillable = ['image', 'url', 'type', 'rank', 'views', 'redirect_in', 'user_id'];
 
     protected $casts = [];
 
-    protected static function newFactory(): \Modules\Advertise\Database\factories\AdvertiseFactory
+    protected static function boot()
     {
-        return \Modules\Advertise\Database\factories\AdvertiseFactory::new();
+        parent::boot();
+        static::creating(function ($model){
+            $model->user_id = auth()->id();
+        });
+    }
+
+    public function addedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

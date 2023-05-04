@@ -5,7 +5,10 @@ namespace Modules\Advertise\Transformers\Api\V1;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property mixed $name
+ * @property mixed $redirect_in
+ * @property mixed $type
+ * @property mixed $url
+ * @property mixed $image
  */
 
 class AdvertiseResource extends JsonResource
@@ -13,7 +16,10 @@ class AdvertiseResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'name' => $this->name,
+            'image' => $this->image,
+            'url' => $this->url,
+            'type' => $this->type,
+            'redirect_in' => $this->redirect_in,
         ];
     }
 }

@@ -12,7 +12,7 @@ class AddressRepository implements AddressRepositoryInterface
 
     public Address|null $model;
 
-    public function __construct(Address $model)
+    public function __construct(Address $model = new Address())
     {
         $this->model = $model;
     }
@@ -37,7 +37,7 @@ class AddressRepository implements AddressRepositoryInterface
     public function update(array $array, $id): int
     {
         $this->find($id);
-        return $this->model->query()->where('id', $id)->update($array);
+        return $this->model->update($array);
     }
 
     public function destroy($id)
