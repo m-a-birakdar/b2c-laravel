@@ -15,9 +15,9 @@ class ProductController extends Controller
         $this->repository = $repository;
     }
 
-    public function index($categoryId): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index($categoryId, $cityId): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return ProductResource::collection($this->repository->index($categoryId));
+        return ProductResource::collection($this->repository->index($categoryId, $cityId));
     }
 
     public function show($id): ProductResource

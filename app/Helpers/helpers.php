@@ -8,11 +8,11 @@ use Modules\Shipment\Enums\ShipmentStatusEnum;
 
 if (! function_exists('tr'))
 {
-    function tr($value)
+    function tr($value, $file = 'site.')
     {
-        $word = app('translator')->get('site.' . $value);
-        if (str_contains($word, 'site.')){
-            return str_replace('_',  ' ', ucfirst(explode('site.', $word)[1]));
+        $word = app('translator')->get($file . $value);
+        if ($word == $file . $value){
+            return str_replace('_',  ' ', ucfirst(last(explode('.', $word))));
         }
         return $word;
     }

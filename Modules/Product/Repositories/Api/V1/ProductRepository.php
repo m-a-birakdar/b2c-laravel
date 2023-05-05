@@ -17,9 +17,9 @@ class ProductRepository implements ProductRepositoryInterface
         $this->model = $model;
     }
 
-    public function index($categoryId, $columns = ['*'])
+    public function index($categoryId, $cityId, $columns = ['*'])
     {
-        return $this->model->where('category_id', $categoryId)
+        return $this->model->where('category_id', $categoryId)->where('city_id', $cityId)
             ->orderByRaw('CASE WHEN rank > 0 THEN 1 ELSE 0 END DESC, rank ASC')->simplePaginate();
     }
 

@@ -8,7 +8,7 @@ use Modules\User\Entities\User;
 
 class Advertise extends OverrideModel
 {
-    protected $fillable = ['image', 'url', 'type', 'rank', 'views', 'redirect_in', 'user_id'];
+    protected $fillable = ['image', 'url', 'type', 'rank', 'views', 'clicks', 'redirect_in', 'user_id'];
 
     protected $casts = [];
 

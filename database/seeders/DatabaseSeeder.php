@@ -6,11 +6,13 @@ use App\Events\SendMessage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Modules\Category\Database\Seeders\CategoryDatabaseSeeder;
+use Modules\City\Database\Seeders\CityDatabaseSeeder;
 use Modules\Product\Database\Seeders\ProductDatabaseSeeder;
 use Modules\Tenant\Database\Seeders\TenantDatabaseSeeder;
 use Modules\User\Database\Seeders\RoleTableSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 use ElephantIO\Client;
+use Modules\Wallet\Database\Seeders\WalletDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,10 +35,12 @@ class DatabaseSeeder extends Seeder
 //            echo $exception;
 //            $client->close();
 //        }
-//        $this->call(RoleTableSeeder::class);
-//        $this->call(UserDatabaseSeeder::class);
-//        $this->call(CategoryDatabaseSeeder::class);
-//        $this->call(ProductDatabaseSeeder::class);
+        $this->call(CityDatabaseSeeder::class);
+        $this->call(RoleTableSeeder::class);
+        $this->call(UserDatabaseSeeder::class);
+        $this->call(CategoryDatabaseSeeder::class);
+        $this->call(ProductDatabaseSeeder::class);
+        $this->call(WalletDatabaseSeeder::class);
 //        $this->call(TenantDatabaseSeeder::class);
     }
 }

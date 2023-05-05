@@ -9,7 +9,7 @@ class AddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'city' => 'required|string|max:100',
+            'city_id' => 'required|integer|exists:cities,id',
             'address' => 'required|string|max:100',
         ];
     }

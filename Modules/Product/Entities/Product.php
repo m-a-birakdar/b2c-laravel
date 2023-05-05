@@ -5,12 +5,14 @@ namespace Modules\Product\Entities;
 use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Category\Entities\Category;
+use Modules\City\Entities\City;
 
 class Product extends Model
 {
     use HasFactory, ScopeModels;
 
-    protected $fillable = ['category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
+    protected $fillable = ['city_id', 'category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
 
     protected $casts = [
         'price' => 'double',
@@ -25,6 +27,16 @@ class Product extends Model
     public function details(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(ProductDetails::class);
+    }
+
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function city(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(City::class);
     }
 
     protected static function newFactory(): \Modules\Product\Database\factories\ProductFactory

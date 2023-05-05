@@ -13,5 +13,7 @@
     "Currency": true,
     "Tenant": true,
     "Address": true,
-    "Support": true
+    "Support": true,
+    "Wallet": true,
+    "City": true
 }

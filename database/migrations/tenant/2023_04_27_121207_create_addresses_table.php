@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('user_id')->constrained();
-            $table->string('city');
+            $table->foreignId('city_id')->constrained();
             $table->longText('address');
             $table->timestamps();
         });

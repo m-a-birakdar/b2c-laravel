@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Address\Entities\Address;
 use Modules\Cart\Entities\Cart;
+use Modules\Wallet\Entities\Transaction;
+use Modules\Wallet\Entities\Wallet;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -31,6 +33,16 @@ class User extends Authenticatable implements Auditable
     public function cart(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Cart::class);
+    }
+
+    public function wallet(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
+    public function transaction(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'sourceable');
     }
 
     public function addresses(): \Illuminate\Database\Eloquent\Relations\HasMany

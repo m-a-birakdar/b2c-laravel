@@ -10,6 +10,6 @@ class ProductDatabaseSeeder extends Seeder
 {
     public function run()
     {
-        Product::factory()->count(10)->has(ProductDetails::factory(), 'details')->create();
+        Product::factory()->count(100)->has(ProductDetails::factory(), 'details')->create();
     }
 }
