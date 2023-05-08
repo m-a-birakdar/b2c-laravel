@@ -9,6 +9,8 @@ class CurrencyDatabaseSeeder extends Seeder
 {
     public function run()
     {
-        Currency::factory()->count(10)->create();
+        Currency::create([
+            'name' => 'Turkish Lira', 'key' => 'tr', 'value' => 19.4
+        ]);
     }
 }

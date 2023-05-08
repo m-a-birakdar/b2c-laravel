@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->timestamps();
+            $table->string('name', 50);
+            $table->string('key', 10);
+            $table->decimal('value');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace Modules\Product\Http\Controllers\Api\V1;
 
 use Illuminate\Routing\Controller;
+use Modules\Currency\Repositories\Web\CurrencyRepository;
 use Modules\Product\Interfaces\Api\V1\ProductRepositoryInterface;
 use Modules\Product\Transformers\Api\V1\ProductResource;
 

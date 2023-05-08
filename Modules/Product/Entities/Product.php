@@ -15,7 +15,7 @@ class Product extends Model
     protected $fillable = ['city_id', 'category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
 
     protected $casts = [
-        'price' => 'double',
+        'price' => 'decimal:2',
         'discount' => 'double',
         'status' => 'bool',
         'created_at' => 'datetime:Y-m-d H:i:s',
