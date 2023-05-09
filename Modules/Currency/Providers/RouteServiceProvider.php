@@ -37,6 +37,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
+        $this->mapCoApiRoutes();
+
         $this->mapWebRoutes();
     }
 
@@ -67,5 +69,13 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('api')
             ->namespace($this->moduleNamespace)
             ->group(module_path('Currency', '/Routes/api.php'));
+    }
+
+    protected function mapCoApiRoutes()
+    {
+        Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
+            ->prefix('ad-api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Currency', '/Routes/AdApi.php'));
     }
 }

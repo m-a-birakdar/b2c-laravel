@@ -37,8 +37,9 @@ class UserServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\User\Interfaces\Web\UserRepositoryInterface::class => \Modules\User\Repositories\Web\UserRepository::class,
-        \Modules\User\Interfaces\Api\V1\UserRepositoryInterface::class => \Modules\User\Repositories\Api\V1\UserRepository::class,
-        \Modules\User\Interfaces\Api\V1\AuthRepositoryInterface::class => \Modules\User\Repositories\Api\V1\AuthRepository::class,
+        \Modules\User\Interfaces\CuApi\V1\UserRepositoryInterface::class => \Modules\User\Repositories\CuApi\V1\UserRepository::class,
+        \Modules\User\Interfaces\CuApi\V1\AuthRepositoryInterface::class => \Modules\User\Repositories\CuApi\V1\AuthRepository::class,
+        \Modules\User\Interfaces\CoApi\V1\AuthRepositoryInterface::class => \Modules\User\Repositories\CoApi\V1\AuthRepository::class,
     ];
 
     public function register()

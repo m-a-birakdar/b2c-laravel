@@ -17,10 +17,11 @@ class RoleTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $roles = [
-            ['ar_name' => 'المدير', 'name' => 'manager'],
-            ['ar_name' => 'الزبون', 'name' => 'customer'],
-        ];
-        Role::query()->insert($roles);
+        Role::query()->insert([
+            ['name' => 'manager'],
+            ['name' => 'admin'],
+            ['name' => 'courier'],
+            ['name' => 'customer'],
+        ]);
     }
 }

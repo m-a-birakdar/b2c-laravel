@@ -6,6 +6,7 @@ use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Category\Entities\Category;
+use Modules\Category\Entities\SubCategory;
 use Modules\City\Entities\City;
 
 class Product extends Model
@@ -16,6 +17,7 @@ class Product extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
+        'lira_price' => 'decimal:2',
         'discount' => 'double',
         'status' => 'bool',
         'created_at' => 'datetime:Y-m-d H:i:s',
@@ -31,7 +33,7 @@ class Product extends Model
 
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(SubCategory::class, 'category_id');
     }
 
     public function city(): \Illuminate\Database\Eloquent\Relations\BelongsTo

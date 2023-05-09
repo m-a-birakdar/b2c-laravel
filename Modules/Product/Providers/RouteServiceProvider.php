@@ -35,18 +35,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $this->mapCuApiRoutes();
+
+        $this->mapCoApiRoutes();
 
         $this->mapWebRoutes();
     }
 
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
     protected function mapWebRoutes()
     {
         Route::middleware(['web', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
@@ -54,18 +49,19 @@ class RouteServiceProvider extends ServiceProvider
             ->group(module_path('Product', '/Routes/web.php'));
     }
 
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
+    protected function mapCuApiRoutes()
     {
         Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
-            ->prefix('api')
+            ->prefix('cu-api')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Product', '/Routes/api.php'));
+            ->group(module_path('Product', '/Routes/CuApi.php'));
+    }
+
+    protected function mapCoApiRoutes()
+    {
+        Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
+            ->prefix('ad-api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Product', '/Routes/AdApi.php'));
     }
 }

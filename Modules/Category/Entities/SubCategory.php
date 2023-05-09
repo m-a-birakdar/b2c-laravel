@@ -16,7 +16,7 @@ class SubCategory extends Model
 
     protected $fillable = ['name', 'status', 'image', 'rank', 'parent_id'];
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }

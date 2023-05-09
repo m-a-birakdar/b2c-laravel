@@ -7,409 +7,70 @@
 	},
 	"item": [
 		{
-			"name": "products",
+			"name": "customer",
 			"item": [
 				{
-					"name": "index",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/products/index/2",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"products",
-								"index",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "show",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/products/show/3",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"products",
-								"show",
-								"3"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "carts",
-			"item": [
-				{
-					"name": "add",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/carts/add/4",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"carts",
-								"add",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "index",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/carts/index",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"carts",
-								"index"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "checkout",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/carts/checkout",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"carts",
-								"checkout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "remove",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/carts/remove/4",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"carts",
-								"remove",
-								"4"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "orders",
-			"item": [
-				{
-					"name": "save",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/orders/save",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"orders",
-								"save"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "index",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/orders/index",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"orders",
-								"index"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "show",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/orders/show/1",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"orders",
-								"show",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "shipments",
-			"item": [
-				{
-					"name": "show",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/shipments/show/2",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"shipments",
-								"show",
-								"2"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "cities",
-			"item": [
-				{
-					"name": "index",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/cities/index",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"cities",
-								"index"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "wallets",
-			"item": [
-				{
-					"name": "transactions",
+					"name": "products",
 					"item": [
 						{
-							"name": "store",
+							"name": "index",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/products/index/2/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"products",
+										"index",
+										"2",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/products/show/3",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"products",
+										"show",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "carts",
+					"item": [
+						{
+							"name": "add",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -421,7 +82,7 @@
 										}
 									]
 								},
-								"method": "POST",
+								"method": "GET",
 								"header": [
 									{
 										"key": "Accept",
@@ -430,24 +91,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/wallets/transactions?card_number=4556222184839579&card_cvv=764",
+									"raw": "{{url-customer}}v1/carts/add/5",
 									"host": [
-										"{{url}}api"
+										"{{url-customer}}v1"
 									],
 									"path": [
-										"v1",
-										"wallets",
-										"transactions"
-									],
-									"query": [
-										{
-											"key": "card_number",
-											"value": "4556222184839579"
-										},
-										{
-											"key": "card_cvv",
-											"value": "764"
-										}
+										"carts",
+										"add",
+										"5"
 									]
 								}
 							},
@@ -475,355 +126,21 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/wallets/transactions",
+									"raw": "{{url}}api/v1/carts/index",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"wallets",
-										"transactions"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "show",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/wallets/show",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"wallets",
-								"show"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "categories",
-			"item": [
-				{
-					"name": "main",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/categories/main",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"categories",
-								"main"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "sub",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/categories/sub/1",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"categories",
-								"sub",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "addresses",
-			"item": [
-				{
-					"name": "index",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/addresses",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"addresses"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "store",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/addresses?city=test&address=123",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"addresses"
-							],
-							"query": [
-								{
-									"key": "city",
-									"value": "test"
-								},
-								{
-									"key": "address",
-									"value": "123"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "show",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/addresses/1",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"addresses",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/addresses/1?city=test2sdfasdf&address=123asfasdfas",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"addresses",
-								"1"
-							],
-							"query": [
-								{
-									"key": "city",
-									"value": "test2sdfasdf"
-								},
-								{
-									"key": "address",
-									"value": "123asfasdfas"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}api/v1/addresses/1",
-							"host": [
-								"{{url}}api"
-							],
-							"path": [
-								"v1",
-								"addresses",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "users",
-			"item": [
-				{
-					"name": "auth",
-					"item": [
-						{
-							"name": "login",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{url}}api/v1/auth/login?phone=00901010101010&password=123",
-									"host": [
-										"{{url}}api"
-									],
-									"path": [
-										"v1",
-										"auth",
-										"login"
-									],
-									"query": [
-										{
-											"key": "phone",
-											"value": "00901010101010"
-										},
-										{
-											"key": "password",
-											"value": "123"
-										}
+										"carts",
+										"index"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "logout",
+							"name": "checkout",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -844,22 +161,480 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/auth/logout",
+									"raw": "{{url}}api/v1/carts/checkout",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"auth",
-										"logout"
+										"carts",
+										"checkout"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "register",
+							"name": "remove",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/carts/remove/4",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"carts",
+										"remove",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "orders",
+					"item": [
+						{
+							"name": "save",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/orders/save",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"orders",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/orders/index",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"orders",
+										"index"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/orders/show/1",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"orders",
+										"show",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "shipments",
+					"item": [
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/shipments/show/2",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"shipments",
+										"show",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cities",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/cities/index",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"cities",
+										"index"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "wallets",
+					"item": [
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "store",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}api/v1/wallets/transactions?card_number=4556222184839579&card_cvv=764",
+											"host": [
+												"{{url}}api"
+											],
+											"path": [
+												"v1",
+												"wallets",
+												"transactions"
+											],
+											"query": [
+												{
+													"key": "card_number",
+													"value": "4556222184839579"
+												},
+												{
+													"key": "card_cvv",
+													"value": "764"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "index",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}api/v1/wallets/transactions",
+											"host": [
+												"{{url}}api"
+											],
+											"path": [
+												"v1",
+												"wallets",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/wallets/show",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"wallets",
+										"show"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "categories",
+					"item": [
+						{
+							"name": "main",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/categories/main",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"categories",
+										"main"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sub",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/categories/sub/1",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"categories",
+										"sub",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "addresses",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/addresses",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"addresses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "store",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -869,39 +644,496 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/auth/register?phone=0090535264612&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
+									"raw": "{{url}}api/v1/addresses?city_id=1&address=123",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"auth",
-										"register"
+										"addresses"
 									],
 									"query": [
 										{
-											"key": "phone",
-											"value": "0090535264612"
+											"key": "city_id",
+											"value": "1"
 										},
 										{
-											"key": "password",
-											"value": "123123"
-										},
-										{
-											"key": "name",
-											"value": "Amer"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123123"
-										},
-										{
-											"key": "fcm_token",
+											"key": "address",
 											"value": "123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/addresses/1",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"addresses",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/addresses/1?city=test2sdfasdf&address=123asfasdfas",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"addresses",
+										"1"
+									],
+									"query": [
+										{
+											"key": "city",
+											"value": "test2sdfasdf"
 										},
 										{
-											"key": "device_info",
-											"value": "123"
+											"key": "address",
+											"value": "123asfasdfas"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/addresses/1",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"addresses",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "login",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-customer}}v1/auth/login?phone=00902020202020&password=123",
+											"host": [
+												"{{url-customer}}v1"
+											],
+											"path": [
+												"auth",
+												"login"
+											],
+											"query": [
+												{
+													"key": "phone",
+													"value": "00902020202020"
+												},
+												{
+													"key": "password",
+													"value": "123"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "logout",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}api/v1/auth/logout",
+											"host": [
+												"{{url}}api"
+											],
+											"path": [
+												"v1",
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "register",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-customer}}/v1/auth/register?phone=0090535264612&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
+											"host": [
+												"{{url-customer}}"
+											],
+											"path": [
+												"v1",
+												"auth",
+												"register"
+											],
+											"query": [
+												{
+													"key": "phone",
+													"value": "0090535264612"
+												},
+												{
+													"key": "password",
+													"value": "123123"
+												},
+												{
+													"key": "name",
+													"value": "Amer"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123123"
+												},
+												{
+													"key": "fcm_token",
+													"value": "123"
+												},
+												{
+													"key": "device_info",
+													"value": "123"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "courier",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "login",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-delivery}}v1/auth/login?phone=00901010101010&password=123",
+											"host": [
+												"{{url-delivery}}v1"
+											],
+											"path": [
+												"auth",
+												"login"
+											],
+											"query": [
+												{
+													"key": "phone",
+													"value": "00901010101010"
+												},
+												{
+													"key": "password",
+													"value": "123"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "logout",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-delivery}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-delivery}}api/v1/auth/logout",
+											"host": [
+												"{{url-delivery}}api"
+											],
+											"path": [
+												"v1",
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "login",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-admin}}v1/auth/login?phone=00901010101010&password=123",
+											"host": [
+												"{{url-admin}}v1"
+											],
+											"path": [
+												"auth",
+												"login"
+											],
+											"query": [
+												{
+													"key": "phone",
+													"value": "00901010101010"
+												},
+												{
+													"key": "password",
+													"value": "123"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "logout",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-delivery}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-delivery}}api/v1/auth/logout",
+											"host": [
+												"{{url-delivery}}api"
+											],
+											"path": [
+												"v1",
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "currencies",
+					"item": [
+						{
+							"name": "show",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/currencies/show/1",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"currencies",
+										"show",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/currencies/update/1?value=17.6",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"currencies",
+										"update",
+										"1"
+									],
+									"query": [
+										{
+											"key": "value",
+											"value": "17.6"
 										}
 									]
 								}
@@ -935,13 +1167,33 @@
 	],
 	"variable": [
 		{
-			"key": "url",
-			"value": "http://bar.tenant.local/",
+			"key": "url-customer",
+			"value": "http://bar.tenant.local/cu-api/",
 			"type": "string"
 		},
 		{
-			"key": "token",
-			"value": "2|Kam16dIiF8m6NO3h6W3zDeHwTrGLd0H0t1lvF55p",
+			"key": "token-cusomer",
+			"value": "3|YZXJDQdDgPU4gF1PuNw6aanDUvPYOvSk6x7RvE9Y",
+			"type": "string"
+		},
+		{
+			"key": "url-courier",
+			"value": "http://bar.tenant.local/de-api/",
+			"type": "string"
+		},
+		{
+			"key": "token-courier",
+			"value": "2|dHyKBZyV91UFMIsD9D9Lc7ISHSkpTPwFtPHiilmT",
+			"type": "string"
+		},
+		{
+			"key": "url-admin",
+			"value": "http://bar.tenant.local/ad-api/",
+			"type": "string"
+		},
+		{
+			"key": "token-admin",
+			"value": "1|lASIz3zS8ugGsFS8yaDHesfah5PTnXToos5P2Wku",
 			"type": "string"
 		}
 	]

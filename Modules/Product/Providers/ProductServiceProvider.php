@@ -37,7 +37,8 @@ class ProductServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Product\Interfaces\Web\ProductRepositoryInterface::class => \Modules\Product\Repositories\Web\ProductRepository::class,
-        \Modules\Product\Interfaces\Api\V1\ProductRepositoryInterface::class => \Modules\Product\Repositories\Api\V1\ProductRepository::class,
+        \Modules\Product\Interfaces\CuApi\V1\ProductRepositoryInterface::class => \Modules\Product\Repositories\CuApi\V1\ProductRepository::class,
+        \Modules\Product\Interfaces\AdApi\V1\ProductRepositoryInterface::class => \Modules\Product\Repositories\AdApi\V1\ProductRepository::class,
     ];
 
     public function register()

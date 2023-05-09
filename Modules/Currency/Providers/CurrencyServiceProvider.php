@@ -38,6 +38,7 @@ class CurrencyServiceProvider extends ServiceProvider
     private array $bind = [
         \Modules\Currency\Interfaces\Web\CurrencyRepositoryInterface::class => \Modules\Currency\Repositories\Web\CurrencyRepository::class,
         \Modules\Currency\Interfaces\Api\V1\CurrencyRepositoryInterface::class => \Modules\Currency\Repositories\Api\V1\CurrencyRepository::class,
+        \Modules\Currency\Interfaces\AdApi\V1\CurrencyRepositoryInterface::class => \Modules\Currency\Repositories\AdApi\V1\CurrencyRepository::class,
     ];
 
     public function register()
