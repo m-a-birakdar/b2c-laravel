@@ -37,7 +37,7 @@ class CityServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\City\Interfaces\Web\CityRepositoryInterface::class => \Modules\City\Repositories\Web\CityRepository::class,
-        \Modules\City\Interfaces\Api\V1\CityRepositoryInterface::class => \Modules\City\Repositories\Api\V1\CityRepository::class,
+        \Modules\City\Interfaces\CuApi\V1\CityRepositoryInterface::class => \Modules\City\Repositories\CuApi\V1\CityRepository::class,
     ];
 
     public function register()

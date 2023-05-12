@@ -37,7 +37,7 @@ class AddressServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Address\Interfaces\Web\AddressRepositoryInterface::class => \Modules\Address\Repositories\Web\AddressRepository::class,
-        \Modules\Address\Interfaces\Api\V1\AddressRepositoryInterface::class => \Modules\Address\Repositories\Api\V1\AddressRepository::class,
+        \Modules\Address\Interfaces\CuApi\V1\AddressRepositoryInterface::class => \Modules\Address\Repositories\CuApi\V1\AddressRepository::class,
     ];
 
     public function register()

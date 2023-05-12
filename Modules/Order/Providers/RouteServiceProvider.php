@@ -35,7 +35,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $this->mapCuApiRoutes();
+
+        $this->mapAdApiRoutes();
 
         $this->mapWebRoutes();
     }
@@ -61,11 +63,19 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapCuApiRoutes()
     {
         Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
-            ->prefix('api')
+            ->prefix('cu-api')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Order', '/Routes/api.php'));
+            ->group(module_path('Order', '/Routes/CuApi.php'));
+    }
+
+    protected function mapAdApiRoutes()
+    {
+        Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
+            ->prefix('ad-api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Order', '/Routes/AdApi.php'));
     }
 }

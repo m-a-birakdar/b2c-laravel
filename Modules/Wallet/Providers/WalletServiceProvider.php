@@ -4,10 +4,10 @@ namespace Modules\Wallet\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Wallet\Interfaces\Api\V1\CardRepositoryInterface;
-use Modules\Wallet\Interfaces\Api\V1\TransactionRepositoryInterface;
+use Modules\Wallet\Interfaces\CuApi\V1\CardRepositoryInterface;
+use Modules\Wallet\Interfaces\CuApi\V1\TransactionRepositoryInterface;
 use Modules\Wallet\Repositories\Api\V1\CardRepository;
-use Modules\Wallet\Repositories\Api\V1\TransactionRepository;
+use Modules\Wallet\Repositories\CuApi\V1\TransactionRepository;
 
 class WalletServiceProvider extends ServiceProvider
 {
@@ -41,7 +41,7 @@ class WalletServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Wallet\Interfaces\Web\WalletRepositoryInterface::class => \Modules\Wallet\Repositories\Web\WalletRepository::class,
-        \Modules\Wallet\Interfaces\Api\V1\WalletRepositoryInterface::class => \Modules\Wallet\Repositories\Api\V1\WalletRepository::class,
+        \Modules\Wallet\Interfaces\CuApi\V1\WalletRepositoryInterface::class => \Modules\Wallet\Repositories\CuApi\V1\WalletRepository::class,
         TransactionRepositoryInterface::class => TransactionRepository::class,
         CardRepositoryInterface::class => CardRepository::class,
     ];

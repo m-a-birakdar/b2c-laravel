@@ -4,6 +4,7 @@ namespace Modules\User\Entities;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Address\Entities\Address;
 use Modules\Cart\Entities\Cart;
@@ -15,7 +16,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class User extends Authenticatable implements Auditable
 {
-    use SoftDeletes, HasRoles, HasApiTokens, AuditableTrait;
+    use SoftDeletes, HasRoles, HasApiTokens, AuditableTrait, Notifiable;
 
     protected $table = 'users';
 

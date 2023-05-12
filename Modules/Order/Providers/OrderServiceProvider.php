@@ -37,7 +37,8 @@ class OrderServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Order\Interfaces\Web\OrderRepositoryInterface::class => \Modules\Order\Repositories\Web\OrderRepository::class,
-        \Modules\Order\Interfaces\Api\V1\OrderRepositoryInterface::class => \Modules\Order\Repositories\Api\V1\OrderRepository::class,
+        \Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface::class => \Modules\Order\Repositories\CuApi\V1\OrderRepository::class,
+        \Modules\Order\Interfaces\AdApi\V1\OrderRepositoryInterface::class => \Modules\Order\Repositories\AdApi\V1\OrderRepository::class,
     ];
 
     public function register()

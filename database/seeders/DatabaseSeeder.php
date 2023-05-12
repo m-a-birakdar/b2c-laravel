@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Modules\Category\Database\Seeders\CategoryDatabaseSeeder;
 use Modules\City\Database\Seeders\CityDatabaseSeeder;
 use Modules\Currency\Database\Seeders\CurrencyDatabaseSeeder;
+use Modules\Order\Database\Seeders\OrderDatabaseSeeder;
 use Modules\Product\Database\Seeders\ProductDatabaseSeeder;
 use Modules\Tenant\Database\Seeders\TenantDatabaseSeeder;
 use Modules\User\Database\Seeders\RoleTableSeeder;
@@ -43,6 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductDatabaseSeeder::class);
         $this->call(WalletDatabaseSeeder::class);
         $this->call(CurrencyDatabaseSeeder::class);
+        $this->call(OrderDatabaseSeeder::class);
 //        $this->call(TenantDatabaseSeeder::class);
     }
 }

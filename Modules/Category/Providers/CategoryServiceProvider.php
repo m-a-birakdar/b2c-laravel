@@ -37,7 +37,7 @@ class CategoryServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Category\Interfaces\Web\CategoryRepositoryInterface::class => \Modules\Category\Repositories\Web\CategoryRepository::class,
-        \Modules\Category\Interfaces\Api\V1\CategoryRepositoryInterface::class => \Modules\Category\Repositories\Api\V1\CategoryRepository::class,
+        \Modules\Category\Interfaces\CuApi\V1\CategoryRepositoryInterface::class => \Modules\Category\Repositories\CuApi\V1\CategoryRepository::class,
     ];
 
     public function register()

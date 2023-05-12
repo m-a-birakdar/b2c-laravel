@@ -37,7 +37,7 @@ class CartServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Cart\Interfaces\Web\CartRepositoryInterface::class => \Modules\Cart\Repositories\Web\CartRepository::class,
-        \Modules\Cart\Interfaces\Api\V1\CartRepositoryInterface::class => \Modules\Cart\Repositories\Api\V1\CartRepository::class,
+        \Modules\Cart\Interfaces\CuApi\V1\CartRepositoryInterface::class => \Modules\Cart\Repositories\CuApi\V1\CartRepository::class,
     ];
 
     public function register()

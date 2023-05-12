@@ -3,7 +3,7 @@
 namespace Modules\User\Repositories\CuApi\V1;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Modules\User\Interfaces\Api\V1\UserRepositoryInterface;
+use Modules\User\Interfaces\CuApi\V1\UserRepositoryInterface;
 use Modules\User\Entities\User;
 
 class UserRepository implements UserRepositoryInterface
@@ -12,7 +12,7 @@ class UserRepository implements UserRepositoryInterface
 
     public User|null $model;
 
-    public function __construct(User $model)
+    public function __construct(User $model = new User())
     {
         $this->model = $model;
     }
