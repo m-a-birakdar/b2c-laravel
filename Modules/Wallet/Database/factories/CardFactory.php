@@ -13,7 +13,7 @@ class CardFactory extends Factory
         return [
             'number' => $this->faker->creditCardNumber,
             'cvv' => $this->faker->numberBetween(100, 999),
-            'value' => $this->faker->randomFloat(2, 1, 1000),
+            'value' => $this->faker->numberBetween(1000, 10000),
         ];
     }
 }

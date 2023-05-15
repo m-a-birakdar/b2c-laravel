@@ -3,18 +3,23 @@
 namespace Modules\Order\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Address\Entities\Address;
+use Modules\Order\Enums\OrderPaymentMethodEnum;
 use Modules\Order\Enums\OrderStatusEnum;
 use Modules\Product\Entities\Product;
 use Modules\Shipment\Entities\Shipment;
 use Modules\User\Entities\User;
+use Modules\Wallet\Entities\Transaction;
 
 class Order extends Model
 {
-    protected $fillable = ['sku', 'user_id', 'status', 'items_count', 'items_qty', 'shipping_amount', 'tax_amount', 'items_amount', 'discount_amount', 'total_amount'];
+    protected $fillable = ['sku', 'user_id', 'status', 'items_count', 'items_qty', 'shipping_amount', 'tax_amount', 'items_amount', 'discount_amount', 'total_amount', 'address_id', 'payment_method'];
 
     protected $casts = [
         'shipping_amount' => 'double',
         'total_amount' => 'double',
+        'items_amount' => 'double',
+        'discount_amount' => 'double',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
@@ -32,6 +37,14 @@ class Order extends Model
             OrderStatusEnum::Shipment->value => 'Shipped',
             OrderStatusEnum::Delivered->value => 'Delivered',
             OrderStatusEnum::Cancelled->value => 'Cancelled',
+        };
+    }
+
+    public function getPaymentMethodHumanAttribute(): string
+    {
+        return match ($this->payment_method){
+            OrderPaymentMethodEnum::OnDoor->value => 'OnDoor',
+            OrderPaymentMethodEnum::Wallet->value => 'Wallet',
         };
     }
 
@@ -55,5 +68,15 @@ class Order extends Model
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function address(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function transaction(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    {
+        return $this->morphOne(Transaction::class, 'sourceable');
     }
 }

@@ -6,17 +6,22 @@ use App\Exceptions\ApiErrorException;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
 use Modules\Cart\Repositories\CuApi\V1\CartRepository;
+use Modules\Order\Enums\OrderPaymentMethodEnum;
 use Modules\Order\Enums\OrderStatusEnum;
+use Modules\Order\Http\Requests\CuApi\V1\OrderRequest;
 use Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface;
 use Modules\Order\Entities\Order;
 use Modules\Shipment\Entities\Shipment;
 use Modules\Shipment\Enums\ShipmentStatusEnum;
+use Modules\Wallet\Entities\Wallet;
+use Modules\Wallet\Enums\TypeEnum;
 
 class OrderRepository implements OrderRepositoryInterface
 {
     use BaseRepositoryTrait;
 
     public Order|null $model;
+    public Wallet $wallet;
 
     public function __construct(Order $model = new Order())
     {
@@ -26,48 +31,33 @@ class OrderRepository implements OrderRepositoryInterface
     /**
      * @throws ApiErrorException
      */
-    public function save(): bool
+    public function save(OrderRequest $request): bool
     {
         DB::beginTransaction();
+        $cart = $request->cart;
         try {
-            $cart = (new CartRepository())->findWhere('user_id', sanctum()->id, [
-                'products:id,price,discount'
-            ]);
-            $orderItems = [];
-            $totalPriceAmount = 0;
-            $totalDiscountAmount = 0;
-            foreach ($cart->products as $product) {
-                $totalPrice = $product->pivot->quantity * $product->price;
-                $totalDiscount = $product->pivot->quantity * $product->discount;
-                $totalPriceAmount += $totalPrice;
-                $totalDiscountAmount += $totalDiscount;
-                $orderItems[] = [
-                    'product_id' => $product->id,
-                    'quantity' => $product->pivot->quantity,
-                    'price' => $product->price,
-                    'total_price' => $totalPrice,
-                    'discount' => $totalDiscount,
-                ];
-            }
-            $shippingAmount = $cart->shipping_amount;
             $this->model = $this->model->create([
                 'sku' => mt_rand(1000000000, 9999999999),
                 'user_id' => sanctum()->id,
+                'address_id' => $request->address_id,
+                'payment_method' => $request->payment_method,
                 'items_count' => $cart->items_count,
                 'items_qty' => $cart->items_qty,
                 'shipping_amount' => $cart->shipping_amount,
-                'items_amount' => $totalPriceAmount,
-                'discount_amount' => $totalDiscountAmount,
-                'total_amount' => $shippingAmount + $totalPriceAmount
+                'items_amount' => $request->totalPriceAmount,
+                'discount_amount' => $request->totalDiscountAmount,
+                'total_amount' => $cart->shipping_amount + $request->totalPriceAmount
             ]);
-            $productsWithOrderId = collect($orderItems)->map(function ($product) use ($orderItems) {
+            $productsWithOrderId = collect($request->orderItems)->map(function ($product) {
                 return array_merge($product, ['order_id' => $this->model->id]);
             })->toArray();
             $this->model->items()->insert($productsWithOrderId);
             $cart->items()->delete();
             $cart->delete();
-            // Todo will removed
-//            $this->setShipment();
+            if($request->input('payment_method') == OrderPaymentMethodEnum::Wallet->value){
+                $this->wallet = $request->wallet;
+                $this->transaction();
+            }
             DB::commit();
             return true;
         } catch (\Exception $e){
@@ -75,15 +65,13 @@ class OrderRepository implements OrderRepositoryInterface
         }
     }
 
-    public function setShipment()
+    public function transaction()
     {
-        // Todo will removed
-        Shipment::create([
-            'track_number' => mt_rand(1000000000, 9999999999),
-            'user_id' => sanctum()->id,
-            'status' => ShipmentStatusEnum::NotYetShipped,
-            'address_id' => sanctum()->addresses()->first()->id,
-            'order_id' => $this->model->id
+        $this->wallet->update([
+            'balance' => $this->wallet->balance - $this->model->total_amount
+        ]);
+        $this->model->transaction()->create([
+            'wallet_id' => $this->wallet->id, 'type' => TypeEnum::WITHDRAWAL->value, 'amount' => $this->model->total_amount
         ]);
     }
 

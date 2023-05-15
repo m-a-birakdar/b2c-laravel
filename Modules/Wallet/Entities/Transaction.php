@@ -4,7 +4,7 @@ namespace Modules\Wallet\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Modules\User\Entities\User;
+use Modules\Order\Entities\Order;
 
 class Transaction extends Model
 {
@@ -14,7 +14,7 @@ class Transaction extends Model
     {
         return match ($this->sourceable_type){
             Card::class => tr('card'),
-            User::class => tr('user'),
+            Order::class => tr('order'),
             default => tr('default')
         };
     }

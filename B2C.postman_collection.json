@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "13edda28-17b0-47a7-86a3-385f80747da1",
+		"_postman_id": "48cdcba9-8821-4f4b-bc08-23537c2162a3",
 		"name": "B2C",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26121089"
@@ -76,7 +76,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -111,7 +111,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -145,7 +145,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -220,12 +220,12 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
 								},
-								"method": "GET",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -234,13 +234,23 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/orders/save",
+									"raw": "{{url-customer}}v1/orders/save?address_id=1&payment_method=2",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"orders",
 										"save"
+									],
+									"query": [
+										{
+											"key": "address_id",
+											"value": "1"
+										},
+										{
+											"key": "payment_method",
+											"value": "2"
+										}
 									]
 								}
 							},
@@ -254,7 +264,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -288,7 +298,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -328,7 +338,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -410,7 +420,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "{{token-cusomer}}",
+													"value": "{{token-customer}}",
 													"type": "string"
 												}
 											]
@@ -424,7 +434,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}v1/wallets/transactions?card_number=4556222184839579&card_cvv=764",
+											"raw": "{{url-customer}}v1/wallets/transactions?card_number=4154389345287497&card_cvv=918",
 											"host": [
 												"{{url-customer}}v1"
 											],
@@ -435,11 +445,11 @@
 											"query": [
 												{
 													"key": "card_number",
-													"value": "4556222184839579"
+													"value": "4154389345287497"
 												},
 												{
 													"key": "card_cvv",
-													"value": "764"
+													"value": "918"
 												}
 											]
 										}
@@ -454,7 +464,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "{{token-cusomer}}",
+													"value": "{{token-customer}}",
 													"type": "string"
 												}
 											]
@@ -490,7 +500,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -583,7 +593,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -616,7 +626,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -659,7 +669,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -693,7 +703,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -737,7 +747,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token-cusomer}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -901,7 +911,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}v1/auth/login?phone=00902020202020&password=123",
+											"raw": "{{url-customer}}v1/auth/login?phone=00903030303030&password=123",
 											"host": [
 												"{{url-customer}}v1"
 											],
@@ -912,7 +922,7 @@
 											"query": [
 												{
 													"key": "phone",
-													"value": "00902020202020"
+													"value": "00903030303030"
 												},
 												{
 													"key": "password",
@@ -1337,14 +1347,14 @@
 							"response": []
 						},
 						{
-							"name": "show",
+							"name": "change",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{token-admin}}",
 											"type": "string"
 										}
 									]
@@ -1358,12 +1368,47 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/orders/show/1",
+									"raw": "{{url-admin}}v1/orders/change/1/shipment",
 									"host": [
-										"{{url}}api"
+										"{{url-admin}}v1"
 									],
 									"path": [
-										"v1",
+										"orders",
+										"change",
+										"1",
+										"shipment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/orders/show/1",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
 										"orders",
 										"show",
 										"1"
@@ -1404,8 +1449,8 @@
 			"type": "string"
 		},
 		{
-			"key": "token-cusomer",
-			"value": "3|YZXJDQdDgPU4gF1PuNw6aanDUvPYOvSk6x7RvE9Y",
+			"key": "token-customer",
+			"value": "3|mXjNnXjgNqik4oUafPjEdGmmAJFL8foDNgqbWDRs",
 			"type": "string"
 		},
 		{
@@ -1425,7 +1470,7 @@
 		},
 		{
 			"key": "token-admin",
-			"value": "1|lASIz3zS8ugGsFS8yaDHesfah5PTnXToos5P2Wku",
+			"value": "1|yriDDWw3a2deTUEKZtx1hLJ4pUi95oMWrlmU0NvT",
 			"type": "string"
 		}
 	]

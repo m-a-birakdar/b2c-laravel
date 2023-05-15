@@ -10,6 +10,6 @@ class WalletDatabaseSeeder extends Seeder
 {
     public function run()
     {
-        Card::factory()->count(100)->create();
+        Card::factory()->count(1000)->create();
     }
 }

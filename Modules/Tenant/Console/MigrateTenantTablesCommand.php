@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 class MigrateTenantTablesCommand extends Command
 {
-    protected $name = 'tenant:migration';
+    protected $name = 't:m';
 
     protected $description = 'MigrateTenantTablesCommand';
 

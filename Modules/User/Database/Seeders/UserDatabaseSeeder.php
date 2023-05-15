@@ -4,7 +4,9 @@ namespace Modules\User\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Modules\User\Entities\User;
 
 class UserDatabaseSeeder extends Seeder
@@ -36,7 +38,12 @@ class UserDatabaseSeeder extends Seeder
             'name' => 'Customer', 'email' => '1@customer.com', 'phone' => '00903030303030', 'password' => Hash::make('123')
         ]);
         $user->syncRoles('customer');
-        $token .= 'Customer ' . $user->createToken('00903030303030')->plainTextToken . PHP_EOL;
+        $thisToken = $user->createToken('00903030303030')->plainTextToken;
+        $token .= 'Customer ' . $thisToken . PHP_EOL;
+        Http::withToken($thisToken)->withHeaders(['Accept' => 'application/json'])->post('http://bar.tenant.local/cu-api/v1/addresses', [
+            'city_id' => 1,
+            'address' => Str::random(100)
+        ]);
         Storage::put('token.txt', $token);
 //        User::factory()->count(10)->create();
     }

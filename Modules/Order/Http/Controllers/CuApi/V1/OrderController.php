@@ -4,6 +4,7 @@ namespace Modules\Order\Http\Controllers\CuApi\V1;
 
 use App\Http\Resources\MainResource;
 use Illuminate\Routing\Controller;
+use Modules\Order\Http\Requests\CuApi\V1\OrderRequest;
 use Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface;
 use Modules\Order\Transformers\CuApi\V1\OrderResource;
 use Modules\Order\Transformers\CuApi\V1\OrderShowResource;
@@ -17,9 +18,9 @@ class OrderController extends Controller
         $this->repository = $repository;
     }
 
-    public function save(): MainResource
+    public function save(OrderRequest $request): MainResource
     {
-        return MainResource::make(null, $this->repository->save());
+        return MainResource::make(null, $this->repository->save($request));
     }
 
     public function show($orderId): OrderShowResource

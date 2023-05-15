@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Modules\Order\Enums\OrderPaymentMethodEnum;
 use Modules\Order\Enums\OrderStatusEnum;
 
 return new class extends Migration
@@ -13,8 +14,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('sku')->unique();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('address_id')->constrained();
             $table->tinyInteger('status')->default(OrderStatusEnum::Pending->value);
-//            $table->tinyInteger('payment_method'); // Todo
+            $table->tinyInteger('payment_method')->default(OrderPaymentMethodEnum::OnDoor->value); // Todo
             $table->integer('items_count');
             $table->integer('items_qty');
             $table->decimal('shipping_amount')->nullable();
