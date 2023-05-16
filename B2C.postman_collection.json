@@ -234,7 +234,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/orders/save?address_id=1&payment_method=2",
+									"raw": "{{url-customer}}v1/orders/save?address_id=1&payment_method=1",
 									"host": [
 										"{{url-customer}}v1"
 									],
@@ -249,7 +249,7 @@
 										},
 										{
 											"key": "payment_method",
-											"value": "2"
+											"value": "1"
 										}
 									]
 								}
@@ -1130,11 +1130,12 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-admin}}v1/auth/login?phone=00901010101010&password=123",
+											"raw": "{{url-admin}}v1/users/auth/login?phone=00901010101010&password=123",
 											"host": [
 												"{{url-admin}}v1"
 											],
 											"path": [
+												"users",
 												"auth",
 												"login"
 											],
@@ -1160,7 +1161,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "{{token-delivery}}",
+													"value": "{{token-admin}}",
 													"type": "string"
 												}
 											]
@@ -1174,12 +1175,12 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-delivery}}api/v1/auth/logout",
+											"raw": "{{url-admin}}v1/users/auth/logout",
 											"host": [
-												"{{url-delivery}}api"
+												"{{url-admin}}v1"
 											],
 											"path": [
-												"v1",
+												"users",
 												"auth",
 												"logout"
 											]
@@ -1188,6 +1189,40 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "couriers",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/users/couriers",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"users",
+										"couriers"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1347,7 +1382,7 @@
 							"response": []
 						},
 						{
-							"name": "change",
+							"name": "to-processing",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1368,15 +1403,58 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/orders/change/1/shipment",
+									"raw": "{{url-admin}}v1/orders/to-processing/1",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"orders",
-										"change",
-										"1",
-										"shipment"
+										"to-processing",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "to-shipment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/orders/to-shipment?order_id=1&courier_id=2",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"orders",
+										"to-shipment"
+									],
+									"query": [
+										{
+											"key": "order_id",
+											"value": "1"
+										},
+										{
+											"key": "courier_id",
+											"value": "2"
+										}
 									]
 								}
 							},
@@ -1450,7 +1528,7 @@
 		},
 		{
 			"key": "token-customer",
-			"value": "3|mXjNnXjgNqik4oUafPjEdGmmAJFL8foDNgqbWDRs",
+			"value": "3|YdLOby1jGJAkCY7blDmadhOuGnvv0O1TQFbK6MQP",
 			"type": "string"
 		},
 		{
@@ -1470,7 +1548,7 @@
 		},
 		{
 			"key": "token-admin",
-			"value": "1|yriDDWw3a2deTUEKZtx1hLJ4pUi95oMWrlmU0NvT",
+			"value": "1|DfVv8zdjfPuBmEziRna00VO2TlBREXxad2FUFjnd",
 			"type": "string"
 		}
 	]
