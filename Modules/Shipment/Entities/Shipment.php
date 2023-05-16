@@ -10,7 +10,7 @@ use Modules\User\Entities\User;
 
 class Shipment extends Model
 {
-    protected $fillable = ['track_number', 'user_id', 'status', 'address_id', 'order_id'];
+    protected $fillable = ['track_number', 'customer_id', 'courier_id', 'status', 'address_id', 'order_id'];
 
     public function getStatusHumanAttribute(): string
     {
@@ -29,9 +29,14 @@ class Shipment extends Model
         return $this->created_at->diffForHumans();
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    public function courier(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'courier_id');
     }
 
     public function address(): \Illuminate\Database\Eloquent\Relations\BelongsTo

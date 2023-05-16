@@ -23,8 +23,8 @@ class OrderRequest extends FormRequest
 
     protected function passedValidation()
     {
+        $this->getCartInfo();
         if($this->input('payment_method') == OrderPaymentMethodEnum::Wallet->value){
-            $this->getCartInfo();
             $this->wallet = (new WalletRepository())->show();
             if ($this->wallet->balance < ($this->cart->shipping_amount + $this->totalPriceAmount)){
                 throw new MainException(false, tr('order.check_your_wallet'), 422);

@@ -11,5 +11,4 @@ Route::prefix('v1/auth')->group(function (){
     Route::post('/password/send-email', [ResetPasswordController::class, 'sendResetLinkEmail']);
     Route::get('/password/show-token', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
-
 });

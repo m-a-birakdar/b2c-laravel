@@ -2,6 +2,7 @@
 
 namespace Modules\User\Entities;
 
+use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,7 +17,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class User extends Authenticatable implements Auditable
 {
-    use SoftDeletes, HasRoles, HasApiTokens, AuditableTrait, Notifiable;
+    use SoftDeletes, HasRoles, HasApiTokens, AuditableTrait, Notifiable, ScopeModels;
 
     protected $table = 'users';
 

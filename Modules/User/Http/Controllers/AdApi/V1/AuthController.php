@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\User\Http\Controllers\CoApi\V1;
+namespace Modules\User\Http\Controllers\AdApi\V1;
 
 use App\Http\Resources\MainResource;
 use Illuminate\Routing\Controller;
-use Modules\User\Http\Requests\CoApi\V1\LoginRequest;
-use Modules\User\Interfaces\CoApi\V1\AuthRepositoryInterface;
-use Modules\User\Transformers\CoApi\V1\AuthResource;
+use Modules\User\Http\Requests\AdApi\V1\LoginRequest;
+use Modules\User\Interfaces\AdApi\V1\AuthRepositoryInterface;
+use Modules\User\Transformers\AdApi\V1\AuthResource;
 
 class AuthController extends Controller
 {
