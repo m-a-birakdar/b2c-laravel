@@ -2,6 +2,7 @@
 
 namespace Modules\Product\Http\Controllers\Web;
 
+use Modules\Product\DataTables\ProductDataTable;
 use Modules\Product\Http\Requests\Web\ProductRequest;
 use Illuminate\Routing\Controller;
 use Modules\Product\Interfaces\Web\ProductRepositoryInterface;
@@ -15,9 +16,9 @@ class ProductController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(ProductDataTable $dataTable)
     {
-        return view('product::index');
+        return $dataTable->render('product::index');
     }
 
     public function create(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
@@ -27,6 +28,7 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request): \Illuminate\Http\RedirectResponse
     {
+        $request->dd();
         $this->repository->store($request->validated());
         return back();
     }

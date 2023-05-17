@@ -2,13 +2,14 @@
 
 namespace Modules\Product\Repositories\Web;
 
+use App\Traits\MediaTrait;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\Product\Interfaces\Web\ProductRepositoryInterface;
 use Modules\Product\Entities\Product;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    use BaseRepositoryTrait;
+    use BaseRepositoryTrait, MediaTrait;
 
     public Product|null $model;
 
@@ -22,9 +23,13 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model->query()->get();
     }
 
-    public function store(array $array): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder
+    public function store(array $array)
     {
-        return $this->model->query()->create($array);
+        $data = array_merge($array, [
+            'thumbnail' =>  $this->uploadImage($array['featured_image'])
+        ]);
+        $this->model = $this->model->create($data);
+        $this->model->details()->create($data);
     }
 
     public function show($id, $with = null, $columns = ['*'])

@@ -5,14 +5,10 @@ namespace Modules\Order\Repositories\CuApi\V1;
 use App\Exceptions\ApiErrorException;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
-use Modules\Cart\Repositories\CuApi\V1\CartRepository;
 use Modules\Order\Enums\OrderPaymentMethodEnum;
-use Modules\Order\Enums\OrderStatusEnum;
 use Modules\Order\Http\Requests\CuApi\V1\OrderRequest;
 use Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface;
 use Modules\Order\Entities\Order;
-use Modules\Shipment\Entities\Shipment;
-use Modules\Shipment\Enums\ShipmentStatusEnum;
 use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Enums\TypeEnum;
 

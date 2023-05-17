@@ -6,14 +6,16 @@ use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Product\Entities\Product;
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @method available()
  */
 
-class Category extends Model
+class Category extends Model implements Auditable
 {
-    use HasFactory, ScopeModels;
+    use HasFactory, ScopeModels, AuditableTrait;
 
     protected $table = 'categories';
 

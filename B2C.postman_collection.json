@@ -796,11 +796,12 @@
 													}
 												],
 												"url": {
-													"raw": "{{url-customer}}v1/auth/password/send-email?phone=00901010101010",
+													"raw": "{{url-customer}}v1/users/auth/password/send-email?phone=00901010101010",
 													"host": [
 														"{{url-customer}}v1"
 													],
 													"path": [
+														"users",
 														"auth",
 														"password",
 														"send-email"
@@ -827,11 +828,12 @@
 													}
 												],
 												"url": {
-													"raw": "{{url-customer}}v1/auth/password/show-token?token=542d132c0daacd7bce10d01248bfd350119551679bd5616b64afbca13af5a0ab&phone=00901010101010&email=1@admin.com",
+													"raw": "{{url-customer}}v1/users/auth/password/show-token?token=542d132c0daacd7bce10d01248bfd350119551679bd5616b64afbca13af5a0ab&phone=00901010101010&email=1@admin.com",
 													"host": [
 														"{{url-customer}}v1"
 													],
 													"path": [
+														"users",
 														"auth",
 														"password",
 														"show-token"
@@ -866,11 +868,12 @@
 													}
 												],
 												"url": {
-													"raw": "{{url-customer}}v1/auth/password/reset?email=1@admin.com&password=123123123&password_confirmation=123123123&token=542d132c0daacd7bce10d01248bfd350119551679bd5616b64afbca13af5a0ab",
+													"raw": "{{url-customer}}v1/users/auth/password/reset?email=1@admin.com&password=123123123&password_confirmation=123123123&token=542d132c0daacd7bce10d01248bfd350119551679bd5616b64afbca13af5a0ab",
 													"host": [
 														"{{url-customer}}v1"
 													],
 													"path": [
+														"users",
 														"auth",
 														"password",
 														"reset"
@@ -911,11 +914,12 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}v1/auth/login?phone=00903030303030&password=123",
+											"raw": "{{url-customer}}v1/users/auth/login?phone=00903030303030&password=123",
 											"host": [
 												"{{url-customer}}v1"
 											],
 											"path": [
+												"users",
 												"auth",
 												"login"
 											],
@@ -955,12 +959,12 @@
 											}
 										],
 										"url": {
-											"raw": "{{url}}api/v1/auth/logout",
+											"raw": "{{url-customer}}v1/users/auth/logout",
 											"host": [
-												"{{url}}api"
+												"{{url-customer}}v1"
 											],
 											"path": [
-												"v1",
+												"users",
 												"auth",
 												"logout"
 											]
@@ -980,12 +984,12 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}/v1/auth/register?phone=0090535264612&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
+											"raw": "{{url-customer}}v1/users/auth/register?phone=0090535264612&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
 											"host": [
-												"{{url-customer}}"
+												"{{url-customer}}v1"
 											],
 											"path": [
-												"v1",
+												"users",
 												"auth",
 												"register"
 											],
@@ -1046,11 +1050,12 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-delivery}}v1/auth/login?phone=00901010101010&password=123",
+											"raw": "{{url-courier}}v1/users/auth/login?phone=00901010101010&password=123",
 											"host": [
-												"{{url-delivery}}v1"
+												"{{url-courier}}v1"
 											],
 											"path": [
+												"users",
 												"auth",
 												"login"
 											],
@@ -1076,7 +1081,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "{{token-delivery}}",
+													"value": "{{token-courier}}",
 													"type": "string"
 												}
 											]
@@ -1090,12 +1095,12 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-delivery}}api/v1/auth/logout",
+											"raw": "{{url-courier}}v1/users/auth/logout",
 											"host": [
-												"{{url-delivery}}api"
+												"{{url-courier}}v1"
 											],
 											"path": [
-												"v1",
+												"users",
 												"auth",
 												"logout"
 											]
@@ -1104,6 +1109,81 @@
 									"response": []
 								}
 							]
+						}
+					]
+				},
+				{
+					"name": "orders",
+					"item": [
+						{
+							"name": "to-delivered",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/orders/to-delivered/1",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"orders",
+										"to-delivered",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/orders/show/1",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"orders",
+										"show",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1533,12 +1613,12 @@
 		},
 		{
 			"key": "url-courier",
-			"value": "http://bar.tenant.local/de-api/",
+			"value": "http://bar.tenant.local/co-api/",
 			"type": "string"
 		},
 		{
 			"key": "token-courier",
-			"value": "2|dHyKBZyV91UFMIsD9D9Lc7ISHSkpTPwFtPHiilmT",
+			"value": "2|DVJNtxJDezVcNjA7oA45f5qNaGl8b7WQTbd3CSX9",
 			"type": "string"
 		},
 		{

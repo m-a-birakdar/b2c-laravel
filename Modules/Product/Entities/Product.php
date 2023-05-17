@@ -5,13 +5,15 @@ namespace Modules\Product\Entities;
 use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Category\Entities\Category;
+use Illuminate\Support\Str;
 use Modules\Category\Entities\SubCategory;
 use Modules\City\Entities\City;
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Product extends Model
+class Product extends Model implements Auditable
 {
-    use HasFactory, ScopeModels;
+    use HasFactory, ScopeModels, AuditableTrait;
 
     protected $fillable = ['city_id', 'category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
 
@@ -25,6 +27,13 @@ class Product extends Model
     ];
 
     protected $perPage = 25;
+
+    protected static function booted()
+    {
+        static::creating(function ($user){
+            $user->sku = Str::random();
+        });
+    }
 
     public function details(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
