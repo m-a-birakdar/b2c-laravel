@@ -1,23 +1,23 @@
-@extends('easy-build::layouts.app')
+@extends('layouts.app')
 
-@section('title', 'Create category')
+@section('title', tr('create_category'))
 
 @push('css')
 
 @endpush
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('categories.index') }}">Categories</a></li>
-    <li class="breadcrumb-item active">Create category</li>
+    <li class="breadcrumb-item"><a href="#">{{ tr('dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('categories.index') }}">{{ tr('categories') }}</a></li>
+    <li class="breadcrumb-item active">{{ tr('create_category') }}</li>
 @endsection
 
 @section('content')
-<div class="row justify-content-center">
-   <div class="col-8">
+<div class="row">
+   <div class="col-md-8 col-12">
        <div class="card card-primary">
            <div class="card-header">
-               <h3 class="card-title">Create new category</h3>
+               <h3 class="card-title">{{ tr('general') }}</h3>
            </div>
            <form method="post" action="{{ route('categories.store') }}">
                @csrf
@@ -45,9 +45,38 @@
            </form>
        </div>
    </div>
+   <div class="col-md-4 col-12">
+       <div class="card card-danger">
+           <div class="card-header">
+               <h3 class="card-title">{{ tr('thumbnail_image') }}</h3>
+           </div>
+           <div class="card-body text-center pt-0">
+               <div class="">
+                   <img src="{{ asset('thumbnail.jpg') }}" alt="" class="img-fluid img-thumbnail rounded loadImageSingle">
+               </div>
+               <input name="image_file" type="file" class="mt-3 browseSingle" accept=".jpg, .png, .jpeg, .gif" style="display: none">
+               <input name="" type="button" class="btn btn-info upImageSingle btn-block mt-3" value="{{ tr('upload_image') }}">
+           </div>
+       </div>
+   </div>
 </div>
 @endsection
 
 @push('js')
-
+<script type="text/javascript">
+    $(document).on('change', '.browseSingle',function () {
+        readURL(this);
+    });
+    $(document).on('click', '.upImageSingle', function () {
+        $(this).siblings('.browseSingle').click();
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('.loadImageSingle').attr('src', e.target.result);
+            };
+        }
+    }
+</script>
 @endpush
