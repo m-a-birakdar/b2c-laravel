@@ -8,5 +8,7 @@ interface AuthRepositoryInterface
 {
     public function login(User $user);
     public function register($array);
+    public function sendOtp($array);
+    public function verifyOtp($array);
     public function existsForLogin($phone);
 }

@@ -4,9 +4,12 @@ namespace Modules\User\Repositories\CuApi\V1;
 
 use App\Exceptions\ApiErrorException;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Modules\User\Entities\OTPCode;
 use Modules\User\Interfaces\CuApi\V1\AuthRepositoryInterface;
 use Modules\User\Entities\User;
+use Modules\User\Jobs\Cu\SendOTPCode;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -14,9 +17,12 @@ class AuthRepository implements AuthRepositoryInterface
 
     public User|null $model;
 
-    public function __construct(User $model)
+    public OTPCode|null $OTPCode;
+
+    public function __construct(User $model = new User(), OTPCode $OTPCode = new OTPCode())
     {
         $this->model = $model;
+        $this->OTPCode = $OTPCode;
     }
 
     public function login(User $user)
@@ -32,7 +38,7 @@ class AuthRepository implements AuthRepositoryInterface
     {
         DB::beginTransaction();
         try {
-            $user = $this->model->create($array);
+            $user = $this->model->create(array_merge($array, ['phone_verified_at' => now()]));
             $user->details()->create([
                 'last_login_at' => now(),
                 'fcm_token' => $array['fcm_token'],
@@ -55,5 +61,33 @@ class AuthRepository implements AuthRepositoryInterface
     public function existsForLogin($phone)
     {
         return $this->findWhere('phone', $phone, null, ['id', 'name', 'phone', 'password', 'status']);
+    }
+
+    public function sendOtp($array): bool
+    {
+        DB::beginTransaction();
+        try {
+            $code = rand(1000, 9999);
+            $this->OTPCode->where('phone', $array['phone'])->delete();
+            $this->OTPCode->create([
+                'phone' => $array['phone'], 'otp' => $code, 'expire_at' => Carbon::now()->addMinutes(2)
+            ]);
+            SendOTPCode::dispatch($array['phone'], $code);
+            DB::commit();
+            return true;
+        } catch (\Exception $e){
+            throw new ApiErrorException($e);
+        }
+    }
+
+    public function verifyOtp($array): bool
+    {
+        $now = Carbon::now();
+        $this->OTPCode = $this->OTPCode->where('phone', $array['phone'])->where('otp', $array['otp'])->first();
+        if ($this->OTPCode && ! $now->isAfter($this->OTPCode->expire_at)){
+            $this->OTPCode->where('phone', $array['phone'])->delete();
+            return true;
+        }
+        return false;
     }
 }

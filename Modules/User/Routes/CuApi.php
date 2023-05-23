@@ -5,6 +5,8 @@ use Modules\User\Http\Controllers\CuApi\V1\AuthController;
 use Modules\User\Http\Controllers\CuApi\V1\ResetPasswordController;
 
 Route::prefix('v1/users/auth')->group(function (){
+    Route::post('send-otp', [AuthController::class, 'sendOtp']);
+    Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
     Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
