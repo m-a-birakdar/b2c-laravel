@@ -378,7 +378,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -399,6 +399,191 @@
 									"path": [
 										"cities",
 										"index"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "advertises",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/advertises/index/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"advertises",
+										"index",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "one",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/advertises/one/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"advertises",
+										"one",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "click",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/advertises/click/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"advertises",
+										"click",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "notifications",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/notifications/index/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"notifications",
+										"index",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "read",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/notifications/read/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"notifications",
+										"read",
+										"1"
 									]
 								}
 							},
@@ -903,6 +1088,77 @@
 									]
 								},
 								{
+									"name": "otp",
+									"item": [
+										{
+											"name": "send-otp",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{url-customer}}v1/users/auth/send-otp?phone=00905352646729",
+													"host": [
+														"{{url-customer}}v1"
+													],
+													"path": [
+														"users",
+														"auth",
+														"send-otp"
+													],
+													"query": [
+														{
+															"key": "phone",
+															"value": "00905352646729"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "verify-otp",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{url-customer}}v1/users/auth/verify-otp?phone=00905352646729&otp=5051",
+													"host": [
+														"{{url-customer}}v1"
+													],
+													"path": [
+														"users",
+														"auth",
+														"verify-otp"
+													],
+													"query": [
+														{
+															"key": "phone",
+															"value": "00905352646729"
+														},
+														{
+															"key": "otp",
+															"value": "5051"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
 									"name": "login",
 									"request": {
 										"method": "POST",
@@ -984,7 +1240,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}v1/users/auth/register?phone=0090535264612&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
+											"raw": "{{url-customer}}v1/users/auth/register?phone=0090535264622&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
 											"host": [
 												"{{url-customer}}v1"
 											],
@@ -996,7 +1252,7 @@
 											"query": [
 												{
 													"key": "phone",
-													"value": "0090535264612"
+													"value": "0090535264622"
 												},
 												{
 													"key": "password",
@@ -1024,6 +1280,139 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "profile",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-customer}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-customer}}v1/users/profile/update?gender=0&image_file=123&birth_date=2010-10-12&email=123@sdf.sdfsdasd",
+											"host": [
+												"{{url-customer}}v1"
+											],
+											"path": [
+												"users",
+												"profile",
+												"update"
+											],
+											"query": [
+												{
+													"key": "gender",
+													"value": "0"
+												},
+												{
+													"key": "image_file",
+													"value": "123"
+												},
+												{
+													"key": "birth_date",
+													"value": "2010-10-12"
+												},
+												{
+													"key": "email",
+													"value": "123@sdf.sdfsdasd"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update-password",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-customer}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-customer}}v1/users/profile/update-password?password=1232&password_confirmation=1232",
+											"host": [
+												"{{url-customer}}v1"
+											],
+											"path": [
+												"users",
+												"profile",
+												"update-password"
+											],
+											"query": [
+												{
+													"key": "password",
+													"value": "1232"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "1232"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "currencies",
+					"item": [
+						{
+							"name": "show",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/currencies/show/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"currencies",
+										"show",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1109,6 +1498,99 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "profile",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-courier}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-courier}}v1/users/profile/update?gender=0&image_file=123&birth_date=2010-10-12&email=123@sdf.sdfsdasd",
+											"host": [
+												"{{url-courier}}v1"
+											],
+											"path": [
+												"users",
+												"profile",
+												"update"
+											],
+											"query": [
+												{
+													"key": "gender",
+													"value": "0"
+												},
+												{
+													"key": "image_file",
+													"value": "123"
+												},
+												{
+													"key": "birth_date",
+													"value": "2010-10-12"
+												},
+												{
+													"key": "email",
+													"value": "123@sdf.sdfsdasd"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update-password",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-courier}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-courier}}v1/users/profile/update",
+											"host": [
+												"{{url-courier}}v1"
+											],
+											"path": [
+												"users",
+												"profile",
+												"update"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},
@@ -1179,6 +1661,81 @@
 									"path": [
 										"orders",
 										"show",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "notifications",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-courier}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/notifications/index/1",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"notifications",
+										"index",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "read",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-courier}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/notifications/read/1",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"notifications",
+										"read",
 										"1"
 									]
 								}
@@ -1263,6 +1820,109 @@
 												"users",
 												"auth",
 												"logout"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "profile",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-admin}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-admin}}v1/users/profile/update?gender=0&image_file=123&birth_date=2010-10-12&email=123@sdf.sdfsdasd",
+											"host": [
+												"{{url-admin}}v1"
+											],
+											"path": [
+												"users",
+												"profile",
+												"update"
+											],
+											"query": [
+												{
+													"key": "gender",
+													"value": "0"
+												},
+												{
+													"key": "image_file",
+													"value": "123"
+												},
+												{
+													"key": "birth_date",
+													"value": "2010-10-12"
+												},
+												{
+													"key": "email",
+													"value": "123@sdf.sdfsdasd"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update-password",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-admin}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-admin}}v1/users/profile/update-password?password=1232&password_confirmation=1232",
+											"host": [
+												"{{url-admin}}v1"
+											],
+											"path": [
+												"users",
+												"profile",
+												"update-password"
+											],
+											"query": [
+												{
+													"key": "password",
+													"value": "1232"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "1232"
+												}
 											]
 										}
 									},
@@ -1576,8 +2236,130 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "notifications",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/notifications/index/1",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"notifications",
+										"index",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "read",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/notifications/read/1",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"notifications",
+										"read",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
+		},
+		{
+			"name": "New Request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": 123,\r\n    \"data\": \"asdfsdfasdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/send",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"send"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -1608,7 +2390,7 @@
 		},
 		{
 			"key": "token-customer",
-			"value": "3|YdLOby1jGJAkCY7blDmadhOuGnvv0O1TQFbK6MQP",
+			"value": "6|SvzErQ0Ehg3WuOWhAE5VCOTOBXrWS7tovgWOgNen",
 			"type": "string"
 		},
 		{
@@ -1628,7 +2410,7 @@
 		},
 		{
 			"key": "token-admin",
-			"value": "1|DfVv8zdjfPuBmEziRna00VO2TlBREXxad2FUFjnd",
+			"value": "1|pKxF3PyCYoFVw0INlWymQnflw4ngth4ygYCKSEyd",
 			"type": "string"
 		}
 	]

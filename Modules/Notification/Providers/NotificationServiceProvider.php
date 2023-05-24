@@ -36,8 +36,7 @@ class NotificationServiceProvider extends ServiceProvider
      */
 
     private array $bind = [
-        \Modules\Notification\Interfaces\Web\NotificationRepositoryInterface::class => \Modules\Notification\Repositories\Web\NotificationRepository::class,
-        \Modules\Notification\Interfaces\Api\V1\NotificationRepositoryInterface::class => \Modules\Notification\Repositories\Api\V1\NotificationRepository::class,
+        \Modules\Notification\Interfaces\CuApi\V1\NotificationRepositoryInterface::class => \Modules\Notification\Repositories\CuApi\V1\NotificationRepository::class,
     ];
 
     public function register()

@@ -2,78 +2,28 @@
 
 namespace Modules\User\Http\Controllers\CuApi\V1;
 
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
+use App\Http\Resources\MainResource;
 use Illuminate\Routing\Controller;
+use Modules\User\Http\Requests\CuApi\V1\UpdatePasswordRequest;
+use Modules\User\Http\Requests\CuApi\V1\UpdateProfileRequest;
+use Modules\User\Interfaces\CuApi\V1\ProfileRepositoryInterface;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
+    public ProfileRepositoryInterface $repository;
+
+    public function __construct(ProfileRepositoryInterface $repository)
     {
-        return view('user::index');
+        $this->repository = $repository;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
+    public function update(UpdateProfileRequest $request): MainResource
     {
-        return view('user::create');
+        return MainResource::make(null, $this->repository->update($request->validated()));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
+    public function updatePassword(UpdatePasswordRequest $request): MainResource
     {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('user::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('user::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        return MainResource::make(null, $this->repository->updatePassword($request->validated()));
     }
 }

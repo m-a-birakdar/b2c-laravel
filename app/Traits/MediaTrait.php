@@ -3,18 +3,19 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 trait MediaTrait
 {
     public function uploadImage($image, $dir = 'products', $status = 'public'): string
     {
-        $imageName = $image->hashName();
         $image = Image::make($image)->orientate()->resize(600, null, function ($constraint) {
             $constraint->aspectRatio();
         })->encode('jpg');
-        Storage::disk($this->getEnv())->put($dir . '/'. $imageName, (string) $image, $status);
-        return $imageName;
+        $name = md5(time() . rand(0, 800000)) . "." . Str::after($image->mime(), '/');
+        Storage::disk($this->getEnv())->put($dir . '/'. $name, (string) $image, $status);
+        return $name;
     }
 
     public function unlinkImage($image): void

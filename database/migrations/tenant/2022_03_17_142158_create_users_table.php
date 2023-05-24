@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('status')->default(true);
             $table->string('image')->nullable();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

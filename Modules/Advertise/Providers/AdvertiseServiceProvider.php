@@ -37,7 +37,7 @@ class AdvertiseServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Advertise\Interfaces\Web\AdvertiseRepositoryInterface::class => \Modules\Advertise\Repositories\Web\AdvertiseRepository::class,
-        \Modules\Advertise\Interfaces\Api\V1\AdvertiseRepositoryInterface::class => \Modules\Advertise\Repositories\Api\V1\AdvertiseRepository::class,
+        \Modules\Advertise\Interfaces\CuApi\V1\AdvertiseRepositoryInterface::class => \Modules\Advertise\Repositories\CuApi\V1\AdvertiseRepository::class,
     ];
 
     public function register()

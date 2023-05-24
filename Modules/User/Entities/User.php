@@ -21,7 +21,7 @@ class User extends Authenticatable implements Auditable
 
     protected $table = 'users';
 
-    protected $fillable = ['name', 'email', 'phone', 'password', 'status', 'phone_verified_at', 'email_verified_at'];
+    protected $fillable = ['name', 'email', 'phone', 'password', 'status', 'phone_verified_at'];
 
     protected $casts = ['email_verified_at' => 'bool', 'phone_verified_at' => 'bool'];
 

@@ -38,7 +38,7 @@ class AuthRepository implements AuthRepositoryInterface
     {
         DB::beginTransaction();
         try {
-            $user = $this->model->create(array_merge($array, ['phone_verified_at' => now()]));
+            $user = $this->model->create(array_merge($array, ['phone_verified_at' => now(), 'password' => bcrypt($array['password'])]));
             $user->details()->create([
                 'last_login_at' => now(),
                 'fcm_token' => $array['fcm_token'],

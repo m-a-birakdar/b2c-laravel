@@ -5,9 +5,11 @@ namespace Modules\Order\Repositories\AdApi\V1;
 use App\Exceptions\ApiErrorException;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
+use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Order\Entities\Order;
 use Modules\Order\Enums\OrderStatusEnum;
 use Modules\Order\Interfaces\AdApi\V1\OrderRepositoryInterface;
+use Modules\User\Repositories\Web\UserRepository;
 
 class OrderRepository implements OrderRepositoryInterface
 {
@@ -36,10 +38,12 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function toProcessing($id): bool|int
     {
-        $this->model = $this->findWhere('id', $id, [], ['id', 'status']);
-        return $this->model->update([
-            'status' => OrderStatusEnum::Processing
-        ]);
+//        $this->model = $this->find($id, null, ['id', 'status', 'user_id']);
+//        $this->model->update([
+//            'status' => OrderStatusEnum::Processing
+//        ]);
+        SendPrivateNotificationJob::dispatch('title', 'body', 5, 'high');
+         return true;
     }
 
     public function toShipment($array): bool|int

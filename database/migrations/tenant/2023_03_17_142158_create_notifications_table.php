@@ -10,8 +10,14 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained();
+            $table->string('title');
+            $table->string('body');
+            $table->tinyInteger('type');
+            $table->string('initial')->nullable();
+            $table->integer('clicks')->default(0);
+            $table->timestamp('read_at')->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 

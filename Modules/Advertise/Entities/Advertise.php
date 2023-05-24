@@ -22,6 +22,6 @@ class Advertise extends OverrideModel
 
     public function addedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

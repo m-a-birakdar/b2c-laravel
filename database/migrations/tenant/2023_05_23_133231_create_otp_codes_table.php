@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone');
             $table->integer('otp');
             $table->timestamp('expire_at')->nullable();
+            $table->timestamps();
         });
     }
 

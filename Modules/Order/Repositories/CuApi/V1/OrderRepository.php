@@ -5,6 +5,7 @@ namespace Modules\Order\Repositories\CuApi\V1;
 use App\Exceptions\ApiErrorException;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
+use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Order\Enums\OrderPaymentMethodEnum;
 use Modules\Order\Http\Requests\CuApi\V1\OrderRequest;
 use Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface;
@@ -55,6 +56,7 @@ class OrderRepository implements OrderRepositoryInterface
                 $this->transaction();
             }
             DB::commit();
+            SendPrivateNotificationJob::dispatch('title', 'body', sanctum()->id, 'high');
             return true;
         } catch (\Exception $e){
             throw new ApiErrorException($e);
