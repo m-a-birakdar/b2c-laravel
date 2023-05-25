@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('sku')->unique();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('address_id')->constrained();
+            $table->foreignId('coupon_id')->nullable()->constrained();
             $table->tinyInteger('status')->default(OrderStatusEnum::Pending->value);
             $table->tinyInteger('payment_method')->default(OrderPaymentMethodEnum::OnDoor->value); // Todo
             $table->integer('items_count');

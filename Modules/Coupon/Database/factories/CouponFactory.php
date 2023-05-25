@@ -11,7 +11,13 @@ class CouponFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'code' => $this->faker->postcode,
+            'usage_limit' => 10,
+            'usage_count' => 10,
+            'type' => 1,
+            'value' => 10,
+            'usage_per_customer' => 1,
+            'expired_at' => now()->addHour(),
         ];
     }
 }

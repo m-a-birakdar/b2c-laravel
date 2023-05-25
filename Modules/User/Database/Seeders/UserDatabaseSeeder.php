@@ -40,7 +40,7 @@ class UserDatabaseSeeder extends Seeder
         $user->syncRoles('customer');
         $thisToken = $user->createToken('00903030303030')->plainTextToken;
         $token .= 'Customer ' . $thisToken . PHP_EOL;
-        Http::withToken($thisToken)->withHeaders(['Accept' => 'application/json'])->post('http://bar.tenant.local/cu-api/v1/addresses', [
+        Http::withToken($thisToken)->acceptJson()->post('http://bar.tenant.local/cu-api/v1/addresses', [
             'city_id' => 1,
             'address' => Str::random(100)
         ]);

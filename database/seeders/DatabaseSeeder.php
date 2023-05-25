@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Modules\Category\Database\Seeders\CategoryDatabaseSeeder;
 use Modules\City\Database\Seeders\CityDatabaseSeeder;
+use Modules\Coupon\Database\Seeders\CouponDatabaseSeeder;
 use Modules\Currency\Database\Seeders\CurrencyDatabaseSeeder;
+use Modules\Notification\Entities\Notification;
 use Modules\Order\Database\Seeders\OrderDatabaseSeeder;
 use Modules\Product\Database\Seeders\ProductDatabaseSeeder;
 use Modules\Tenant\Database\Seeders\TenantDatabaseSeeder;
@@ -22,6 +24,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+//        Notification::create([
+//            'title' => '123'
+//        ]);
 //        QrCode::backgroundColor(0, 255, 0, 0)->color(255,255,255)->eye('circle')->size(100)->format('png')->generate('Your QR code data', public_path('qr.png'));
 
         // create Image from file
@@ -60,6 +65,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductDatabaseSeeder::class);
         $this->call(WalletDatabaseSeeder::class);
         $this->call(CurrencyDatabaseSeeder::class);
+        $this->call(CouponDatabaseSeeder::class);
         $this->call(OrderDatabaseSeeder::class);
 //        $this->call(TenantDatabaseSeeder::class);
     }

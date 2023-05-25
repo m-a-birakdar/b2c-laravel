@@ -35,6 +35,11 @@ class OrderController extends Controller
         return MainResource::make(null, $this->repository->toProcessing($id));
     }
 
+    public function toCancel($id): MainResource
+    {
+        return MainResource::make(null, $this->repository->toCancel($id));
+    }
+
     public function toShipment(OrderToShipmentRequest $request): MainResource
     {
         return MainResource::make(null, $this->repository->toShipment($request->validated()));

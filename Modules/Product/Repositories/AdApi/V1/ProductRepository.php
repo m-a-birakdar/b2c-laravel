@@ -20,7 +20,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function index($categoryId, $cityId, $columns = ['*'])
     {
-        $currency = ( new CurrencyRepository() )->value();
+        $currency = ( new CurrencyRepository )->value();
         return $this->model->where('category_id', $categoryId)->where('city_id', $cityId)->simplePaginate()->map(function ($product) use ($currency) {
             $product->lira_price = $product->price * $currency;
             return $product;
@@ -30,7 +30,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function show($id, $with = null, $columns = ['*'])
     {
         $this->model = $this->model->with(is_null($with) ? [] : $with)->findOrFail($id, $columns);
-        $this->model->lira_price = $this->model->price * ( new CurrencyRepository() )->value();
+        $this->model->lira_price = $this->model->price * ( new CurrencyRepository )->value();
         return $this->model;
     }
 

@@ -7,5 +7,6 @@ Route::prefix('v1/orders')->middleware('auth:sanctum')->group(function () {
     Route::get('index/{status}', [OrderController::class, 'index']);
     Route::get('show/{id}', [OrderController::class, 'show']);
     Route::get('to-processing/{id}', [OrderController::class, 'toProcessing']);
+    Route::get('to-cancel/{id}', [OrderController::class, 'toCancel']);
     Route::post('to-shipment', [OrderController::class, 'toShipment']);
 });

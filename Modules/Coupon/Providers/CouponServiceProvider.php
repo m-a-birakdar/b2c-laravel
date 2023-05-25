@@ -37,7 +37,7 @@ class CouponServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Coupon\Interfaces\Web\CouponRepositoryInterface::class => \Modules\Coupon\Repositories\Web\CouponRepository::class,
-        \Modules\Coupon\Interfaces\Api\V1\CouponRepositoryInterface::class => \Modules\Coupon\Repositories\Api\V1\CouponRepository::class,
+        \Modules\Coupon\Interfaces\CuApi\V1\CouponRepositoryInterface::class => \Modules\Coupon\Repositories\CuApi\V1\CouponRepository::class,
     ];
 
     public function register()

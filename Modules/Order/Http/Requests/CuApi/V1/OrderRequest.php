@@ -17,6 +17,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'address_id' => 'required|integer|exists:addresses,id',
+            'coupon_code' => 'nullable|string',
             'payment_method' => 'required|integer|' . Rule::in(array_map('strtolower', array_column(OrderPaymentMethodEnum::cases(), 'value'))),
         ];
     }
@@ -39,7 +40,7 @@ class OrderRequest extends FormRequest
 
     public function getCartInfo()
     {
-        $this->cart = (new CartRepository())->findWhere('user_id', sanctum()->id, [
+        $this->cart = ( new CartRepository )->findWhere('user_id', sanctum()->id, [
             'products:id,price,discount'
         ]);
         $this->orderItems = [];

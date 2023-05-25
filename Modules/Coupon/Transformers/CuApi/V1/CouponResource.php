@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Coupon\Transformers\Api\V1;
+namespace Modules\Coupon\Transformers\CuApi\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

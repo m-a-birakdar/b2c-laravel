@@ -5,6 +5,7 @@ namespace Modules\Wallet\Repositories\CuApi\V1;
 use App\Exceptions\ApiErrorException;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
+use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Wallet\Entities\Card;
 use Modules\Wallet\Entities\Transaction;
 use Modules\Wallet\Entities\Wallet;
@@ -33,13 +34,14 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function store($request): bool
     {
-        DB::beginTransaction();
         $this->card = $request->card;
+        DB::beginTransaction();
         try {
             $this->makeWallet();
             $this->makeCard();
             $this->makeTransaction();
             DB::commit();
+            SendPrivateNotificationJob::dispatch(nCu('wallet', 'title'), nCu('wallet.changes'), $this->wallet->user_id, 'high');
             return true;
         } catch (\Exception $e){
             throw new ApiErrorException($e);

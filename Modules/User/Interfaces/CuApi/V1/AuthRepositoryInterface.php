@@ -11,4 +11,6 @@ interface AuthRepositoryInterface
     public function sendOtp($array);
     public function verifyOtp($array);
     public function existsForLogin($phone);
+    public function verifyEmail($array);
+    public function verifyEmailToken($array);
 }

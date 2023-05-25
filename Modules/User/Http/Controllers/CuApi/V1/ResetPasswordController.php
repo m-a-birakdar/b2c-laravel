@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\URL;
-use Modules\User\Emails\CuApi\V1\ResetPasswordEmail;
+use Modules\User\Emails\CuApi\V1\VerifyEmail;
 use Modules\User\Repositories\CuApi\V1\UserRepository;
 use Illuminate\Support\Facades\Mail;
 
@@ -42,7 +42,7 @@ class ResetPasswordController extends Controller
             'email' => $user->email,
         ]);
 
-        Mail::to($user->email)->send(new ResetPasswordEmail($resetUrl, $user));
+        Mail::to($user->email)->send(new VerifyEmail($resetUrl, $user));
         return MainResource::make(null, true, tr('auth.password_reset_email_sent'));
     }
 

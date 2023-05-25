@@ -18,6 +18,22 @@ if (! function_exists('tr'))
     }
 }
 
+if (! function_exists('nCu'))
+{
+    function nCu($value, $type = 'body')
+    {
+        return tr('notifications.customer.' . $value . '.' . $type);
+    }
+}
+
+if (! function_exists('nCo'))
+{
+    function nCo($value, $type = 'body')
+    {
+        return tr('notifications.courier.' . $value . '.' . $type);
+    }
+}
+
 if (! function_exists('sanctum'))
 {
     function sanctum()

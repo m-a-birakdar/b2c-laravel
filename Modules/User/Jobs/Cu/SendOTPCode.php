@@ -30,7 +30,7 @@ class SendOTPCode implements ShouldQueue
      */
     public function handle(): void
     {
-        $response = Http::withHeaders(['Content-Type' => 'application/json', 'Accept' => 'application/json'])->post(env('WHATSAPP_URL') . '/send', [
+        $response = Http::contentType('application/json')->acceptJson()->post(env('WHATSAPP_URL') . '/send', [
             'phone' => $this->phone,
             'message' => "Test \n" . PHP_EOL . $this->code,
         ]);

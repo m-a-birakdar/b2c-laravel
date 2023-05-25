@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('items_qty');
             $table->decimal('shipping_amount')->nullable();
             $table->decimal('items_amount')->nullable();
+            $table->timestamp('checkout_at')->nullable();
             $table->timestamps();
         });
     }

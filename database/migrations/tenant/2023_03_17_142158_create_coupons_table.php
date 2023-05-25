@@ -10,7 +10,14 @@ return new class extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('code')->index();
+            $table->tinyInteger('type');
+            $table->decimal('value');
+            $table->integer('usage_count')->nullable();
+            $table->integer('usage_limit')->nullable();
+            $table->integer('usage_per_customer')->nullable();
+            $table->integer('times_used')->default(0);
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }

@@ -12,28 +12,28 @@ class CartRepository implements CartRepositoryInterface
 {
     use BaseRepositoryTrait;
 
-    public Cart $model;
+    public Cart|null $model;
 
-    public function __construct()
+    public function __construct(Cart $model = new Cart())
     {
-        $this->model = new Cart();
+        $this->model = $model;
     }
 
     public function checkout()
     {
-        $cart = $this->findWhere('user_id', sanctum()->id, [
+        $this->model = $this->findWhere('user_id', sanctum()->id, [
             'products:id,title,price,discount,thumbnail'
         ]);
         $shippingLimitPrice = 1000;
         $shippingPrice = 25;
         $totalAmount = 0;
-        foreach ($cart->products as $product)
+        foreach ($this->model->products as $product)
             $totalAmount += $product->price * $product->pivot->quantity;
-        $cart->update([
+        $this->model->update([
             'shipping_amount' => $totalAmount > $shippingLimitPrice ? 0 : $shippingPrice,
             'items_amount' => $totalAmount
         ]);
-        return $cart;
+        return $this->model;
     }
 
     public function index()

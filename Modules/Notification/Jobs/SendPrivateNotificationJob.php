@@ -20,44 +20,48 @@ class SendPrivateNotificationJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private string $role, $title, $body;
-    private string|null $fcmToken, $serverToken;
-    private int $userId;
+    private string|null $fcmToken, $serverToken = 'test';
     private $notification;
-    private User|null $user;
+    private User|null|int $user;
 
-    public function __construct(string $title, string $body, int $userId, string $priority = 'default', string $role = 'customer')
+    public function __construct(string $title, string $body, $user, string $priority = 'default', string $role = 'customer')
     {
         $this->title = $title;
         $this->body = $body;
         $this->role = $role;
-        $this->userId = $userId;
+        $this->user = $user;
         $this->onQueue($priority);
+    }
+
+    private function env()
+    {
+        if (! app()->environment('local') )
+            $this->setToken();
     }
 
     public function handle()
     {
-        $this->setToken();
-        if ($this->serverToken){
-            $this->getUser();
-            if ($this->fcmToken){
-                $this->save();
-                $this->send();
-            } else {
-                Log::channel('notification')->error('user id ' . $this->userId . ' Not have fcm token');
-            }
+        $this->env();
+        $this->getUser();
+        if ($this->fcmToken){
+            $this->save();
+            $this->send();
+        } else {
+            Log::channel('notification')->error('user id ' . $this->userId . ' Not have fcm token');
         }
     }
 
     private function getUser()
     {
-        $this->user = (new UserRepository())->find($this->userId, 'details:id,user_id,fcm_token', ['id']);
+        if (! $this->user instanceof User)
+            $this->user = (new UserRepository())->find($this->user, 'details:id,user_id,fcm_token', ['id']);
         $this->fcmToken = $this->user->details?->fcm_token;
     }
 
     private function save()
     {
         $this->notification = Notification::create([
-            'user_id' => $this->userId, 'title' => $this->title, 'body' => $this->body, 'type' => NotificationTypeEnum::ORDER,
+            'user_id' => $this->user->id, 'title' => $this->title, 'body' => $this->body, 'type' => NotificationTypeEnum::ORDER->value,
         ]);
     }
 
@@ -77,14 +81,12 @@ class SendPrivateNotificationJob implements ShouldQueue
             'priority' => 'high', 'to' => $this->fcmToken,
             'notification' => ['body' => $this->body, 'title' => $this->title],
         ];
-//        if (! is_null($initial)){
-//            $data['data'] = [
-//                'initial_message' => $initial,
-//                'initial_id' => $notificationId,
-//            ];
-//        }
-//        $res = Http::withHeaders(['Content-Type' => 'application/json'])->withToken($this->serverToken)->post("https://fcm.googleapis.com/fcm/send", $data);
-//        if (! $res->successful())
-            Log::channel('notification')->error('user id ' . $this->userId, [$data]);
+        if (app()->environment('local')){
+            Log::channel('notification')->info('user id ' . $this->user->id, [$data]);
+        } else {
+            $res = Http::contentType('application/json')->withToken($this->serverToken)->post("https://fcm.googleapis.com/fcm/send", $data);
+            if (! $res->successful())
+                Log::channel('notification')->error('user id ' . $this->user->id, [$data]);
+        }
     }
 }

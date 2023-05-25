@@ -13,11 +13,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->string('body');
-            $table->tinyInteger('type');
+            $table->tinyInteger('type')->index();
             $table->string('initial')->nullable();
             $table->integer('clicks')->default(0);
-            $table->timestamp('read_at')->nullable();
-            $table->timestamp('created_at')->nullable();
+            $table->timestamp('read_at')->nullable()->index();
+            $table->timestamps();
         });
     }
 

@@ -1159,6 +1159,52 @@
 									]
 								},
 								{
+									"name": "email",
+									"item": [
+										{
+											"name": "verify-email",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{token-customer}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{url-customer}}v1/users/auth/verify-email?email=test@test.test",
+													"host": [
+														"{{url-customer}}v1"
+													],
+													"path": [
+														"users",
+														"auth",
+														"verify-email"
+													],
+													"query": [
+														{
+															"key": "email",
+															"value": "test@test.test"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
 									"name": "login",
 									"request": {
 										"method": "POST",
@@ -2157,6 +2203,41 @@
 							"response": []
 						},
 						{
+							"name": "to-cancel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/orders/to-cancel/1",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"orders",
+										"to-cancel",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "to-shipment",
 							"request": {
 								"auth": {
@@ -2390,7 +2471,7 @@
 		},
 		{
 			"key": "token-customer",
-			"value": "6|SvzErQ0Ehg3WuOWhAE5VCOTOBXrWS7tovgWOgNen",
+			"value": "15|QEwWDRGIJApA2OhkYmo1np5cU2MJSV7QEmTb6Y0X",
 			"type": "string"
 		},
 		{

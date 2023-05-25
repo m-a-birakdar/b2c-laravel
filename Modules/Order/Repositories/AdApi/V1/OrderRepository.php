@@ -38,11 +38,21 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function toProcessing($id): bool|int
     {
-//        $this->model = $this->find($id, null, ['id', 'status', 'user_id']);
-//        $this->model->update([
-//            'status' => OrderStatusEnum::Processing
-//        ]);
-        SendPrivateNotificationJob::dispatch('title', 'body', 5, 'high');
+        $this->model = $this->find($id, null, ['id', 'status', 'user_id']);
+        $this->model->update([
+            'status' => OrderStatusEnum::Processing
+        ]);
+        SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_processing'), $this->model->user_id, 'high');
+         return true;
+    }
+
+    public function toCancel($id): bool|int
+    {
+        $this->model = $this->find($id, null, ['id', 'status', 'user_id']);
+        $this->model->update([
+            'status' => OrderStatusEnum::Cancelled
+        ]);
+        SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_cancel'), $this->model->user_id, 'high');
          return true;
     }
 
@@ -56,6 +66,8 @@ class OrderRepository implements OrderRepositoryInterface
                 'status' => OrderStatusEnum::Shipment
             ]);
             DB::commit();
+            SendPrivateNotificationJob::dispatch(nCo('order', 'title'), nCo('order.to_shipment'), $array['courier_id'], 'high', 'courier');
+            SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_shipment'), $this->model->user_id, 'high');
             return true;
         } catch (\Exception $e){
             throw new ApiErrorException($e);
