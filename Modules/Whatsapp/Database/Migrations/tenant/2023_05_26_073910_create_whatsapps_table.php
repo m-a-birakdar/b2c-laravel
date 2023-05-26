@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('media')->nullable();
             $table->string('status')->default(StatusEnum::PENDING->value)->index();
             $table->timestamp('send_at')->index()->nullable();
+            $table->string('message_id')->nullable();
             $table->timestamps();
         });
     }

@@ -234,7 +234,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/orders/save?address_id=1&payment_method=1",
+									"raw": "{{url-customer}}v1/orders/save?address_id=1&payment_method=1&coupon_code=88549",
 									"host": [
 										"{{url-customer}}v1"
 									],
@@ -250,6 +250,10 @@
 										{
 											"key": "payment_method",
 											"value": "1"
+										},
+										{
+											"key": "coupon_code",
+											"value": "88549"
 										}
 									]
 								}
@@ -399,6 +403,55 @@
 									"path": [
 										"cities",
 										"index"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "coupons",
+					"item": [
+						{
+							"name": "check",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/coupons/check?code=88549&order_value=100",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"coupons",
+										"check"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "88549"
+										},
+										{
+											"key": "order_value",
+											"value": "100"
+										}
 									]
 								}
 							},
@@ -1102,7 +1155,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{url-customer}}v1/users/auth/send-otp?phone=00905352646729",
+													"raw": "{{url-customer}}v1/users/auth/send-otp?phone=0090535200646729",
 													"host": [
 														"{{url-customer}}v1"
 													],
@@ -1114,7 +1167,7 @@
 													"query": [
 														{
 															"key": "phone",
-															"value": "00905352646729"
+															"value": "0090535200646729"
 														}
 													]
 												}
@@ -1637,6 +1690,41 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-courier}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/users/status/0",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"users",
+										"status",
+										"0"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -2471,7 +2559,7 @@
 		},
 		{
 			"key": "token-customer",
-			"value": "15|QEwWDRGIJApA2OhkYmo1np5cU2MJSV7QEmTb6Y0X",
+			"value": "4|4YWcc96ui9bI57FidpyBD20KEVSUAyMhLTRWyUbW",
 			"type": "string"
 		},
 		{
@@ -2481,7 +2569,7 @@
 		},
 		{
 			"key": "token-courier",
-			"value": "2|DVJNtxJDezVcNjA7oA45f5qNaGl8b7WQTbd3CSX9",
+			"value": "2|7mJeVRaDIwrOHNvNz6j0wXmDYjJ0X6oiAEpM7xyt",
 			"type": "string"
 		},
 		{

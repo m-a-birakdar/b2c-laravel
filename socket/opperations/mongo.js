@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 
 const mongoDbConnection = 'mongodb://127.0.0.1:27017/b2c-laravel';
+
 export async function insertObject(collection, object) {
     const client = await MongoClient.connect(mongoDbConnection, { useNewUrlParser: true, useUnifiedTopology: true });
     try {

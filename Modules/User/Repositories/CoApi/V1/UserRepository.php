@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\User\Repositories\AdApi\V1;
+namespace Modules\User\Repositories\CoApi\V1;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\User\Entities\User;
-use Modules\User\Interfaces\AdApi\V1\UserRepositoryInterface;
+use Modules\User\Interfaces\CoApi\V1\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -17,10 +17,12 @@ class UserRepository implements UserRepositoryInterface
         $this->model = $model;
     }
 
-    public function couriers()
+    public function status($status): bool
     {
-        return $this->model->whereHas('roles', function ($query)  {
-            $query->where('name', 'courier');
-        })->available()->get();
+        $this->find(sanctum()->id);
+        $this->model->update([
+            'status' => $status
+        ]);
+        return true;
     }
 }

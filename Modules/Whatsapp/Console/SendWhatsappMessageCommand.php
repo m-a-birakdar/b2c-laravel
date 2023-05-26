@@ -27,10 +27,11 @@ class SendWhatsappMessageCommand extends Command
                 'message' => $message->message,
                 'media' => $message->media,
             ]);
-            if($response->json('status')){
+            if($response->successful()){
                 $message->update([
                     'status' => StatusEnum::SENT,
-                    'send_at' => now()
+                    'send_at' => now(),
+                    'message_id' => $response->json('message_id'),
                 ]);
             } else {
                 $message->update([

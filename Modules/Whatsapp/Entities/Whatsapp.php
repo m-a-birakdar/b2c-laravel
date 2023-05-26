@@ -9,6 +9,6 @@ class Whatsapp extends Model
     protected $table = 'whatsapp';
 
     protected $fillable = [
-        'type', 'priority', 'phone', 'message', 'media', 'send_at', 'status'
+        'type', 'priority', 'phone', 'message', 'media', 'send_at', 'status', 'message_id'
     ];
 }
