@@ -18,5 +18,12 @@ Route::get('/', function () {
     event(new SendMessage());
     return view('welcome');
 });
+Route::get('/drag', function () {
+    event(new SendMessage());
+    return view('drag');
+});
 
+Route::post('/drag', function (\Illuminate\Http\Request $request){
+    $request->dd();
+});
 

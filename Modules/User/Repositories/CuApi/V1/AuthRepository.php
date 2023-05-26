@@ -17,6 +17,9 @@ use Modules\User\Entities\OTPCode;
 use Modules\User\Interfaces\CuApi\V1\AuthRepositoryInterface;
 use Modules\User\Entities\User;
 use Modules\User\Jobs\Cu\SendOTPCode;
+use Modules\Whatsapp\Enums\PriorityEnum;
+use Modules\Whatsapp\Enums\TypeEnum;
+use Modules\Whatsapp\Repositories\Web\WhatsappRepository;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -85,6 +88,9 @@ class AuthRepository implements AuthRepositoryInterface
                 'phone' => $array['phone'], 'otp' => $code, 'expire_at' => Carbon::now()->addMinutes(2)
             ]);
             DB::commit();
+            ( new WhatsappRepository )->store([
+                'priority' => PriorityEnum::HIGH, 'phone' =>  preg_replace('/00/', '', $array['phone'], 1), 'message' => 'text',
+            ]);
             SendOTPCode::dispatch($array['phone'], $code);
             return true;
         } catch (\Exception $e){

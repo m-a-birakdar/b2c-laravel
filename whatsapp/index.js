@@ -9,13 +9,17 @@ const app = express();
 
 app.use(express.json());
 
-let phone = '352681584988@c.us';
 
 app.post('/send', async (req, res) =>  {
+    let phone = req.body['phone'] + '@c.us';
+    if (req.body['media'] == null){
+        client.sendMessage(phone,  req.body['message']);
+    } else {
+        const media = await MessageMedia.fromUrl(req.body['media']);
+        client.sendMessage(phone, media);
+    }
     console.log(req.body);
-    // const media = await MessageMedia.fromUrl('https://www.imtilakgroup.com/assets/images/imtilak-logo.png');
-    client.sendMessage(phone, req.body['message']);
-    res.status(201).json({ message: req.body });
+    res.status(200).json({ status: true });
 });
 
 app.listen(3000, () => {

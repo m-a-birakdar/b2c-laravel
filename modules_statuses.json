@@ -15,5 +15,6 @@
     "Address": true,
     "Support": true,
     "Wallet": true,
-    "City": true
+    "City": true,
+    "Whatsapp": true
 }
