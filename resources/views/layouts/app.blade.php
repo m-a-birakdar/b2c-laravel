@@ -65,6 +65,30 @@
 <script src="{{ asset('easy-build/adminlte/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('easy-build/adminlte/dist/js/demo.js') }}"></script>
+@if(session('success'))
+    <script type="text/javascript">
+        $(document).Toasts('create', {
+            title: 'Success',
+            class: 'bg-success',
+            delay: 5000,
+            body: @json(session('success')),
+            autohide: true
+        })
+    </script>
+@endif
+@if($errors->any())
+    @foreach ($errors->all() as $error)
+        <script type="text/javascript">
+            $(document).Toasts('create', {
+                title: 'Error',
+                class: 'bg-danger',
+                delay: 5000,
+                body: @json($error),
+                autohide: true
+            })
+        </script>
+    @endforeach
+@endif
 {{--<script type="text/javascript">--}}
 {{--    $(document).ready(function (){--}}
 {{--        $.ajaxSetup({--}}

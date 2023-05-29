@@ -18,7 +18,9 @@ class ProductController extends Controller
 
     public function index(ProductDataTable $dataTable)
     {
-        return $dataTable->render('product::index');
+        return $dataTable->render('datatable', [
+            'title' => tr('products')
+        ]);
     }
 
     public function create(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application

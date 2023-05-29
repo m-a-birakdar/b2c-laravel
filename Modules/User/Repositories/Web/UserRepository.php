@@ -5,6 +5,7 @@ namespace Modules\User\Repositories\Web;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\User\Interfaces\Web\UserRepositoryInterface;
 use Modules\User\Entities\User;
+use Spatie\Permission\Models\Role;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -40,5 +41,12 @@ class UserRepository implements UserRepositoryInterface
     public function destroy($id)
     {
         return $this->model->query()->where('id', $id)->delete();
+    }
+
+    public function roles($rule = 'manager')
+    {
+        return Role::query()->where('name', '!=', 'customer')->when($rule == 'admin', function ($q){
+            $q->where('name', '!=', 'manager');
+        })->get();
     }
 }

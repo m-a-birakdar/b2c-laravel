@@ -22,6 +22,9 @@ Route::get('/drag', function () {
     event(new SendMessage());
     return view('drag');
 });
+Route::get('/whatsapp', function () {
+    return view('whatsapp');
+});
 
 Route::post('/drag', function (\Illuminate\Http\Request $request){
     $request->dd();

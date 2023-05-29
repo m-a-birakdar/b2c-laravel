@@ -2,6 +2,7 @@
 
 namespace Modules\Category\Http\Controllers\Web;
 
+use Modules\Category\DataTable\CategoryDataTable;
 use Modules\Category\Http\Requests\Web\CategoryRequest;
 use Illuminate\Routing\Controller;
 use Modules\Category\Interfaces\Web\CategoryRepositoryInterface;
@@ -15,9 +16,11 @@ class CategoryController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(CategoryDataTable $dataTable)
     {
-        return view('category::index');
+        return $dataTable->render('datatable', [
+            'title' => tr('categories')
+        ]);
     }
 
     public function create(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application

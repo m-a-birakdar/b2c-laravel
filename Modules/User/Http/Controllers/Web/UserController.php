@@ -2,9 +2,11 @@
 
 namespace Modules\User\Http\Controllers\Web;
 
+use Modules\User\DataTable\UserDataTable;
 use Modules\User\Http\Requests\Web\UserRequest;
 use Illuminate\Routing\Controller;
 use Modules\User\Interfaces\Web\UserRepositoryInterface;
+use Modules\User\Repositories\Web\UserRepository;
 
 class UserController extends Controller
 {
@@ -15,14 +17,18 @@ class UserController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(UserDataTable $dataTable)
     {
-        return view('user::index');
+        return $dataTable->render('datatable', [
+            'title' => tr('users')
+        ]);
     }
 
     public function create(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('user::create');
+        return view('user::create')->with([
+            'roles' => ( new UserRepository() )->roles(user()->hasRole('admin') ? 'admin' : 'manager'),
+        ]);
     }
 
     public function store(UserRequest $request): \Illuminate\Http\RedirectResponse

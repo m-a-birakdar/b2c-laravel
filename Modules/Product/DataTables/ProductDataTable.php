@@ -25,22 +25,11 @@ class ProductDataTable extends DataTable
                         $q->where('name', 'Like', '%' . $columns[1]['search']['value'] . '%');
                     });
             })
-            ->editColumn('name', function(Product $product) {
-                return '<div class="d-flex mx-8">
-                            <a href="' . route('admin.products.show', ['id' => $product->id]) . '" class="symbol symbol-50px"><span class="symbol-label" style="background-image:url(' . $product->avatar .');"></span></a>
-                            <div class="ms-5 d-flex align-items-start flex-column">
-                                <a href="' . route('admin.products.show', ['id' => $product->id]) . '" class="text-gray-800 text-hover-primary fs-5 fw-bolder" style="margin-bottom: 0.5rem" data-kt-ecommerce-product-filter="product_name">' . $product->name . '</a>
-                                <div class="text-muted fs-7 fw-bolder align-items-start">
-                                    <span class="text-muted fs-7 fw-bolder">' . tr("id") . ': ' . $product->sku .'</span><span class="mx-2">|</span><a href="' . route('admin.suppliers.show', ['id' => $product->supplier_id]) .'"><span>' . $product->supplier->company_name .'</span></a>
-                                </div>
-                            </div>
-                        </div>';
-            })
             ->rawColumns(['name', 'status'])
             ;
     }
 
-    public function query(Product $model)
+    public function query(Product $model): \Illuminate\Database\Eloquent\Builder
     {
         return $model->newQuery();
     }
@@ -63,7 +52,7 @@ class ProductDataTable extends DataTable
     protected function getColumns(): array
     {
         return [
-            Column::make('name')->title(tr('name')),
+            Column::make('title')->title(tr('title')),
 //            Column::make('sub_category.category.name')->title(tr('main_category'))->name('sub_category.category.name')->searchable(false)->orderable(false),
 //            Column::make('sub_category.name')->title(tr('sub_category'))->name('sub_category.name')->searchable(false)->orderable(false),
 //            Column::make('supplier.name')->title(tr('supplier'))->name('supplier.name'),

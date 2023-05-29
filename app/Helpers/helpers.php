@@ -42,6 +42,14 @@ if (! function_exists('sanctum'))
     }
 }
 
+if (! function_exists('user'))
+{
+    function user()
+    {
+        return app(AuthFactory::class)->user();
+    }
+}
+
 if (! function_exists('all_order_status'))
 {
     function all_order_status(): array

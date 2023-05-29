@@ -19,7 +19,7 @@ class DataTableDefault
     public static function parameters(): array
     {
         return [
-            'language' => ['url' => url('/vendor/datatables/'.config('app.locale').'.json'),],
+//            'language' => ['url' => url('/vendor/datatables/'.config('app.locale').'.json'),],
             'dom' => '<"top d-flex justify-content-between align-item-center"<"d-flex"B><<"btn btn-secondary btn-sm mx-2"i>>><"table-responsive"tr><"d-flex justify-content-between"<"d-flex"l><"d-flex"p>>',
             'initComplete' => "function () {
                                 this.api().columns().every(function () {
