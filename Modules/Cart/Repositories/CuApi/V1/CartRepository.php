@@ -7,6 +7,8 @@ use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
 use Modules\Cart\Interfaces\CuApi\V1\CartRepositoryInterface;
 use Modules\Cart\Entities\Cart;
+use Modules\Product\Enums\StatisticsEnum;
+use Modules\Product\Jobs\ProductStatisticsJob;
 
 class CartRepository implements CartRepositoryInterface
 {
@@ -71,6 +73,7 @@ class CartRepository implements CartRepositoryInterface
                 $cart->increment('items_qty');
             }
             DB::commit();
+            ProductStatisticsJob::dispatch($productId, sanctum()->id, StatisticsEnum::AddToCart, time());
             return true;
         } catch (\Exception $e){
             throw new ApiErrorException($e);
@@ -98,6 +101,7 @@ class CartRepository implements CartRepositoryInterface
                 $cart->delete();
             }
             DB::commit();
+            ProductStatisticsJob::dispatch($productId, sanctum()->id, StatisticsEnum::RemoveFromCart, time());
             return true;
         } catch (\Exception $e){
             throw new ApiErrorException($e);

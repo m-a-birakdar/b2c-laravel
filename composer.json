@@ -22,7 +22,8 @@
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^5.9",
         "stancl/tenancy": "^3.7",
-        "yajra/laravel-datatables": "^10.0"
+        "yajra/laravel-datatables": "^10.0",
+      "ext-mongodb": "*"
     },
     "repositories": {
         "easy-build": {

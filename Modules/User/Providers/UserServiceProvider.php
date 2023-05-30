@@ -4,6 +4,7 @@ namespace Modules\User\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\User\Interfaces\CuApi\V1\FavoriteRepositoryInterface;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -43,7 +44,8 @@ class UserServiceProvider extends ServiceProvider
         \Modules\User\Interfaces\AdApi\V1\UserRepositoryInterface::class    => \Modules\User\Repositories\AdApi\V1\UserRepository::class,
         \Modules\User\Interfaces\CoApi\V1\AuthRepositoryInterface::class    => \Modules\User\Repositories\CoApi\V1\AuthRepository::class,
         \Modules\User\Interfaces\CoApi\V1\UserRepositoryInterface::class    => \Modules\User\Repositories\CoApi\V1\UserRepository::class,
-        \Modules\User\Interfaces\CuApi\V1\ProfileRepositoryInterface::class => \Modules\User\Repositories\CuApi\V1\ProfileRepository::class
+        \Modules\User\Interfaces\CuApi\V1\ProfileRepositoryInterface::class => \Modules\User\Repositories\CuApi\V1\ProfileRepository::class,
+        \Modules\User\Interfaces\CuApi\V1\FavoriteRepositoryInterface::class => \Modules\User\Repositories\CuApi\V1\FavoriteRepository::class,
     ];
 
     public function register()

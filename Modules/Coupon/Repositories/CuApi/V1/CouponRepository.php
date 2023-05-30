@@ -28,20 +28,22 @@ class CouponRepository implements CouponRepositoryInterface
     public function check(array $array)
     {
         $this->model = $this->findWhere('code', $array['code']);
-        if ($this->isExpired()) {
-            $this->status = false;
-            $this->message = tr('this_coupon_is_expired');
-        } else if ($this->isFinishedUsage()) {
-            $this->status = false;
-            $this->message = tr('this_coupon_is_finished');
-        } else if ($this->checkOrderValue($array['order_value'])) {
-            $this->status = false;
-            $this->message = tr('this_coupon_is_need_minimum') . ' ' . $this->model->usage_limit;
-        } else if ($this->isUserByUser()) {
-            $this->status = false;
-            $this->message = tr('this_coupon_is_used_by_this_user');
-        } else {
-            $this->status = true;
+        if ($this->model){
+            if ($this->isExpired()) {
+                $this->status = false;
+                $this->message = tr('this_coupon_is_expired');
+            } else if ($this->isFinishedUsage()) {
+                $this->status = false;
+                $this->message = tr('this_coupon_is_finished');
+            } else if ($this->checkOrderValue($array['order_value'])) {
+                $this->status = false;
+                $this->message = tr('this_coupon_is_need_minimum') . ' ' . $this->model->usage_limit;
+            } else if ($this->isUserByUser()) {
+                $this->status = false;
+                $this->message = tr('this_coupon_is_used_by_this_user');
+            } else {
+                $this->status = true;
+            }
         }
     }
 

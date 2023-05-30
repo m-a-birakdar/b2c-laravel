@@ -4,8 +4,10 @@ namespace Modules\Product\Repositories\CuApi\V1;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\Currency\Repositories\Web\CurrencyRepository;
+use Modules\Product\Enums\StatisticsEnum;
 use Modules\Product\Interfaces\CuApi\V1\ProductRepositoryInterface;
 use Modules\Product\Entities\Product;
+use Modules\Product\Jobs\ProductStatisticsJob;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -13,7 +15,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public Product|null $model;
 
-    public function __construct(Product $model)
+    public function __construct(Product $model = new Product())
     {
         $this->model = $model;
     }
@@ -28,10 +30,16 @@ class ProductRepository implements ProductRepositoryInterface
             });
     }
 
-    public function show($id, $with = null, $columns = ['*'])
+    public function show($id, $userId, $with = null, $columns = ['*'])
     {
-        $this->model = $this->model->with(is_null($with) ? [] : $with)->available()->findOrFail($id, $columns);
+        $this->model = $this->model->with($with ?? [])->available()->findOrFail($id, $columns);
         $this->model->price = $this->model->price * ( new CurrencyRepository() )->value();
+        ProductStatisticsJob::dispatch($id, $userId, StatisticsEnum::View, time());
         return $this->model;
+    }
+
+    public function getFavorites($productIds): \Illuminate\Contracts\Pagination\Paginator
+    {
+        return $this->model->query()->whereIntegerInRaw('id', $productIds)->simplePaginate();
     }
 }

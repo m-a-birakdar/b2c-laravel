@@ -11,6 +11,10 @@ use Modules\Shipment\Entities\Shipment;
 use Modules\User\Entities\User;
 use Modules\Wallet\Entities\Transaction;
 
+/**
+ * @property mixed $total_amount
+ * @property mixed $id
+ */
 class Order extends Model
 {
     protected $fillable = ['sku', 'user_id', 'coupon_id', 'status', 'items_count', 'items_qty', 'shipping_amount', 'tax_amount', 'items_amount', 'discount_amount', 'total_amount', 'address_id', 'payment_method'];
@@ -63,6 +67,11 @@ class Order extends Model
     public function shipment(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Shipment::class);
+    }
+
+    public function review(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(OrderReview::class);
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

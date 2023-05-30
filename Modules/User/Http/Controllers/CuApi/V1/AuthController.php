@@ -9,8 +9,10 @@ use Modules\User\Http\Requests\CuApi\V1\RegisterRequest;
 use Modules\User\Http\Requests\CuApi\V1\SendOTPRequest;
 use Modules\User\Http\Requests\CuApi\V1\VerifyEmailRequest;
 use Modules\User\Http\Requests\CuApi\V1\VerifyOTPRequest;
+use Modules\User\Http\Requests\CuApi\V1\WelcomeRequest;
 use Modules\User\Interfaces\CuApi\V1\AuthRepositoryInterface;
 use Modules\User\Transformers\CuApi\V1\AuthResource;
+use Modules\User\Transformers\CuApi\V1\WelcomeResource;
 
 class AuthController extends Controller
 {
@@ -19,6 +21,11 @@ class AuthController extends Controller
     public function __construct(AuthRepositoryInterface $repository)
     {
         $this->repository = $repository;
+    }
+
+    public function welcome(WelcomeRequest $request): WelcomeResource
+    {
+        return WelcomeResource::make($this->repository->welcome($request->validated()));
     }
 
     public function login(LoginRequest $request): AuthResource

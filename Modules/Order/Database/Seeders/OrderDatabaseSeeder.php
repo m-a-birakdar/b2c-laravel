@@ -15,14 +15,14 @@ class OrderDatabaseSeeder extends Seeder
         $token = file_get_contents(base_path('storage/tenantbar/app/token.txt'));
         $token = explode('Customer ', $token);
         $token = str_replace("\r\n", '', $token[1]);
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/3');
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/3');
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/3');
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/2');
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/2');
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/1');
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/5');
-        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/checkout');
-//        $response = Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/orders/save');
+        for ($i = 0; $i < 3; $i++){
+            for ($j = 0; $j < 10; $j++){
+                Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/' . rand(1,10));
+            }
+            Http::withToken($token)->acceptJson()->post('http://bar.tenant.local/cu-api/v1/orders/save', [
+                'address_id' => 1,
+                'payment_method' => 1,
+            ]);
+        }
     }
 }

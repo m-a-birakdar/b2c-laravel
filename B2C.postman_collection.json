@@ -50,14 +50,15 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/products/show/4",
+									"raw": "{{url-customer}}v1/products/show/4/3",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"products",
 										"show",
-										"4"
+										"4",
+										"3"
 									]
 								}
 							},
@@ -561,6 +562,41 @@
 									"path": [
 										"advertises",
 										"click",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "views",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/advertises/views/1",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"advertises",
+										"views",
 										"1"
 									]
 								}
@@ -1339,7 +1375,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}v1/users/auth/register?phone=0090535264622&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123",
+											"raw": "{{url-customer}}v1/users/auth/register?phone=0090535264622&password=123123&name=Amer&password_confirmation=123123&fcm_token=123&device_info=123&id=5",
 											"host": [
 												"{{url-customer}}v1"
 											],
@@ -1368,6 +1404,45 @@
 												{
 													"key": "fcm_token",
 													"value": "123"
+												},
+												{
+													"key": "device_info",
+													"value": "123"
+												},
+												{
+													"key": "id",
+													"value": "5"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "welcome",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-customer}}v1/users/auth/welcome?fcm_token=firebase fcm token&device_info=123",
+											"host": [
+												"{{url-customer}}v1"
+											],
+											"path": [
+												"users",
+												"auth",
+												"welcome"
+											],
+											"query": [
+												{
+													"key": "fcm_token",
+													"value": "firebase fcm token"
 												},
 												{
 													"key": "device_info",
@@ -1476,6 +1551,83 @@
 													"key": "password_confirmation",
 													"value": "1232"
 												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "favorites",
+							"item": [
+								{
+									"name": "toggle",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-customer}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-customer}}v1/users/favorites/toggle/add/22",
+											"host": [
+												"{{url-customer}}v1"
+											],
+											"path": [
+												"users",
+												"favorites",
+												"toggle",
+												"add",
+												"22"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "index",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-customer}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-customer}}v1/users/favorites/index",
+											"host": [
+												"{{url-customer}}v1"
+											],
+											"path": [
+												"users",
+												"favorites",
+												"index"
 											]
 										}
 									},
@@ -2559,7 +2711,7 @@
 		},
 		{
 			"key": "token-customer",
-			"value": "4|4YWcc96ui9bI57FidpyBD20KEVSUAyMhLTRWyUbW",
+			"value": "3|n21MRzsiSbcEq8zT4lRi0GgBTverYBQxtIhPZTa2",
 			"type": "string"
 		},
 		{

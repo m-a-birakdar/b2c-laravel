@@ -6,6 +6,7 @@ use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use Jenssegers\Mongodb\Eloquent\HybridRelations;
 use Modules\Category\Entities\SubCategory;
 use Modules\City\Entities\City;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -13,7 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Product extends Model implements Auditable
 {
-    use HasFactory, ScopeModels, AuditableTrait;
+    use HasFactory, ScopeModels, AuditableTrait, HybridRelations;
 
     protected $fillable = ['city_id', 'category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
 
@@ -48,6 +49,11 @@ class Product extends Model implements Auditable
     public function city(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function statistics(): \Illuminate\Database\Eloquent\Relations\HasMany|\Jenssegers\Mongodb\Relations\HasMany
+    {
+        return $this->hasMany(ProductStatistics::class);
     }
 
     protected static function newFactory(): \Modules\Product\Database\factories\ProductFactory

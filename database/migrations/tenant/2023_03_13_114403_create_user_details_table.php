@@ -14,7 +14,7 @@ return new class extends Migration
             $table->tinyInteger('gender')->nullable();
             $table->date('birth_date')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('last_login_at')->nullable();
+            $table->timestamp('last_active_at')->nullable();
             $table->longText('fcm_token')->nullable();
             $table->longText('device_info')->nullable();
         });

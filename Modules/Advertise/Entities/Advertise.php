@@ -3,12 +3,16 @@
 namespace Modules\Advertise\Entities;
 
 use App\OverrideModel;
+use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Jenssegers\Mongodb\Eloquent\HybridRelations;
 use Modules\User\Entities\User;
 
 class Advertise extends OverrideModel
 {
-    protected $fillable = ['image', 'url', 'type', 'rank', 'views', 'clicks', 'redirect_in', 'user_id'];
+    use ScopeModels, HybridRelations;
+
+    protected $fillable = ['image', 'url', 'type', 'rank', 'redirect_in', 'user_id'];
 
     protected $casts = [];
 
@@ -23,5 +27,10 @@ class Advertise extends OverrideModel
     public function addedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function statistics(): \Illuminate\Database\Eloquent\Relations\HasMany|\Jenssegers\Mongodb\Relations\HasMany
+    {
+        return $this->hasMany(AdvertiseStatistics::class);
     }
 }

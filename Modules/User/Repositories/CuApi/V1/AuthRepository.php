@@ -35,10 +35,28 @@ class AuthRepository implements AuthRepositoryInterface
         $this->OTPCode = $OTPCode;
     }
 
+    public function welcome($array)
+    {
+        DB::beginTransaction();
+        try {
+            $this->model = $this->model->create();
+            $this->model->details()->create([
+                'last_active_at' => now(),
+                'fcm_token' => $array['fcm_token'],
+                'device_info' => $array['device_info'],
+            ]);
+            $this->model->syncRoles('customer');
+            DB::commit();
+            return $this->model;
+        } catch (\Exception $e){
+            throw new ApiErrorException($e);
+        }
+    }
+
     public function login(User $user)
     {
-        $user->details()->create([
-            'last_login_at' => now()
+        $user->details()->update([
+            'last_active_at' => now()
         ]);
         SendPrivateNotificationJob::dispatch(nCu('user.login', 'title'), nCu('user.login'), $user);
         $user->setAttribute('token', $user->createToken($user->phone)->plainTextToken);
@@ -52,11 +70,10 @@ class AuthRepository implements AuthRepositoryInterface
     {
         DB::beginTransaction();
         try {
-            $this->model = $this->model->create(array_merge($array, ['phone_verified_at' => now(), 'password' => bcrypt($array['password'])]));
-            $this->model->details()->create([
-                'last_login_at' => now(),
-                'fcm_token' => $array['fcm_token'],
-                'device_info' => $array['device_info'],
+            $this->find($array['id']);
+            $this->model->update(array_merge($array, ['phone_verified_at' => now(), 'password' => bcrypt($array['password'])]));
+            $this->model->details()->update([
+                'last_active_at' => now(),
             ]);
             $this->model->syncRoles('customer');
             DB::commit();

@@ -13,12 +13,13 @@ return new class extends Migration
         Schema::create('whatsapp', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type')->default(TypeEnum::TEXT->value);
-            $table->string('priority');
+            $table->string('priority')->index();
             $table->string('phone');
             $table->longText('message');
             $table->longText('media')->nullable();
-            $table->string('status')->default(StatusEnum::PENDING->value);
-            $table->timestamp('send_at')->nullable();
+            $table->string('status')->default(StatusEnum::PENDING->value)->index();
+            $table->timestamp('send_at')->index()->nullable();
+            $table->string('message_id')->nullable();
             $table->timestamps();
         });
     }

@@ -5,6 +5,11 @@ namespace Modules\Wallet\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\User;
 
+/**
+ * @property mixed $id
+ * @property mixed $balance
+ */
+
 class Wallet extends Model
 {
     protected $fillable = ['user_id', 'balance', 'status'];

@@ -3,6 +3,7 @@
 namespace Modules\Advertise\Repositories\CuApi\V1;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
+use Modules\Advertise\Enums\StatisticsEnum;
 use Modules\Advertise\Interfaces\CuApi\V1\AdvertiseRepositoryInterface;
 use Modules\Advertise\Entities\Advertise;
 use Modules\Advertise\Jobs\IncrementAdvertiseViewsJob;
@@ -18,29 +19,29 @@ class AdvertiseRepository implements AdvertiseRepositoryInterface
         $this->model = $model;
     }
 
-    public function index($type)
+    public function index($type, $user)
     {
-        $advertises = $this->model->where('type', $type)->orderBy('rank')->get();
-        IncrementAdvertiseViewsJob::dispatch($advertises->pluck('id')->toArray());
-        return $advertises;
+        return $this->model->available()->where('type', $type)->orderBy('rank')->get();
     }
 
-    public function one($type)
+    public function one($type, $user)
     {
-        $advertise = $this->model->where('type', $type)->orderBy('rank')->first();
-        IncrementAdvertiseViewsJob::dispatch([$advertise->id]);
-        return $advertise;
+        return $this->model->available()->where('type', $type)->orderBy('rank')->first();
     }
 
-    public function increment($value, $id)
+    public function statistics($type, $id, $user): bool
     {
-        return $this->model->where('id', $id)->update([
-            $value => $this->model->{$value}++
-        ]);
+        IncrementAdvertiseViewsJob::dispatch($id, $user, $type, time());
+        return true;
     }
 
-    public function click($id): bool|int
+    public function click($id, $user): bool|int
     {
-        return $this->increment('clicks', $id);
+        return $this->statistics(StatisticsEnum::Click, $id, $user);
+    }
+
+    public function view($id, $user): bool|int
+    {
+        return $this->statistics(StatisticsEnum::View, $id, $user);
     }
 }

@@ -11,6 +11,11 @@ use Modules\Order\Enums\OrderPaymentMethodEnum;
 use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Repositories\CuApi\V1\WalletRepository;
 
+/**
+ * @property mixed $payment_method
+ * @property mixed $address_id
+ */
+
 class OrderRequest extends FormRequest
 {
     public function rules(): array

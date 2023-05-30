@@ -23,8 +23,8 @@ class ProductController extends Controller
         ]));
     }
 
-    public function show($id): OneProductResource
+    public function show($id, $userId): OneProductResource
     {
-        return OneProductResource::make($this->repository->show($id, ['category.parent', 'details']));
+        return OneProductResource::make($this->repository->show($id, $userId, ['category.parent', 'details']));
     }
 }

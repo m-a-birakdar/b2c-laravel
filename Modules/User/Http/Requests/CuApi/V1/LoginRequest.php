@@ -43,8 +43,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => 'required|digits_between:10,16|regex:/(00)[0-9]/',
-            'password' => 'required'
+            'id'        => 'required|integer|exists:users',
+            'phone'     => 'required|digits_between:10,16|regex:/(00)[0-9]/',
+            'password'  => 'required'
         ];
     }
 

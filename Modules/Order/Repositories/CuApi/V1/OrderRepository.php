@@ -11,6 +11,8 @@ use Modules\Order\Enums\OrderPaymentMethodEnum;
 use Modules\Order\Http\Requests\CuApi\V1\OrderRequest;
 use Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface;
 use Modules\Order\Entities\Order;
+use Modules\Product\Enums\StatisticsEnum;
+use Modules\Product\Jobs\ProductStatisticsJob;
 use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Enums\TypeEnum;
 
@@ -95,6 +97,7 @@ class OrderRepository implements OrderRepositoryInterface
             }
             $this->saveCoupon();
             DB::commit();
+            ProductStatisticsJob::dispatch(array_column($request->orderItems, 'product_id'), sanctum()->id, StatisticsEnum::Order, time());
             SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_pending'), $this->model->user_id, 'high');
             return true;
         } catch (\Exception $e){
@@ -121,8 +124,14 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function show($orderId): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
-        return $this->find($orderId, [
+        return $this->model->with([
             'products:id,thumbnail,title'
-        ]);
+        ])->withExists('review')->findOrFail($orderId);
+    }
+
+    public function review($array): \Illuminate\Database\Eloquent\Model
+    {
+        $this->find($array['order_id']);
+        return $this->model->review()->create(array_merge($array, ['user_id' => sanctum()->id]));
     }
 }

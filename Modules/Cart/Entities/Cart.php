@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Entities\Product;
 use Modules\User\Entities\User;
 
+/**
+ * @property mixed $shipping_amount
+ * @property mixed $items_qty
+ * @property mixed $items_count
+ */
 class Cart extends Model
 {
     protected $fillable = ['user_id', 'items_count', 'items_qty', 'shipping_amount', 'items_amount'];

@@ -9,13 +9,11 @@ class UserDetails extends Model
 {
     protected $table = 'user_details';
 
-    protected $fillable = ['user_id', 'gender', 'birth_date', 'last_login_at', 'fcm_token', 'device_info', 'email_verified_at'];
+    protected $fillable = ['user_id', 'gender', 'birth_date', 'last_active_at', 'fcm_token', 'device_info', 'email_verified_at'];
 
     public $timestamps = false;
 
-//    protected $appends = ['gender_string', 'last_login_human'];
-
-    protected $casts = ['user_id' => 'int', 'gender' => GenderEnum::class, 'birth_date' => 'datetime:Y-m-d', 'last_login_at' => 'datetime:Y-m-d H:i:s',];
+    protected $casts = ['user_id' => 'int', 'gender' => GenderEnum::class, 'birth_date' => 'datetime:Y-m-d', 'last_active_at' => 'datetime:Y-m-d H:i:s',];
 
     public function getGenderStringAttribute(): string
     {
@@ -24,6 +22,6 @@ class UserDetails extends Model
 
     public function getLastLoginHumanAttribute(): string
     {
-        return $this->last_login_at->diffForHumans();
+        return $this->last_active_at->diffForHumans();
     }
 }

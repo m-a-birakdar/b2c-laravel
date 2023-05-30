@@ -16,18 +16,23 @@ class AdvertiseController extends Controller
         $this->repository = $repository;
     }
 
-    public function index($type): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index($type, $user): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return AdvertiseResource::collection($this->repository->index($type));
+        return AdvertiseResource::collection($this->repository->index($type, $user));
     }
 
-    public function one($type): AdvertiseResource
+    public function one($type, $user): AdvertiseResource
     {
-        return AdvertiseResource::make($this->repository->one($type));
+        return AdvertiseResource::make($this->repository->one($type, $user));
     }
 
-    public function click($id): MainResource
+    public function click($id, $user): MainResource
     {
-        return MainResource::make(null, $this->repository->click($id));
+        return MainResource::make(null, $this->repository->click($id, $user));
+    }
+
+    public function view($id, $user): MainResource
+    {
+        return MainResource::make(null, $this->repository->view($id, $user));
     }
 }

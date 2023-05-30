@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Events\SendMessage;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Modules\Category\Database\Seeders\CategoryDatabaseSeeder;

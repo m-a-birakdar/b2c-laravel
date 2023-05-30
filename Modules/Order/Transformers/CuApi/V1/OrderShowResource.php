@@ -13,6 +13,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $status_human
  * @property mixed $sku
  * @property mixed $id
+ * @property mixed $review_exists
  */
 
 class OrderShowResource extends JsonResource
@@ -28,6 +29,7 @@ class OrderShowResource extends JsonResource
             'items_qty' => $this->items_qty,
             'total_amount' => $this->total_amount,
             'created_at' => $this->created_at_human,
+            'review_exists' => $this->review_exists,
             'products' => OrderShowProductsResource::collection($this->products),
         ];
     }
