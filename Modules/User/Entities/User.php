@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Address\Entities\Address;
 use Modules\Cart\Entities\Cart;
+use Modules\Order\Entities\Order;
 use Modules\Wallet\Entities\Transaction;
 use Modules\Wallet\Entities\Wallet;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -50,5 +51,10 @@ class User extends Authenticatable implements Auditable
     public function addresses(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

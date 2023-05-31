@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Eloquent\HybridRelations;
 use Modules\Category\Entities\SubCategory;
 use Modules\City\Entities\City;
+use Modules\Order\Entities\Order;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -54,6 +55,11 @@ class Product extends Model implements Auditable
     public function statistics(): \Illuminate\Database\Eloquent\Relations\HasMany|\Jenssegers\Mongodb\Relations\HasMany
     {
         return $this->hasMany(ProductStatistics::class);
+    }
+
+    public function orders(): \Jenssegers\Mongodb\Relations\BelongsToMany|\Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_items');
     }
 
     protected static function newFactory(): \Modules\Product\Database\factories\ProductFactory
