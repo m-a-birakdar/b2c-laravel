@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Events\SendMessage;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -59,6 +61,19 @@ class DatabaseSeeder extends Seeder
 //            echo $exception;
 //            $client->close();
 //        }
+//        $this->call(TenantDatabaseSeeder::class);
+        if (tenant()->id == 'bar')
+            $this->first();
+    }
+
+    private function first()
+    {
+        $tables = [
+            'notifications', 'favorites', 'reports', 'whatsapp', 'product_statistics', 'message_ack',
+        ];
+        foreach ($tables as $table)
+            DB::connection(tenant()->id . '-mongodb')->table($table)->truncate();
+
         $this->call(CityDatabaseSeeder::class);
         $this->call(RoleTableSeeder::class);
         $this->call(UserDatabaseSeeder::class);
@@ -68,6 +83,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CurrencyDatabaseSeeder::class);
         $this->call(CouponDatabaseSeeder::class);
         $this->call(OrderDatabaseSeeder::class);
-//        $this->call(TenantDatabaseSeeder::class);
+        Artisan::call('report:save', ['--argument' => 'type=monthly']);
     }
 }

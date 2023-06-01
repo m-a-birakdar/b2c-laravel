@@ -2,14 +2,10 @@
 
 namespace Modules\User\Entities;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use App\Models\TenantModelMongo;
 
-class Favorite extends Model
+class Favorite extends TenantModelMongo
 {
-    protected $connection = 'mongodb';
-
-    public $timestamps = false;
-
     protected $collection = 'favorites';
 
     protected $fillable = [

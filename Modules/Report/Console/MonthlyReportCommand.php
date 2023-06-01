@@ -22,7 +22,7 @@ class MonthlyReportCommand extends Command
 
     private Carbon $currentMonth;
     private int $daysInMonth, $rowsCount;
-    private array $users, $orders, $products, $categories, $subCategories;
+    private array $users, $orders, $categories, $allProducts, $allCategories, $allSubCategories;
 
     public function __construct()
     {
@@ -34,11 +34,10 @@ class MonthlyReportCommand extends Command
 
     public function handle()
     {
+        $this->users();
+        $this->orders();
         $this->products();
-//        $this->users();
-//        $this->orders();
-//        $this->products();
-//        $this->save();
+        $this->save();
     }
 
     private function products()
@@ -47,25 +46,33 @@ class MonthlyReportCommand extends Command
         $oldCategories = $this->categories;
         $this->categories = [];
         foreach ($oldCategories as $category) {
+            $newSub = [];
             foreach ($category['sub'] as $sub) {
-                $products = Product::where('category_id', $sub['id'])
+                $newProducts = [];
+                $products = Product::query()->where('category_id', $sub['id'])
                     ->withCount(['orders' => function ($query) {
                         $query->where('created_at', '>=', $this->currentMonth);
                     }])
                     ->orderByDesc('orders_count')->limit($this->rowsCount)
-                    ->get(['id', 'category_id']);
+                    ->get();
                 foreach ($products as $product) {
-                    dd($product);
-                    $this->products[] = [
+                    $newProducts[] = [
                         'id' => $product->id,
-                        'orders_count' => $product->orders_count,
+                        'count' => $product->orders_count,
                     ];
                 }
+                $newSub[] = [
+                    'id' => $sub['id'],
+                    'count' => $sub['count'],
+                    'products' => $newProducts
+                ];
             }
+            $this->categories[] = [
+                'id' => $category['id'],
+                'count' => $category['count'],
+                'sub' => $newSub
+            ];
         }
-//        $this->subCategories();
-//        $oldCategories = $this->categories;
-//        $this->categories = [];
     }
 
     private function subCategories()
@@ -76,7 +83,7 @@ class MonthlyReportCommand extends Command
         foreach ($oldCategories as $oldCategory) {
             $parentCategories = SubCategory::withCount(['products' => function ($query) {
                 $query->whereHas('orders', function ($q){
-                    $q->where('created_at', '<=', $this->currentMonth);
+                    $q->where('created_at', '>=', $this->currentMonth);
                 });
             }])->where('parent_id', $oldCategory['id'])->get();
             $sub = [];
@@ -98,7 +105,10 @@ class MonthlyReportCommand extends Command
                 return $b['count'] <=> $a['count'];
             });
         }
-        $this->categories = array_slice($this->categories, 0, $this->rowsCount);
+        foreach ($this->categories as $category) {
+            $category['sub'] = array_slice($category['sub'], 0,1);
+        }
+        dd($this->categories);
     }
 
     private function categories()
@@ -106,7 +116,7 @@ class MonthlyReportCommand extends Command
         $parentCategories = Category::with(['subCategories' => function ($query) {
             $query->withCount(['products' => function ($query) {
                 $query->whereHas('orders', function ($q){
-                    $q->where('created_at', '<=', $this->currentMonth);
+                    $q->where('created_at', '>=', $this->currentMonth);
                 });
             }]);
         }])->get(['id']);
@@ -119,16 +129,15 @@ class MonthlyReportCommand extends Command
         usort($this->categories, function ($a, $b) {
             return $b['count'] <=> $a['count'];
         });
+        $this->allCategories = $this->categories;
         $this->categories = array_slice($this->categories, 0, $this->rowsCount);
     }
 
     private function save()
     {
         Report::query()->create([
-            'type' => $this->argument('type'),
-            'day' => date('d'), 'month'=> date('m'), 'year'=> date('Y'),
-            'orders' => $this->orders, 'categories' => $this->categories, 'products' => $this->products, 'created_at' => new UTCDateTime(time() * 1000),
-            'sub_categories' => $this->subCategories, 'users' => $this->users,
+            'type' => $this->argument('type'), 'day' => date('d'), 'month'=> date('m'), 'year'=> date('Y'),
+            'orders' => $this->orders, 'categories' => $this->categories, 'created_at' => new UTCDateTime(time() * 1000), 'users' => $this->users,
         ]);
     }
 
@@ -137,7 +146,7 @@ class MonthlyReportCommand extends Command
         $parentCategories = Category::with(['subCategories' => function ($query) {
             $query->withCount(['products' => function ($query) {
                 $query->whereHas('orders', function ($q){
-                    $q->where('created_at', '<=', $this->currentMonth);
+                    $q->where('created_at', '>=', $this->currentMonth);
                 });
             }]);
         }])->get(['id']);

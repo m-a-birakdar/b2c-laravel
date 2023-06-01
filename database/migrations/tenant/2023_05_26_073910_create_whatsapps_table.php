@@ -10,18 +10,18 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('whatsapp', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('type')->default(TypeEnum::TEXT->value);
-            $table->string('priority')->index();
-            $table->string('phone');
-            $table->longText('message');
-            $table->longText('media')->nullable();
-            $table->string('status')->default(StatusEnum::PENDING->value)->index();
-            $table->timestamp('send_at')->index()->nullable();
-            $table->string('message_id')->nullable();
-            $table->timestamps();
-        });
+//        Schema::create('whatsapp', function (Blueprint $table) {
+//            $table->bigIncrements('id');
+//            $table->string('type')->default(TypeEnum::TEXT->value);
+//            $table->string('priority')->index();
+//            $table->string('phone');
+//            $table->longText('message');
+//            $table->longText('media')->nullable();
+//            $table->string('status')->default(StatusEnum::PENDING->value)->index();
+//            $table->timestamp('send_at')->index()->nullable();
+//            $table->string('message_id')->nullable();
+//            $table->timestamps();
+//        });
     }
 
     public function down()

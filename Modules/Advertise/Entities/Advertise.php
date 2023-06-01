@@ -2,7 +2,7 @@
 
 namespace Modules\Advertise\Entities;
 
-use App\OverrideModel;
+use App\Models\OverrideModel;
 use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Jenssegers\Mongodb\Eloquent\HybridRelations;

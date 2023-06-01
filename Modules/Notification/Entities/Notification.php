@@ -2,11 +2,12 @@
 
 namespace Modules\Notification\Entities;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use App\Models\TenantModelMongo;
 
-class Notification extends Model
+class Notification extends TenantModelMongo
 {
-    protected $connection = 'mongodb';
+    public $timestamps = true;
+
     protected $collection = 'notifications';
 
     protected $fillable = ['user_id', 'title', 'body', 'type', 'initial', 'clicks', 'read_at'];

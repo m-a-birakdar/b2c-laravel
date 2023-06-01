@@ -2,12 +2,10 @@
 
 namespace Modules\Product\Entities;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use App\Models\TenantModelMongo;
 
-class ProductStatistics extends Model
+class ProductStatistics extends TenantModelMongo
 {
-    protected $connection = 'mongodb';
-
     public $timestamps = false;
 
     protected $collection = 'product_statistics';

@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
-return [
+$data = [
 
     /*
     |--------------------------------------------------------------------------
@@ -161,3 +162,26 @@ return [
     ],
 
 ];
+
+$main = [
+    'driver'   => 'mongodb',
+    'host'     => env('MONGO_DB_HOST', 'localhost'),
+    'port'     => env('MONGO_DB_PORT', 27017),
+    'username' => env('MONGO_DB_USERNAME'),
+    'password' => env('MONGO_DB_PASSWORD'),
+    'options' => [
+        'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'), // required with Mongo 3+
+    ],
+];
+
+$capsule = new Capsule;
+$capsule->addConnection($data['connections']['mysql']);
+$capsule->setAsGlobal();
+$results = Capsule::select('SELECT id FROM tenants');
+//dd($results);
+$merge = [];
+
+foreach (json_decode(json_encode($results), JSON_UNESCAPED_UNICODE) as $item)
+    $data['connections'][$item['id'] . '-mongodb'] = array_merge($main, ['database' => $item['id'] . '-mongodb']);
+
+return $data;

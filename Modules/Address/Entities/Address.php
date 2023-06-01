@@ -2,7 +2,7 @@
 
 namespace Modules\Address\Entities;
 
-use App\OverrideModel;
+use App\Models\OverrideModel;
 use Modules\City\Entities\City;
 use Modules\User\Entities\User;
 
