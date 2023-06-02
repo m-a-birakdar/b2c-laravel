@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
     private function first()
     {
         $tables = [
-            'notifications', 'favorites', 'reports', 'whatsapp', 'product_statistics', 'message_ack',
+            'notifications', 'favorites', 'reports', 'whatsapp', 'product_statistics', 'message_ack', 'product_reports'
         ];
         foreach ($tables as $table)
             DB::connection(tenant()->id . '-mongodb')->table($table)->truncate();

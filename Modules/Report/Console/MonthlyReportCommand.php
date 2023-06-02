@@ -9,6 +9,8 @@ use Modules\Category\Entities\SubCategory;
 use Modules\Order\Entities\Order;
 use Modules\Order\Entities\OrderReview;
 use Modules\Product\Entities\Product;
+use Modules\Report\Entities\CategoryReport;
+use Modules\Report\Entities\ProductReport;
 use Modules\Report\Entities\Report;
 use Modules\User\Entities\User;
 use MongoDB\BSON\UTCDateTime;
@@ -22,7 +24,7 @@ class MonthlyReportCommand extends Command
 
     private Carbon $currentMonth;
     private int $daysInMonth, $rowsCount;
-    private array $users, $orders, $categories, $allProducts, $allCategories, $allSubCategories;
+    private array $users, $orders, $categories, $allProducts = [], $allCategories = [], $create = [];
 
     public function __construct()
     {
@@ -37,7 +39,43 @@ class MonthlyReportCommand extends Command
         $this->users();
         $this->orders();
         $this->products();
+        $this->total();
+        $this->create();
         $this->save();
+    }
+
+    private function total()
+    {
+        $parentCategories = Category::with(['subCategories' => function ($query) {
+            $query->with(['products' => function ($d) {
+                $d->with('orders', function ($q){
+                    $q->where('created_at', '>=', $this->currentMonth)->select(['orders.id', 'orders.created_at']);
+                })->select(['products.id', 'products.category_id']);
+            }]);
+        }])->get()->toArray();
+        foreach ($parentCategories as $parentCategory) {
+            $fC = [];
+            foreach ($parentCategory['sub_categories'] as $sub) {
+                $fP = [];
+                foreach ($sub['products'] as $product) {
+                    $fP[] = [
+                        'id' => $product['id'],
+                        'count' => count($product['orders']),
+                    ];
+                }
+                $this->allProducts = array_merge($fP, $this->allProducts);
+                $fC[] = [
+                    'id' => $sub['id'],
+                    'count' => array_sum(array_column($fP, 'count')),
+                    'parent_id' => $sub['parent_id'],
+                ];
+            }
+            $this->allCategories = array_merge($fC, $this->allCategories);
+            $this->allCategories[] = [
+                'id' => $parentCategory['id'],
+                'count' => array_sum(array_column($fC, 'count')),
+            ];
+        }
     }
 
     private function products()
@@ -108,7 +146,6 @@ class MonthlyReportCommand extends Command
         foreach ($this->categories as $category) {
             $category['sub'] = array_slice($category['sub'], 0,1);
         }
-        dd($this->categories);
     }
 
     private function categories()
@@ -133,12 +170,25 @@ class MonthlyReportCommand extends Command
         $this->categories = array_slice($this->categories, 0, $this->rowsCount);
     }
 
+    private function create()
+    {
+        $this->create = [
+            'type' => $this->argument('type'), 'day' => date('d'), 'month'=> date('m'), 'year'=> date('Y'),
+            'created_at' => new UTCDateTime(time() * 1000),
+        ];
+    }
+
     private function save()
     {
-        Report::query()->create([
-            'type' => $this->argument('type'), 'day' => date('d'), 'month'=> date('m'), 'year'=> date('Y'),
-            'orders' => $this->orders, 'categories' => $this->categories, 'created_at' => new UTCDateTime(time() * 1000), 'users' => $this->users,
-        ]);
+        Report::query()->create(array_merge($this->create , [
+            'orders' => $this->orders, 'categories' => $this->categories, 'users' => $this->users,
+        ]));
+        ProductReport::query()->create(array_merge($this->create , [
+            'products' => $this->allProducts
+        ]));
+        CategoryReport::query()->create(array_merge($this->create , [
+            'categories' => $this->allCategories
+        ]));
     }
 
     private function oldProducts()
