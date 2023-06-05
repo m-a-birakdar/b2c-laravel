@@ -4,7 +4,7 @@ namespace Modules\Report\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Report\Console\MonthlyReportCommand;
+use Modules\Report\Console\GenerateReportCommand;
 
 class ReportServiceProvider extends ServiceProvider
 {
@@ -29,7 +29,7 @@ class ReportServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
         $this->commands([
-            MonthlyReportCommand::class
+            GenerateReportCommand::class
         ]);
     }
 

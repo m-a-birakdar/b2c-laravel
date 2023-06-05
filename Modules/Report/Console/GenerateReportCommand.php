@@ -3,6 +3,7 @@
 namespace Modules\Report\Console;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
 use Modules\Category\Entities\Category;
 use Modules\Category\Entities\SubCategory;
@@ -12,45 +13,55 @@ use Modules\Product\Entities\Product;
 use Modules\Report\Entities\CategoryReport;
 use Modules\Report\Entities\ProductReport;
 use Modules\Report\Entities\Report;
+use Modules\Report\Enums\TypeEnum;
 use Modules\User\Entities\User;
 use MongoDB\BSON\UTCDateTime;
+use Symfony\Component\Console\Command\Command as CommandAlias;
 use Symfony\Component\Console\Input\InputArgument;
 
-class MonthlyReportCommand extends Command
+class GenerateReportCommand extends Command
 {
     protected $name = 'report:save {type}';
 
-    protected $description = 'Monthly report command.';
+    protected $description = 'Generate report command.';
 
-    private Carbon $currentMonth;
-    private int $daysInMonth, $rowsCount;
+    private Carbon $startComparisonDate, $endComparisonDate;
+    private int $average, $rowsCount;
     private array $users, $orders, $categories, $allProducts = [], $allCategories = [], $create = [];
 
     public function __construct()
     {
-        $this->currentMonth = Carbon::now()->startOfMonth();
-        $this->daysInMonth = Carbon::now()->daysInMonth;
         $this->rowsCount = 5;
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(): int
     {
+        if (! $this->validateType())
+            return CommandAlias::FAILURE;
         $this->users();
         $this->orders();
         $this->products();
         $this->total();
         $this->create();
         $this->save();
+        return CommandAlias::SUCCESS;
+    }
+
+    private function where($q, $column = 'created_at'): void
+    {
+        $q->where($column, '>=', $this->startComparisonDate)->where($column, '<', $this->endComparisonDate);
     }
 
     private function total()
     {
         $parentCategories = Category::with(['subCategories' => function ($query) {
             $query->with(['products' => function ($d) {
-                $d->with('orders', function ($q){
-                    $q->where('created_at', '>=', $this->currentMonth)->select(['orders.id', 'orders.created_at']);
-                })->select(['products.id', 'products.category_id']);
+                $d->with(['orders' => function ($q) {
+                    $q->where(function ($q) {
+                        $this->where($q);
+                    })->select(['orders.id', 'orders.created_at']);
+                }])->select(['products.id', 'products.category_id']);
             }]);
         }])->get()->toArray();
         foreach ($parentCategories as $parentCategory) {
@@ -89,7 +100,7 @@ class MonthlyReportCommand extends Command
                 $newProducts = [];
                 $products = Product::query()->where('category_id', $sub['id'])
                     ->withCount(['orders' => function ($query) {
-                        $query->where('created_at', '>=', $this->currentMonth);
+                        $this->where($query);
                     }])
                     ->orderByDesc('orders_count')->limit($this->rowsCount)
                     ->get();
@@ -121,7 +132,7 @@ class MonthlyReportCommand extends Command
         foreach ($oldCategories as $oldCategory) {
             $parentCategories = SubCategory::withCount(['products' => function ($query) {
                 $query->whereHas('orders', function ($q){
-                    $q->where('created_at', '>=', $this->currentMonth);
+                    $this->where($q);
                 });
             }])->where('parent_id', $oldCategory['id'])->get();
             $sub = [];
@@ -153,7 +164,7 @@ class MonthlyReportCommand extends Command
         $parentCategories = Category::with(['subCategories' => function ($query) {
             $query->withCount(['products' => function ($query) {
                 $query->whereHas('orders', function ($q){
-                    $q->where('created_at', '>=', $this->currentMonth);
+                    $this->where($q);
                 });
             }]);
         }])->get(['id']);
@@ -173,7 +184,7 @@ class MonthlyReportCommand extends Command
     private function create()
     {
         $this->create = [
-            'type' => $this->argument('type'), 'day' => date('d'), 'month'=> date('m'), 'year'=> date('Y'),
+            'type' => $this->argument('type'), 'day' => date('d'), 'month' => date('m'), 'year' => date('Y'),
             'created_at' => new UTCDateTime(time() * 1000),
         ];
     }
@@ -196,7 +207,7 @@ class MonthlyReportCommand extends Command
         $parentCategories = Category::with(['subCategories' => function ($query) {
             $query->withCount(['products' => function ($query) {
                 $query->whereHas('orders', function ($q){
-                    $q->where('created_at', '>=', $this->currentMonth);
+                    $this->where($q);
                 });
             }]);
         }])->get(['id']);
@@ -209,7 +220,7 @@ class MonthlyReportCommand extends Command
             foreach ($parentCategory->subCategories as $category) {
                 $dataProducts = [];
                 $products = Product::where('category_id', $category->id)->withCount(['orders' => function ($query)  {
-                    $query->where('created_at', '>=', $this->currentMonth);
+                    $this->where($query);
                 }])->get();
                 foreach ($products as $product) {
                     $p = [
@@ -236,7 +247,7 @@ class MonthlyReportCommand extends Command
         $this->orders['count'] = $this->orderModel()->count();
         $sum = $this->orderModel()->sum('total_amount');
         $this->orders['total'] = (int) $sum;
-        $this->orders['average'] = (int) round($sum / $this->daysInMonth);
+        $this->orders['average'] = (int) round($sum / $this->average);
         $this->orders['reviews'] = $this->reviews();
     }
 
@@ -253,20 +264,26 @@ class MonthlyReportCommand extends Command
 
     private function orderModel(): \Illuminate\Database\Eloquent\Builder
     {
-        return Order::query()->where('created_at', '>=', $this->currentMonth);
+        return Order::query()->where(function ($q){
+            $this->where($q);
+        });
     }
 
     private function reviewModel(): \Illuminate\Database\Eloquent\Builder
     {
-        return OrderReview::query()->where('created_at', '>=', $this->currentMonth);
+        return OrderReview::query()->where(function ($q){
+            $this->where($q);
+        });
     }
 
     private function users()
     {
         $this->users['all'] = $this->userModel()->count();
-        $this->users['new'] = $this->userModel()->where('created_at', '>=', $this->currentMonth)->count();
+        $this->users['new'] = $this->userModel()->where(function ($q){
+            $this->where($q);
+        })->count();
         $this->users['active'] = $this->userModel()->whereHas('details', function ($query) {
-            $query->where('last_active_at', '>=', $this->currentMonth);
+            $this->where($query, 'last_active_at');
         })->count();
         $this->users['first_order'] = $this->firstOrder();
     }
@@ -281,27 +298,66 @@ class MonthlyReportCommand extends Command
     private function firstOrder()
     {
         return User::whereHas('orders', function ($query){
-            $query->where('created_at', '>=', $this->currentMonth);
+            $this->where($query);
         })->doesntHave('orders', 'and', function ($query){
-            $query->where('created_at', '<', $this->currentMonth);
+            $query->where('created_at', '<', $this->startComparisonDate);
         })->count();
     }
 
     protected function getArguments(): array
     {
-        $result = [
-            ["id" => 1, "count" => 4, 'sub' => [
-                'id' => 12 , 'count' => 8
-            ]],
-            ["id" => 2, "count" => 2, 'sub' => [
-                'id' => 32 , 'count' => 5
-            ]],
-            ["id" => 2, "count" => 3, 'sub' => [
-                'id' => 21 , 'count' => 9
-            ]],
-        ];
         return [
             ['type', InputArgument::REQUIRED, 'An example argument.'],
         ];
+    }
+
+    private function validateType(): bool
+    {
+        $types = array_column(TypeEnum::cases(), 'value');
+        if (! in_array($this->argument('type'), $types)){
+            $this->error('Invalid type.');
+            return false;
+        }
+        $this->setDates();
+        return true;
+    }
+
+    private function setDates()
+    {
+        match ($this->argument('type')){
+            TypeEnum::DAILY->value => $this->dailyReport(),
+            TypeEnum::WEEKLY->value => $this->weeklyReport(),
+            TypeEnum::MONTHLY->value => $this->monthlyReport(),
+            TypeEnum::YEARLY->value => $this->yearlyReport(),
+        };
+    }
+
+    private function dailyReport()
+    {
+        $this->startComparisonDate = Carbon::now()->subDay()->startOfDay();
+        $this->endComparisonDate = Carbon::now()->subDay()->endOfDay();
+        $this->average = 12;
+    }
+
+    private function weeklyReport()
+    {
+        $this->startComparisonDate = Carbon::now()->subWeek()->startOfWeek(CarbonInterface::SATURDAY);
+        $this->endComparisonDate = Carbon::now()->subWeek()->endOfWeek(CarbonInterface::FRIDAY);
+        $this->average = 7;
+    }
+
+    private function monthlyReport()
+    {
+        $this->startComparisonDate = Carbon::now()->subMonth()->startOfMonth();
+        $this->endComparisonDate = Carbon::now()->subMonth()->endOfMonth();
+        $this->average =  Carbon::now()->daysInMonth;
+    }
+
+    private function yearlyReport()
+    {
+        $this->startComparisonDate = Carbon::now()->subYear()->startOfYear();
+        $this->endComparisonDate = Carbon::now()->subYear()->endOfYear();
+        $this->average = 12;
+//        dd($this->startComparisonDate->format('Y-m-d H:i:s'), $this->endComparisonDate->format('Y-m-d H:i:s'), $this->average);
     }
 }

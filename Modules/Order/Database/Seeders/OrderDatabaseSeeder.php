@@ -16,9 +16,8 @@ class OrderDatabaseSeeder extends Seeder
         $token = explode('Customer ', $token);
         $token = str_replace("\r\n", '', $token[1]);
         for ($i = 0; $i < 3; $i++){
-            for ($j = 0; $j < 10; $j++){
+            for ($j = 0; $j < 10; $j++)
                 Http::withToken($token)->acceptJson()->get('http://bar.tenant.local/cu-api/v1/carts/add/' . rand(1,10));
-            }
             Http::withToken($token)->acceptJson()->post('http://bar.tenant.local/cu-api/v1/orders/save', [
                 'address_id' => 1,
                 'payment_method' => 1,

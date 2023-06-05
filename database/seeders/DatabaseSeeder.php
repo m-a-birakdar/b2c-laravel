@@ -63,13 +63,14 @@ class DatabaseSeeder extends Seeder
 //        }
 //        $this->call(TenantDatabaseSeeder::class);
         if (tenant()->id == 'bar')
-            $this->first();
+            $this->call(GenerateData::class);
+//            $this->first();
     }
 
     private function first()
     {
         $tables = [
-            'notifications', 'favorites', 'reports', 'whatsapp', 'product_statistics', 'message_ack', 'product_reports'
+            'notifications', 'favorites', 'reports', 'whatsapp', 'product_statistics', 'message_ack', 'product_reports', 'category_reports'
         ];
         foreach ($tables as $table)
             DB::connection(tenant()->id . '-mongodb')->table($table)->truncate();

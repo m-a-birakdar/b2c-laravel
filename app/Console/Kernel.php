@@ -12,7 +12,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+         $schedule->command('report:save', [
+             'type' => 'daily'
+         ])->daily();
+         $schedule->command('report:save', [
+             'type' => 'weekly'
+         ])->weekly();
+         $schedule->command('report:save', [
+             'type' => 'monthly'
+         ])->monthly();
+         $schedule->command('report:save', [
+             'type' => 'yearly'
+         ])->yearly();
     }
 
     /**
