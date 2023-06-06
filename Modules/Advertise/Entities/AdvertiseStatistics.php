@@ -2,15 +2,11 @@
 
 namespace Modules\Advertise\Entities;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use App\Models\TenantModelMongo;
 use Modules\User\Entities\User;
 
-class AdvertiseStatistics extends Model
+class AdvertiseStatistics extends TenantModelMongo
 {
-    protected $connection = 'mongodb';
-
-    public $timestamps = false;
-
     protected $collection = 'advertise_statistics';
 
     protected $fillable = [

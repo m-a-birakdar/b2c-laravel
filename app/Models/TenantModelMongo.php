@@ -9,9 +9,8 @@ class TenantModelMongo extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->setConnection(tenant()->id . '-mongodb');
+        $this->setConnection(tenant() ? tenant()->id . '-mongodb' : 'mongodb');
     }
 
     public $timestamps = false;
-
 }

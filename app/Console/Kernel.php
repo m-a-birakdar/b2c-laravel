@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use Carbon\CarbonInterface;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,7 +18,7 @@ class Kernel extends ConsoleKernel
          ])->daily();
          $schedule->command('report:save', [
              'type' => 'weekly'
-         ])->weekly();
+         ])->weeklyOn(CarbonInterface::SATURDAY);
          $schedule->command('report:save', [
              'type' => 'monthly'
          ])->monthly();

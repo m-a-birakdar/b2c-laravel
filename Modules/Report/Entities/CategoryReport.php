@@ -2,19 +2,11 @@
 
 namespace Modules\Report\Entities;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use App\Models\TenantModelMongo;
 
-class CategoryReport extends Model
+class CategoryReport extends TenantModelMongo
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setConnection(tenant()->id . '-mongodb');
-    }
-
     protected $collection = 'category_reports';
 
-    public $timestamps = false;
-
-    protected $fillable = ['type', 'day', 'month', 'year', 'categories', 'created_at'];
+    protected $fillable = ['type', 'D', 'd', 'm', 'M', 'Y', 'categories'];
 }

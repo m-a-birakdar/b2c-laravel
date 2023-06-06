@@ -10,9 +10,7 @@ class ProductStatistics extends TenantModelMongo
 
     protected $collection = 'product_statistics';
 
-    protected $fillable = [
-        'product_id', 'user_id', 'type', 'created_at'
-    ];
+    protected $fillable = ['product_id', 'user_id', 'type'];
 
     public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo|\Jenssegers\Mongodb\Relations\BelongsTo
     {

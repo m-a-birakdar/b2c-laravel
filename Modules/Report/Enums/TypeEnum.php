@@ -4,8 +4,8 @@ namespace Modules\Report\Enums;
 
 enum TypeEnum: string
 {
-    case DAILY = 'daily';
-    case WEEKLY = 'weekly';
-    case MONTHLY = 'monthly';
-    case YEARLY = 'yearly';
+    case DAILY = 'd';
+    case WEEKLY = 'w';
+    case MONTHLY = 'm';
+    case YEARLY = 'y';
 }
