@@ -13,6 +13,7 @@ class MainException extends Exception
 
     public function __construct(bool $success, string $text, int $statusCode)
     {
+        parent::__construct();
         $this->text = $text;
         $this->success = $success;
         $this->statusCode = $statusCode;

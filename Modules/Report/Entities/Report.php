@@ -10,5 +10,5 @@ class Report extends TenantModelMongo
 
     public $timestamps = false;
 
-    protected $fillable = ['type', 'D', 'd', 'm', 'M', 'Y', 'orders', 'categories', 'products', 'sub_categories', 'users'];
+    protected $fillable = ['type', 'D', 'd', 'm', 'M', 'y', 'orders', 'categories', 'products', 'sub_categories', 'users', 'created_at'];
 }

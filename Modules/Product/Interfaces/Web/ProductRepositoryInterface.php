@@ -6,5 +6,5 @@ use Birakdar\EasyBuild\Interfaces\BaseInterface;
 
 interface ProductRepositoryInterface extends BaseInterface
 {
-
+    public function exists($id);
 }

@@ -14,6 +14,7 @@ class ApiErrorException extends Exception
 
     public function __construct(Exception $exception, bool $rollBack = true)
     {
+        parent::__construct();
         $this->exception = $exception;
         $this->rollBack = $rollBack;
     }

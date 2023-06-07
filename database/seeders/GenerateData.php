@@ -5,8 +5,12 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Modules\Order\Entities\Order;
+use Modules\Product\Entities\Product;
+use Modules\Report\Entities\ProductReport;
 use Modules\User\Entities\User;
 use Modules\User\Entities\UserDetails;
 use Modules\User\Repositories\CuApi\V1\AuthRepository;
@@ -15,11 +19,13 @@ class GenerateData extends Seeder
 {
     public function run(): void
     {
+//        ini_set('memory_limit', '-1');
 //        for ($i = 0; $i < 1000; $i++){
 //            $user = ( new AuthRepository() )->welcome([
 //                'fcm_token' => Str::random(100),
 //                'device_info' => '',
 //            ]);
+//            echo $user->id . PHP_EOL;
 //            $token = $user->createToken(Str::random(20))->plainTextToken;
 //            for ($i = 0; $i < 10; $i++){
 //                for ($j = 0; $j < 10; $j++)
@@ -30,8 +36,8 @@ class GenerateData extends Seeder
 //                ]);
 //            }
 //        }
-        $startDate = Carbon::now()->subYear()->startOfYear();
-        $endDate = Carbon::now()->subDay()->startOfDay();
+//        $startDate = Carbon::now()->subYear()->startOfYear();
+//        $endDate = Carbon::now()->subDay()->startOfDay();
 //        $orders = Order::query()->get(['id', 'created_at']);
 //        foreach ($orders as $order) {
 //            $randomDate = Carbon::createFromTimestamp(rand($startDate->timestamp, $endDate->timestamp))->format('Y-m-d H:i:s');
@@ -48,7 +54,7 @@ class GenerateData extends Seeder
 //            ]);
 //            echo $user->id . PHP_EOL;
 //        }
-//        $users = UserDetails::query()->get(['id', 'last_active_at', 'created_at']);
+//        $users = UserDetails::query()->get(['id', 'last_active_at']);
 //        foreach ($users as $user) {
 //            $randomDate = Carbon::createFromTimestamp(rand($startDate->timestamp, $endDate->timestamp))->format('Y-m-d H:i:s');
 //            $user->update([
@@ -56,5 +62,21 @@ class GenerateData extends Seeder
 //            ]);
 //            echo $user->id . PHP_EOL;
 //        }
+//        foreach (Product::all(['id']) as $item) {
+//            ProductReport::query()->create([
+//                'id' => $item->id
+//            ]);
+//        }
+        for ($i = 1; $i < 8; $i++){
+            Process::run('php artisan tenants:run report:save --argument="type=d" --option="sub=' . $i .'"');
+        }
+        for ($i = 1; $i < 7; $i++){
+            Process::run('php artisan tenants:run report:save --argument="type=w" --option="sub=' . $i .'"');
+        }
+        for ($i = 1; $i < 5; $i++){
+            Process::run('php artisan tenants:run report:save --argument="type=m" --option="sub=' . $i .'"');
+        }
+        Process::run('php artisan tenants:run report:save --argument="type=y"');
+
     }
 }

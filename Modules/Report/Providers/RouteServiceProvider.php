@@ -4,6 +4,8 @@ namespace Modules\Report\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -33,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $this->mapDaApiRoutes();
 
         $this->mapWebRoutes();
     }
@@ -59,11 +61,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapDaApiRoutes()
     {
-        Route::prefix('api')
-            ->middleware('api')
+        Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
+            ->prefix('da-api')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Report', '/Routes/api.php'));
+            ->group(module_path('Report', '/Routes/DaApi.php'));
     }
 }

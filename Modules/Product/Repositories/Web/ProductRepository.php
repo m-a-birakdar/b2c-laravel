@@ -13,7 +13,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public Product|null $model;
 
-    public function __construct(Product $model)
+    public function __construct(Product $model = new Product())
     {
         $this->model = $model;
     }
@@ -45,5 +45,10 @@ class ProductRepository implements ProductRepositoryInterface
     public function destroy($id)
     {
         return $this->model->query()->where('id', $id)->delete();
+    }
+
+    public function exists($id): bool
+    {
+        return $this->model->query()->where('id', $id)->exists();
     }
 }

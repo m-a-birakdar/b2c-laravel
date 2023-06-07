@@ -9,11 +9,14 @@ use Modules\Category\Entities\Category;
 use Modules\Category\Entities\SubCategory;
 use Modules\Order\Entities\Order;
 use Modules\Order\Entities\OrderReview;
+use Modules\Product\Entities\ProductStatistics;
+use Modules\Product\Enums\StatisticsEnum;
 use Modules\Report\Entities\CategoryReport;
 use Modules\Report\Entities\ProductReport;
 use Modules\Report\Entities\Report;
 use Modules\Report\Enums\TypeEnum;
 use Modules\User\Entities\User;
+use MongoDB\BSON\UTCDateTime;
 use Symfony\Component\Console\Command\Command as CommandAlias;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,11 +33,7 @@ class GenerateReportCommand extends Command
 
     public function handle(): int
     {
-//        $tables = [
-//            'notifications', 'favorites', 'reports', 'whatsapp', 'product_statistics', 'message_ack', 'product_reports', 'category_reports'
-//        ];
-//        foreach ($tables as $table)
-//            DB::connection(tenant()->id . '-mongodb')->table($table)->truncate();
+//        $this->truncate();
         if (! $this->validateType())
             return CommandAlias::FAILURE;
         $this->users();
@@ -42,6 +41,15 @@ class GenerateReportCommand extends Command
         $this->categories();
         $this->save();
         return CommandAlias::SUCCESS;
+    }
+
+    private function truncate(): void
+    {
+        $tables = [
+            'notifications', 'favorites', 'reports', 'whatsapp', 'product_statistics', 'message_ack', 'product_reports', 'category_reports'
+        ];
+        foreach ($tables as $table)
+            \Illuminate\Support\Facades\DB::connection(tenant()->id . '-mongodb')->table($table)->truncate();
     }
 
     private function where($q, $column = 'created_at'): void
@@ -62,9 +70,7 @@ class GenerateReportCommand extends Command
     private function subCategories($id): array
     {
         $parentCategories = SubCategory::with(['products' => function ($query) {
-            $query->select('id', 'category_id')->whereHas('orders', function ($q){
-                $this->where($q);
-            })->withCount(['orders' => function ($q){
+            $query->select('id', 'category_id')->withCount(['orders' => function ($q){
                 $this->where($q);
             }]);
         }])->where('parent_id', $id)->get();
@@ -119,24 +125,43 @@ class GenerateReportCommand extends Command
 
     private function create()
     {
+        $this->sortBeforeCreate();
         $this->create = array_merge([
             'type' => $this->argument('type'),
+            'created_at' => new UTCDateTime(time() * 1000),
         ], $this->fields);
     }
 
     private function save()
     {
-        $this->sortBeforeCreate();
         $this->create();
-        Report::query()->create(array_merge($this->create , [
+        Report::query()->create(array_merge($this->create, [
             'orders' => $this->orders, 'categories' => $this->categories, 'users' => $this->users,
         ]));
-        ProductReport::query()->create(array_merge($this->create , [
-            'products' => $this->allProducts
-        ]));
-        CategoryReport::query()->create(array_merge($this->create , [
-            'categories' => $this->allCategories
-        ]));
+        foreach ($this->allProducts as $product)
+            ProductReport::query()->create(array_merge($this->create, array_merge($product, $this->productStatistics($product['id']))));
+
+        foreach ($this->allCategories as $allCategory)
+            CategoryReport::query()->create(array_merge($this->create, $allCategory));
+    }
+
+    private function productStatistics($id): array
+    {
+        return [
+            'st_orders' => $this->statisticsQuery(StatisticsEnum::Order, $id),
+            'st_views' => $this->statisticsQuery(StatisticsEnum::View, $id),
+            'st_add_cart' => $this->statisticsQuery(StatisticsEnum::AddToCart, $id),
+            'st_remove_cart' => $this->statisticsQuery(StatisticsEnum::RemoveFromCart, $id),
+            'st_add_favorite' => $this->statisticsQuery(StatisticsEnum::AddToFavorite, $id),
+            'st_remove_favorite' => $this->statisticsQuery(StatisticsEnum::RemoveFromFavorite, $id),
+        ];
+    }
+
+    private function statisticsQuery($type, $id): int
+    {
+        return ProductStatistics::query()->where('type', $type->value)->where('product_id', $id)->where(function ($q){
+            $this->where($q);
+        })->count();
     }
 
     private function orders()
@@ -254,7 +279,7 @@ class GenerateReportCommand extends Command
             'D' => $carbon->format('D'),
             'd' => $carbon->format('d'),
             'm' => $carbon->format('m'),
-            'Y' => $carbon->format('Y'),
+            'y' => $carbon->format('Y'),
         ];
         $this->average = 12;
     }
@@ -267,7 +292,7 @@ class GenerateReportCommand extends Command
         $this->fields = [
             'd' => $this->startComparisonDate->format('d'),
             'm' => $this->startComparisonDate->format('m'),
-            'Y' => $this->startComparisonDate->format('Y'),
+            'y' => $this->startComparisonDate->format('Y'),
         ];
     }
 
@@ -280,7 +305,7 @@ class GenerateReportCommand extends Command
         $this->fields = [
             'M' => $date->format('M'),
             'm' => $date->format('m'),
-            'Y' => $date->format('Y'),
+            'y' => $date->format('Y'),
         ];
     }
 
@@ -290,9 +315,9 @@ class GenerateReportCommand extends Command
         $this->endComparisonDate = Carbon::now()->subYears($this->sub)->endOfYear();
         $this->average = 12;
         $this->fields = [
-            'Y' => Carbon::now()->subYears($this->sub)->format('Y'),
+            'y' => Carbon::now()->subYears($this->sub)->format('Y'),
         ];
 //        dd($this->startComparisonDate->format('Y-m-d H:i:s'), $this->endComparisonDate->format('Y-m-d H:i:s'), $this->average);
     }
 }
-// pa tenants:run report:save --argument="type=daily"
+// pa tenants:run report:save --argument="type=m"
