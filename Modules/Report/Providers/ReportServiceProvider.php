@@ -42,6 +42,8 @@ class ReportServiceProvider extends ServiceProvider
     private array $bind = [
         \Modules\Report\Interfaces\Web\ReportRepositoryInterface::class => \Modules\Report\Repositories\Web\ReportRepository::class,
         \Modules\Report\Interfaces\DaApi\ProductReportRepositoryInterface::class => \Modules\Report\Repositories\DaApi\ProductReportRepository::class,
+        \Modules\Report\Interfaces\DaApi\CategoryReportRepositoryInterface::class => \Modules\Report\Repositories\DaApi\CategoryReportRepository::class,
+        \Modules\Report\Interfaces\DaApi\MainReportRepositoryInterface::class => \Modules\Report\Repositories\DaApi\MainReportRepository::class,
     ];
 
     public function register()

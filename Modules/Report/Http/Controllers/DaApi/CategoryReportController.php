@@ -4,14 +4,14 @@ namespace Modules\Report\Http\Controllers\DaApi;
 
 use App\Exceptions\DashboardApiException;
 use Illuminate\Http\Request;
-use Modules\Product\Repositories\Web\ProductRepository;
-use Modules\Report\Interfaces\DaApi\ProductReportRepositoryInterface;
+use Modules\Category\Repositories\Web\CategoryRepository;
+use Modules\Report\Interfaces\DaApi\CategoryReportRepositoryInterface;
 
-class ProductReportController extends ValidateMethodsController
+class CategoryReportController extends ValidateMethodsController
 {
-    public ProductReportRepositoryInterface $repository;
+    public CategoryReportRepositoryInterface $repository;
 
-    public function __construct(ProductReportRepositoryInterface $repository)
+    public function __construct(CategoryReportRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -19,7 +19,7 @@ class ProductReportController extends ValidateMethodsController
     public function show(Request $request)
     {
         $this->validate();
-        return $this->repository->show($request->input('product_id'), $request->input('type'), $this->values);
+        return $this->repository->show($request->input('category_id'), $request->input('type'), $this->values);
     }
 
     public function compareOne(Request $request)
@@ -31,7 +31,7 @@ class ProductReportController extends ValidateMethodsController
     public function index(Request $request)
     {
         $this->validate();
-        return $this->repository->index($request->input('product_id'), $request->input('type'), $request->input('sub'));
+        return $this->repository->index($request->input('category_id'), $request->input('type'), $request->input('sub'));
     }
 
     public function compareMany(Request $request)
@@ -42,12 +42,12 @@ class ProductReportController extends ValidateMethodsController
 
     private function toArray($request): array
     {
-        return explode(',', $request->input('product_id'));
+        return explode(',', $request->input('category_id'));
     }
 
     private function validate()
     {
-        if ($this->validateRouteMethod('product', new ProductRepository()))
+        if ($this->validateRouteMethod('category', new CategoryRepository()))
             throw new DashboardApiException();
     }
 }

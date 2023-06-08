@@ -141,8 +141,8 @@ class GenerateReportCommand extends Command
         foreach ($this->allProducts as $product)
             ProductReport::query()->create(array_merge($this->create, array_merge($product, $this->productStatistics($product['id']))));
 
-        foreach ($this->allCategories as $allCategory)
-            CategoryReport::query()->create(array_merge($this->create, $allCategory));
+        foreach ($this->allCategories as $category)
+            CategoryReport::query()->create(array_merge($this->create, $category));
     }
 
     private function productStatistics($id): array
@@ -272,9 +272,9 @@ class GenerateReportCommand extends Command
 
     private function dailyReport()
     {
-        $carbon = Carbon::now()->subDay();
-        $this->startComparisonDate = Carbon::now()->subDay()->startOfDay();
-        $this->endComparisonDate = Carbon::now()->subDay()->endOfDay();
+        $carbon = Carbon::now()->subDays($this->sub);
+        $this->startComparisonDate = Carbon::now()->subDays($this->sub)->startOfDay();
+        $this->endComparisonDate = Carbon::now()->subDays($this->sub)->endOfDay();
         $this->fields = [
             'D' => $carbon->format('D'),
             'd' => $carbon->format('d'),

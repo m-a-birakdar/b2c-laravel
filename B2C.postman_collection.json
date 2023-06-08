@@ -262,6 +262,54 @@
 							"response": []
 						},
 						{
+							"name": "review",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/orders/review?order_id=1&rating=5&comment=text",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"orders",
+										"review"
+									],
+									"query": [
+										{
+											"key": "order_id",
+											"value": "1"
+										},
+										{
+											"key": "rating",
+											"value": "5"
+										},
+										{
+											"key": "comment",
+											"value": "text"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "index",
 							"request": {
 								"auth": {
@@ -317,14 +365,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/orders/show/2",
+									"raw": "{{url-customer}}v1/orders/show/1",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"orders",
 										"show",
-										"2"
+										"1"
 									]
 								}
 							},
@@ -2636,6 +2684,453 @@
 			]
 		},
 		{
+			"name": "dashboard",
+			"item": [
+				{
+					"name": "reports",
+					"item": [
+						{
+							"name": "products",
+							"item": [
+								{
+									"name": "show",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/products/show?product_id=18&type=d&y=2023&m=06&d=07",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"products",
+												"show"
+											],
+											"query": [
+												{
+													"key": "product_id",
+													"value": "18"
+												},
+												{
+													"key": "type",
+													"value": "d"
+												},
+												{
+													"key": "y",
+													"value": "2023"
+												},
+												{
+													"key": "m",
+													"value": "06"
+												},
+												{
+													"key": "d",
+													"value": "07"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "compare-one",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/products/compare-one?product_id=18,1,2&type=m&y=2023&m=05",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"products",
+												"compare-one"
+											],
+											"query": [
+												{
+													"key": "product_id",
+													"value": "18,1,2"
+												},
+												{
+													"key": "type",
+													"value": "m"
+												},
+												{
+													"key": "y",
+													"value": "2023"
+												},
+												{
+													"key": "m",
+													"value": "05"
+												},
+												{
+													"key": "d",
+													"value": "07",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "index",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/products/index?product_id=1&type=m&sub=2",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"products",
+												"index"
+											],
+											"query": [
+												{
+													"key": "product_id",
+													"value": "1"
+												},
+												{
+													"key": "type",
+													"value": "m"
+												},
+												{
+													"key": "sub",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "compare-many",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/products/compare-many?product_id=1,2&type=m&sub=2",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"products",
+												"compare-many"
+											],
+											"query": [
+												{
+													"key": "product_id",
+													"value": "1,2"
+												},
+												{
+													"key": "type",
+													"value": "m"
+												},
+												{
+													"key": "sub",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "categories",
+							"item": [
+								{
+									"name": "show",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/categories/show?category_id=1&type=d&y=2023&m=06&d=07",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"categories",
+												"show"
+											],
+											"query": [
+												{
+													"key": "category_id",
+													"value": "1"
+												},
+												{
+													"key": "type",
+													"value": "d"
+												},
+												{
+													"key": "y",
+													"value": "2023"
+												},
+												{
+													"key": "m",
+													"value": "06"
+												},
+												{
+													"key": "d",
+													"value": "07"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "compare-one",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/categories/compare-one?category_id=3,1,2&type=d&y=2023&m=06&d=06",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"categories",
+												"compare-one"
+											],
+											"query": [
+												{
+													"key": "category_id",
+													"value": "3,1,2"
+												},
+												{
+													"key": "type",
+													"value": "d"
+												},
+												{
+													"key": "y",
+													"value": "2023"
+												},
+												{
+													"key": "m",
+													"value": "06"
+												},
+												{
+													"key": "d",
+													"value": "06"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "index",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/categories/index?category_id=1&type=m&sub=2",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"categories",
+												"index"
+											],
+											"query": [
+												{
+													"key": "category_id",
+													"value": "1"
+												},
+												{
+													"key": "type",
+													"value": "m"
+												},
+												{
+													"key": "sub",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "compare-many",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/categories/compare-many?category_id=1,2&type=m&sub=2",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"categories",
+												"compare-many"
+											],
+											"query": [
+												{
+													"key": "category_id",
+													"value": "1,2"
+												},
+												{
+													"key": "type",
+													"value": "m"
+												},
+												{
+													"key": "sub",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "main",
+							"item": [
+								{
+									"name": "show",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/main/show?type=d&y=2023&m=06&d=07",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"main",
+												"show"
+											],
+											"query": [
+												{
+													"key": "product_id",
+													"value": "18",
+													"disabled": true
+												},
+												{
+													"key": "type",
+													"value": "d"
+												},
+												{
+													"key": "y",
+													"value": "2023"
+												},
+												{
+													"key": "m",
+													"value": "06"
+												},
+												{
+													"key": "d",
+													"value": "07"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "index",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-dashboard}}reports/main/index?product_id=1&type=m&sub=2",
+											"host": [
+												"{{url-dashboard}}reports"
+											],
+											"path": [
+												"main",
+												"index"
+											],
+											"query": [
+												{
+													"key": "product_id",
+													"value": "1"
+												},
+												{
+													"key": "type",
+													"value": "m"
+												},
+												{
+													"key": "sub",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "New Request",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
@@ -2711,7 +3206,7 @@
 		},
 		{
 			"key": "token-customer",
-			"value": "3|n21MRzsiSbcEq8zT4lRi0GgBTverYBQxtIhPZTa2",
+			"value": "3|fYpdu6Qta8IebbdqCpfj8Axg0zqOaUeHpePOvBaS",
 			"type": "string"
 		},
 		{
@@ -2732,6 +3227,11 @@
 		{
 			"key": "token-admin",
 			"value": "1|pKxF3PyCYoFVw0INlWymQnflw4ngth4ygYCKSEyd",
+			"type": "string"
+		},
+		{
+			"key": "url-dashboard",
+			"value": "http://bar.tenant.local/da-api/",
 			"type": "string"
 		}
 	]

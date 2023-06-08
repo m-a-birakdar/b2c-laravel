@@ -3,16 +3,16 @@
 namespace Modules\Report\Repositories\DaApi;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Modules\Report\Entities\ProductReport;
-use Modules\Report\Interfaces\DaApi\ProductReportRepositoryInterface;
+use Modules\Report\Entities\CategoryReport;
+use Modules\Report\Interfaces\DaApi\CategoryReportRepositoryInterface;
 
-class ProductReportRepository implements ProductReportRepositoryInterface
+class CategoryReportRepository implements CategoryReportRepositoryInterface
 {
     use BaseRepositoryTrait;
 
-    public ProductReport|null $model;
+    public CategoryReport|null $model;
 
-    public function __construct(ProductReport $model = new ProductReport())
+    public function __construct(CategoryReport $model = new CategoryReport())
     {
         $this->model = $model;
     }

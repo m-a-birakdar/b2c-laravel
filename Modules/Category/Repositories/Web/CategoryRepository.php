@@ -56,4 +56,9 @@ class CategoryRepository implements CategoryRepositoryInterface
         $this->find($id);
         return $this->model->subCategories()->exists();
     }
+
+    public function exists($id): bool
+    {
+        return $this->model->query()->where('id', $id)->exists();
+    }
 }
