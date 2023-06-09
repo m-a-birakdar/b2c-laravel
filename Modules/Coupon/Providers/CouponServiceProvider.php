@@ -4,6 +4,7 @@ namespace Modules\Coupon\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Coupon\Console\NotifyToNewCouponCommand;
 
 class CouponServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,9 @@ class CouponServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->commands([
+            NotifyToNewCouponCommand::class
+        ]);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Modules\Product\Transformers\AdApi\V1;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Product\Transformers\ProductBaseResource;
 
 /**
  * @property mixed $discount
@@ -15,7 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $id
  */
 
-class ProductResource extends JsonResource
+class ProductResource extends ProductBaseResource
 {
     public function toArray($request): array
     {
@@ -26,7 +26,7 @@ class ProductResource extends JsonResource
             'status'        => $this->status,
             'thumbnail'     => $this->thumbnail,
             'dollar_price'  => (double) $this->price,
-            'lira_price'  => (double) $this->lira_price,
+            'lira_price'  => (double) $this->price * self::$currency,
             'discount'      => $this->discount,
         ];
     }

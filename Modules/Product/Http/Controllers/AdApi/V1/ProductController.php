@@ -2,9 +2,9 @@
 
 namespace Modules\Product\Http\Controllers\AdApi\V1;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 use Modules\Product\Interfaces\AdApi\V1\ProductRepositoryInterface;
 use Modules\Product\Transformers\AdApi\V1\OneProductResource;
 use Modules\Product\Transformers\AdApi\V1\ProductResource;
@@ -18,15 +18,19 @@ class ProductController extends Controller
         $this->repository = $repository;
     }
 
-    public function index($categoryId, $cityId): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index($categoryId): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return ProductResource::collection($this->repository->index($categoryId, $cityId, [
-            'id', 'category_id', 'city_id', 'price', 'title', 'sku', 'status', 'thumbnail', 'discount',
-        ]));
+        return ProductResource::customCollection($this->repository->index($categoryId));
     }
 
     public function show($id): OneProductResource
     {
-        return OneProductResource::make($this->repository->show($id, ['category.parent', 'details']));
+        return OneProductResource::make($this->repository->show($id));
+    }
+
+    public function search(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        abort_if(! $request->has('text') || Str::length($request->input('text')) == 0, 404);
+        return ProductResource::customCollection($this->repository->search());
     }
 }

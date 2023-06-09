@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Modules\Order\Entities\Order;
 use Modules\Product\Entities\Product;
+use Jenssegers\Mongodb\Collection as MongoCollection;
+use Modules\Product\Entities\ProductStatistics;
+use Modules\Product\Enums\StatisticsEnum;
 use Modules\Report\Entities\ProductReport;
 use Modules\User\Entities\User;
 use Modules\User\Entities\UserDetails;
@@ -67,16 +70,59 @@ class GenerateData extends Seeder
 //                'id' => $item->id
 //            ]);
 //        }
-        for ($i = 1; $i < 8; $i++){
-            Process::run('php artisan tenants:run report:save --argument="type=d" --option="sub=' . $i .'"');
-        }
-        for ($i = 1; $i < 7; $i++){
-            Process::run('php artisan tenants:run report:save --argument="type=w" --option="sub=' . $i .'"');
-        }
-        for ($i = 1; $i < 5; $i++){
-            Process::run('php artisan tenants:run report:save --argument="type=m" --option="sub=' . $i .'"');
-        }
-        Process::run('php artisan tenants:run report:save --argument="type=y"');
+//        for ($i = 1; $i < 8; $i++){
+//            Process::run('php artisan tenants:run report:save --argument="type=d" --option="sub=' . $i .'"');
+//        }
+//        for ($i = 1; $i < 7; $i++){
+//            Process::run('php artisan tenants:run report:save --argument="type=w" --option="sub=' . $i .'"');
+//        }
+//        for ($i = 1; $i < 5; $i++){
+//            Process::run('php artisan tenants:run report:save --argument="type=m" --option="sub=' . $i .'"');
+//        }
+//        Process::run('php artisan tenants:run report:save --argument="type=y"');
+//        User::query()->select(['id'])->chunkById(100, function ($users){
+//            foreach ($users as $user) {
+//                $data = [];
+//                for ($i = 0; $i < 200; $i++){
+//                    $data[] = [
+//                        'product_id' => rand(1, 100), 'user_id' => (int) $user->id, 'type' => rand(1,6)
+//                    ];
+//                }
+//                ProductStatistics::query()->insert($data);
+//                echo $user->id . PHP_EOL;
+//            }
+//        });
 
+
+
+        $mostShownProducts = ProductStatistics::raw(function ($collection) {
+            return $collection->aggregate([
+                [
+                    '$match' => [
+                        'user_id' => 12,
+                        'type' => StatisticsEnum::RemoveFromFavorite->value
+                    ]
+                ],
+                [
+                    '$group' => [
+                        '_id' => '$product_id',
+                        'show_count' => ['$sum' => 1]
+                    ]
+                ],
+                [
+                    '$sort' => [
+                        'show_count' => -1 // Sort in descending order by show_count
+                    ]
+                ],
+                [
+                    '$limit' => 2 // Limit the result to 1 document
+                ]
+            ]);
+        });
+
+// Output the results
+        foreach ($mostShownProducts as $product) {
+            echo "Product ID: " . $product->_id . ", Show Count: " . $product->show_count . "\n";
+        }
     }
 }

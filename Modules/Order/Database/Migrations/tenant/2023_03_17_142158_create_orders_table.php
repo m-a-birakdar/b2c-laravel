@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('items_amount');
             $table->decimal('discount_amount')->nullable();
             $table->decimal('total_amount');
+            $table->timestamp('notify_review_at')->nullable();
             $table->timestamps();
         });
     }

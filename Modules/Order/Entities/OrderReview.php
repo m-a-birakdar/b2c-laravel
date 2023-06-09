@@ -8,5 +8,5 @@ class OrderReview extends Model
 {
     protected $table = 'order_reviews';
 
-    protected $fillable = ['user_id', 'order_id', 'rating', 'comment', 'status',];
+    protected $fillable = ['user_id', 'order_id', 'rating', 'comment', 'status'];
 }

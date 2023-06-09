@@ -39,6 +39,65 @@
 							"response": []
 						},
 						{
+							"name": "related",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/products/related/2/1/18",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"products",
+										"related",
+										"2",
+										"1",
+										"18"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "search",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/products/search/1/4?text=my",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"products",
+										"search",
+										"1",
+										"4"
+									],
+									"query": [
+										{
+											"key": "text",
+											"value": "my"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "show",
 							"request": {
 								"method": "GET",
@@ -50,15 +109,15 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/products/show/4/3",
+									"raw": "{{url-customer}}v1/products/show/3/4",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"products",
 										"show",
-										"4",
-										"3"
+										"3",
+										"4"
 									]
 								}
 							},
@@ -2376,15 +2435,44 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/products/index/2/1",
+									"raw": "{{url-admin}}v1/products/index/2",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"products",
 										"index",
-										"2",
-										"1"
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "search",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/products/search?text=a",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"products",
+										"search"
+									],
+									"query": [
+										{
+											"key": "text",
+											"value": "a"
+										}
 									]
 								}
 							},
@@ -2402,14 +2490,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/products/show/3",
+									"raw": "{{url-admin}}v1/products/show/18",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"products",
 										"show",
-										"3"
+										"18"
 									]
 								}
 							},
@@ -3216,7 +3304,7 @@
 		},
 		{
 			"key": "token-courier",
-			"value": "2|7mJeVRaDIwrOHNvNz6j0wXmDYjJ0X6oiAEpM7xyt",
+			"value": "2|mjZ6NQzwYkBXBnAEv0inwzXYHK8L3WoSXoTfLtvk",
 			"type": "string"
 		},
 		{

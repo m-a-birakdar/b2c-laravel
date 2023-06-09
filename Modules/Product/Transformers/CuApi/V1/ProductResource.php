@@ -2,7 +2,8 @@
 
 namespace Modules\Product\Transformers\CuApi\V1;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Currency\Repositories\Web\CurrencyRepository;
+use Modules\Product\Transformers\ProductBaseResource;
 
 /**
  * @property mixed $title
@@ -12,16 +13,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $id
  */
 
-class ProductResource extends JsonResource
+class ProductResource extends ProductBaseResource
 {
     public function toArray($request): array
     {
         return [
-            'id'            => $this->id,
-            'title'         => $this->title,
-            'thumbnail'     => $this->thumbnail,
-            'price'         => (double) $this->price,
-            'discount'      => $this->discount,
+            'id'        => $this->id,
+            'title'     => $this->title,
+            'thumbnail' => $this->thumbnail,
+            'price'     => (double) $this->price * self::$currency,
+            'discount'  => $this->discount,
         ];
     }
 }

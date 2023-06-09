@@ -12,7 +12,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public Order|null $model;
 
-    public function __construct(Order $model)
+    public function __construct(Order $model = new Order())
     {
         $this->model = $model;
     }
@@ -40,5 +40,10 @@ class OrderRepository implements OrderRepositoryInterface
     public function destroy($id)
     {
         return $this->model->query()->where('id', $id)->delete();
+    }
+
+    public function hasReview($id)
+    {
+        return $this->model->query()->whereNull('notify_review_at')->where('id', $id)->first();
     }
 }

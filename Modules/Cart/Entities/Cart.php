@@ -13,7 +13,7 @@ use Modules\User\Entities\User;
  */
 class Cart extends Model
 {
-    protected $fillable = ['user_id', 'items_count', 'items_qty', 'shipping_amount', 'items_amount'];
+    protected $fillable = ['user_id', 'items_count', 'items_qty', 'shipping_amount', 'items_amount', 'notify_at'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

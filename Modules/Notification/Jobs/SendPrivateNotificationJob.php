@@ -21,7 +21,6 @@ class SendPrivateNotificationJob implements ShouldQueue
 
     private string $role, $title, $body;
     private string|null $fcmToken, $serverToken = 'test';
-    private $notification;
     private User|null|int $user;
 
     public function __construct(string $title, string $body, $user, string $priority = 'default', string $role = 'customer')
@@ -45,9 +44,9 @@ class SendPrivateNotificationJob implements ShouldQueue
         $this->getUser();
         if ($this->fcmToken){
             $this->save();
-            $this->send();
+//            $this->send();
         } else {
-            Log::channel('notification')->error('user id ' . $this->userId . ' Not have fcm token');
+            Log::channel('notification')->error('user id ' . $this->user->id . ' Not have fcm token');
         }
     }
 
@@ -60,7 +59,7 @@ class SendPrivateNotificationJob implements ShouldQueue
 
     private function save()
     {
-        $this->notification = Notification::create([
+        Notification::create([
             'user_id' => $this->user->id, 'title' => $this->title, 'body' => $this->body, 'type' => NotificationTypeEnum::ORDER->value,
         ]);
     }

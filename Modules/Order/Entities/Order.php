@@ -17,7 +17,10 @@ use Modules\Wallet\Entities\Transaction;
  */
 class Order extends Model
 {
-    protected $fillable = ['sku', 'user_id', 'coupon_id', 'status', 'items_count', 'items_qty', 'shipping_amount', 'tax_amount', 'items_amount', 'discount_amount', 'total_amount', 'address_id', 'payment_method'];
+    protected $fillable = [
+        'sku', 'user_id', 'coupon_id', 'status', 'items_count', 'items_qty', 'shipping_amount', 'tax_amount', 'items_amount', 'discount_amount',
+        'total_amount', 'address_id', 'payment_method', 'notify_review_at'
+    ];
 
     protected $casts = [
         'shipping_amount' => 'double',

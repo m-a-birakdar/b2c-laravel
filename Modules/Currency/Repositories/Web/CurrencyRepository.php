@@ -17,8 +17,11 @@ class CurrencyRepository implements CurrencyRepositoryInterface
         $this->model = $model;
     }
 
-    public function value()
+    public function value($key = 'tr')
     {
-        return $this->model->first()->value;
+        $currency = $this->model->query()->where('key', $key)->first();
+        if ($currency)
+            return $currency->value;
+        return 1;
     }
 }

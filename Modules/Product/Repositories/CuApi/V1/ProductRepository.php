@@ -2,44 +2,44 @@
 
 namespace Modules\Product\Repositories\CuApi\V1;
 
-use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Modules\Currency\Repositories\Web\CurrencyRepository;
 use Modules\Product\Enums\StatisticsEnum;
 use Modules\Product\Interfaces\CuApi\V1\ProductRepositoryInterface;
-use Modules\Product\Entities\Product;
 use Modules\Product\Jobs\ProductStatisticsJob;
+use Modules\Product\Repositories\ProductBaseRepository;
+use Modules\User\Jobs\Cu\SaveSearchValueJob;
 
-class ProductRepository implements ProductRepositoryInterface
+class ProductRepository extends ProductBaseRepository implements ProductRepositoryInterface
 {
-    use BaseRepositoryTrait;
-
-    public Product|null $model;
-
-    public function __construct(Product $model = new Product())
+    public function index($categoryId, $cityId)
     {
-        $this->model = $model;
+        $query = $this->model->available()->where('category_id', $categoryId)->where('city_id', $cityId);
+        return $this->getPaginatedProducts($query, $this->select);
     }
 
-    public function index($categoryId, $cityId, $columns = ['*'])
+    public function show($id, $userId)
     {
-        $currency = ( new CurrencyRepository() )->value();
-        return $this->model->available()->where('category_id', $categoryId)->where('city_id', $cityId)
-            ->orderByRaw('CASE WHEN rank > 0 THEN 1 ELSE 0 END DESC, rank ASC')->simplePaginate()->map(function ($product) use ($currency) {
-                $product->price = $product->price * $currency;
-                return $product;
-            });
-    }
-
-    public function show($id, $userId, $with = null, $columns = ['*'])
-    {
-        $this->model = $this->model->with($with ?? [])->available()->findOrFail($id, $columns);
-        $this->model->price = $this->model->price * ( new CurrencyRepository() )->value();
+        $this->mainShow($id);
+        $this->model->price = $this->model->price * $this->currency;
         ProductStatisticsJob::dispatch($id, $userId, StatisticsEnum::View, time());
         return $this->model;
     }
 
     public function getFavorites($productIds): \Illuminate\Contracts\Pagination\Paginator
     {
-        return $this->model->query()->whereIntegerInRaw('id', $productIds)->simplePaginate();
+        return $this->model->query()->available()->whereIntegerInRaw('id', $productIds)->simplePaginate();
+    }
+
+    public function search($cityId, $userId)
+    {
+        $text = request('text');
+        $query = $this->model->available()->where('title', 'Like', '%' . request('text') . '%')->where('city_id', $cityId);
+        SaveSearchValueJob::dispatch($userId, $text, time());
+        return $this->getPaginatedProducts($query, $this->select);
+    }
+
+    public function related($categoryId, $cityId, $id)
+    {
+        $query = $this->model->available()->where('category_id', $categoryId)->where('city_id', $cityId)->where('id', '!=', $id);
+        return $this->getPaginatedProducts($query, $this->select, 10);
     }
 }

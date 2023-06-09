@@ -7,6 +7,7 @@ use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Order\Entities\Order;
 use Modules\Order\Enums\OrderStatusEnum;
 use Modules\Order\Interfaces\CoApi\V1\OrderRepositoryInterface;
+use Modules\Order\Jobs\NotifyToReviewOrderJob;
 
 class OrderRepository implements OrderRepositoryInterface
 {
@@ -33,6 +34,7 @@ class OrderRepository implements OrderRepositoryInterface
             'status' => OrderStatusEnum::Delivered
         ]);
         SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_delivered'), $this->model->user_id, 'high');
+        NotifyToReviewOrderJob::dispatch($id, $this->model->user_id)->delay(now()->addHours(2));
         return true;
     }
 }

@@ -2,40 +2,37 @@
 
 namespace Modules\Product\Repositories\AdApi\V1;
 
-use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Modules\Currency\Repositories\Web\CurrencyRepository;
-use Modules\Product\Entities\Product;
 use Modules\Product\Interfaces\AdApi\V1\ProductRepositoryInterface;
+use Modules\Product\Repositories\ProductBaseRepository;
 
-class ProductRepository implements ProductRepositoryInterface
+class ProductRepository extends ProductBaseRepository implements ProductRepositoryInterface
 {
-    use BaseRepositoryTrait;
-
-    public Product|null $model;
-
-    public function __construct(Product $model)
+    public function index($categoryId)
     {
-        $this->model = $model;
+        $query = $this->model->where('category_id', $categoryId)->where('city_id', $this->getCityId());
+        return $this->getPaginatedProducts($query, array_merge($this->select, ['status', 'sku']));
     }
 
-    public function index($categoryId, $cityId, $columns = ['*'])
+    public function show($id)
     {
-        $currency = ( new CurrencyRepository )->value();
-        return $this->model->where('category_id', $categoryId)->where('city_id', $cityId)->simplePaginate()->map(function ($product) use ($currency) {
-            $product->lira_price = $product->price * $currency;
-            return $product;
-        });
-    }
-
-    public function show($id, $with = null, $columns = ['*'])
-    {
-        $this->model = $this->model->with(is_null($with) ? [] : $with)->findOrFail($id, $columns);
-        $this->model->lira_price = $this->model->price * ( new CurrencyRepository )->value();
+        $this->mainShow($id);
+        $this->model->lira_price = $this->model->price * $this->currency;
         return $this->model;
+    }
+
+    public function search()
+    {
+        $query = $this->model->where('title', 'Like', '%' . request('text') . '%')->where('city_id', $this->getCityId());
+        return $this->getPaginatedProducts($query, $this->select);
     }
 
     public function update($array, $id)
     {
         // TODO: Implement update() method.
+    }
+
+    private function getCityId(): int
+    {
+        return 1;
     }
 }

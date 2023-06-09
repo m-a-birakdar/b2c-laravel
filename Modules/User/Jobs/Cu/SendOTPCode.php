@@ -21,6 +21,7 @@ class SendOTPCode implements ShouldQueue
     {
         $this->phone = $phone;
         $this->code = $code;
+        $this->onQueue('high');
     }
 
     /**

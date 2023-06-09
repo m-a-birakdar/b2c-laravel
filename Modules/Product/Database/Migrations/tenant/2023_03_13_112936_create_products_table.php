@@ -12,7 +12,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignId('city_id')->constrained();
             $table->foreignId('category_id')->constrained();
-            $table->string('title');
+            $table->string('title')->index();
             $table->string('sku')->unique();
             $table->boolean('status')->default(true);
             $table->string('thumbnail');
