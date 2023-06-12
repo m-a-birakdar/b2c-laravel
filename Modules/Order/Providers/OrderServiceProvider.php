@@ -4,6 +4,8 @@ namespace Modules\Order\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Order\Entities\Order;
+use Modules\Order\Observers\OrderObserver;
 
 class OrderServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,7 @@ class OrderServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        Order::observe(OrderObserver::class);
     }
 
     /**

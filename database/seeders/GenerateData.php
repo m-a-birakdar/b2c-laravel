@@ -95,34 +95,34 @@ class GenerateData extends Seeder
 
 
 
-        $mostShownProducts = ProductStatistics::raw(function ($collection) {
-            return $collection->aggregate([
-                [
-                    '$match' => [
-                        'user_id' => 12,
-                        'type' => StatisticsEnum::RemoveFromFavorite->value
-                    ]
-                ],
-                [
-                    '$group' => [
-                        '_id' => '$product_id',
-                        'show_count' => ['$sum' => 1]
-                    ]
-                ],
-                [
-                    '$sort' => [
-                        'show_count' => -1 // Sort in descending order by show_count
-                    ]
-                ],
-                [
-                    '$limit' => 2 // Limit the result to 1 document
-                ]
-            ]);
-        });
-
-// Output the results
-        foreach ($mostShownProducts as $product) {
-            echo "Product ID: " . $product->_id . ", Show Count: " . $product->show_count . "\n";
-        }
+//        $mostShownProducts = ProductStatistics::raw(function ($collection) {
+//            return $collection->aggregate([
+//                [
+//                    '$match' => [
+//                        'user_id' => 12,
+//                        'type' => StatisticsEnum::RemoveFromFavorite->value
+//                    ]
+//                ],
+//                [
+//                    '$group' => [
+//                        '_id' => '$product_id',
+//                        'show_count' => ['$sum' => 1]
+//                    ]
+//                ],
+//                [
+//                    '$sort' => [
+//                        'show_count' => -1 // Sort in descending order by show_count
+//                    ]
+//                ],
+//                [
+//                    '$limit' => 2 // Limit the result to 1 document
+//                ]
+//            ]);
+//        });
+//
+//// Output the results
+//        foreach ($mostShownProducts as $product) {
+//            echo "Product ID: " . $product->_id . ", Show Count: " . $product->show_count . "\n";
+//        }
     }
 }
