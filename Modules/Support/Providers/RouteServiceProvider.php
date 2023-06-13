@@ -38,8 +38,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        $this->mapAjaxRoutes();
     }
 
     /**
@@ -62,14 +60,5 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->moduleNamespace)
             ->group(module_path('Support', '/Routes/api.php'));
-    }
-
-    protected function mapAjaxRoutes()
-    {
-        Route::middleware(['check_is_ajax', 'web', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class])
-            ->prefix('ajax/supports')
-            ->name('supports.')
-            ->namespace($this->moduleNamespace)
-            ->group(module_path('Support', '/Routes/ajax.php'));
     }
 }

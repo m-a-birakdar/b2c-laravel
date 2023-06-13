@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('easy-build/adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('easy-build/adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/loading.css') }}">
     @stack('css')
 </head>
 <body class="hold-transition sidebar-mini">

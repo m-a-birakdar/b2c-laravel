@@ -12,7 +12,9 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p class="text">{{ tr('dashboard') }}</p></a></li>--}}
 {{--                <li class="nav-header">{{ tr('operations') }}</li>--}}
-                <li class="nav-item"><a href="{{ route('supports.index') }}" class="nav-link"><i class="nav-icon far fa-circle text-danger"></i><p class="text">{{ tr('support') }}</p></a></li>
+{{--                <li class="nav-item"><a href="{{ route('supports.index') }}" class="nav-link"><i class="nav-icon far fa-circle text-danger"></i><p class="text">{{ tr('support') }}</p></a></li>--}}
+                <li class="nav-item"><a href="{{ route('whatsapp.show') }}" class="nav-link"><i class="nav-icon far fa-circle text-danger"></i><p class="text">{{ tr('whatsapp') }}</p></a></li>
+                <li class="nav-item"><a href="{{ route('chat.index') }}" class="nav-link"><i class="nav-icon far fa-circle text-success"></i><p class="text">{{ tr('chat') }}</p></a></li>
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon far fa-circle text-danger"></i><p class="text">{{ tr('orders') }}</p></a></li>--}}
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon far fa-circle text-info"></i><p class="text">{{ tr('invoices') }}</p></a></li>--}}
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon far fa-circle text-warning"></i><p class="text">{{ tr('shipment') }}</p></a></li>--}}
@@ -23,7 +25,7 @@
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon far fa-circle text-cyan"></i><p class="text">{{ tr('currencies') }}</p></a></li>--}}
 {{--                <li class="nav-header">{{ tr('data') }}</li>--}}
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-users"></i><p>{{ tr('users') }}</p></a></li>--}}
-                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-list"></i><p>{{ tr('categories') }}</p></a></li>
+{{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-list"></i><p>{{ tr('categories') }}</p></a></li>--}}
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-tags"></i><p>{{ tr('products') }}</p></a></li>--}}
 {{--                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-table"></i><p>{{ tr('tags') }}</p></a></li>--}}
                 <li class="nav-header">MULTI LEVEL EXAMPLE</li>

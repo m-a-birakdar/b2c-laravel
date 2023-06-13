@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Whatsapp\Providers;
+namespace Modules\Chat\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $moduleNamespace = 'Modules\Whatsapp\Http\Controllers';
+    protected $moduleNamespace = 'Modules\Chat\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -38,6 +38,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+
+        $this->mapAjaxRoutes();
     }
 
     /**
@@ -51,7 +53,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware(['web', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Whatsapp', '/Routes/web.php'));
+            ->group(module_path('Chat', '/Routes/web.php'));
     }
 
     /**
@@ -66,6 +68,15 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
             ->prefix('api')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Whatsapp', '/Routes/api.php'));
+            ->group(module_path('Chat', '/Routes/api.php'));
+    }
+
+    protected function mapAjaxRoutes()
+    {
+        Route::middleware(['check_is_ajax', 'web', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class])
+            ->prefix('ajax/chat')
+            ->name('chat.')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Chat', '/Routes/ajax.php'));
     }
 }

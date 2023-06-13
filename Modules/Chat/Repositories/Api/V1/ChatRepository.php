@@ -1,19 +1,18 @@
 <?php
 
-namespace Modules\User\Repositories\Web;
+namespace Modules\Chat\Repositories\Api\V1;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Modules\User\Interfaces\Web\UserRepositoryInterface;
-use Modules\User\Entities\User;
-use Spatie\Permission\Models\Role;
+use Modules\Chat\Interfaces\Api\V1\ChatRepositoryInterface;
+use Modules\Chat\Entities\Chat;
 
-class UserRepository implements UserRepositoryInterface
+class ChatRepository implements ChatRepositoryInterface
 {
     use BaseRepositoryTrait;
 
-    public User|null $model;
+    public Chat|null $model;
 
-    public function __construct(User $model = new User())
+    public function __construct(Chat $model)
     {
         $this->model = $model;
     }
@@ -41,17 +40,5 @@ class UserRepository implements UserRepositoryInterface
     public function destroy($id)
     {
         return $this->model->query()->where('id', $id)->delete();
-    }
-
-    public function roles($rule = 'manager')
-    {
-        return Role::query()->where('name', '!=', 'customer')->when($rule == 'admin', function ($q){
-            $q->where('name', '!=', 'manager');
-        })->get();
-    }
-
-    public function loadUsersForChat()
-    {
-        return $this->model->query()->where('id', '!=', auth()->id())->simplePaginate();
     }
 }

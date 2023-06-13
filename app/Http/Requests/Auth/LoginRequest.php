@@ -38,7 +38,7 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attemptWhen($this->only('phone', 'password'), function (User $user) {
-            return $user->hasAnyRole('manager', 'admin') && $user->status;
+            return $user->status;
         })) {
             RateLimiter::hit($this->throttleKey());
 

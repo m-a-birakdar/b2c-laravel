@@ -17,5 +17,6 @@
     "Wallet": true,
     "City": true,
     "Whatsapp": true,
-    "Report": true
+    "Report": true,
+    "Chat": true
 }
