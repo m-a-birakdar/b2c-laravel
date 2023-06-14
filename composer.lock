@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60dc28fe0b6fa8e62552d2d7eacb6d43",
+    "content-hash": "95861c7bb1b8662463e401271ba5bbdf",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -580,25 +580,25 @@
         },
         {
             "name": "elephantio/elephant.io",
-            "version": "v4.2.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ElephantIO/elephant.io.git",
-                "reference": "890ac4b4c2817546eaf2455cebaaf1d3b4c757c9"
+                "reference": "8a063278218db3b0729a543d62683e9d5593acdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ElephantIO/elephant.io/zipball/890ac4b4c2817546eaf2455cebaaf1d3b4c757c9",
-                "reference": "890ac4b4c2817546eaf2455cebaaf1d3b4c757c9",
+                "url": "https://api.github.com/repos/ElephantIO/elephant.io/zipball/8a063278218db3b0729a543d62683e9d5593acdb",
+                "reference": "8a063278218db3b0729a543d62683e9d5593acdb",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2",
-                "psr/log": "^1.1 || ^3.0"
+                "php": ">=7.1.0",
+                "psr/log": "^3.0"
             },
             "require-dev": {
-                "monolog/monolog": "^2.8 || ^3.0",
-                "phpunit/phpunit": "^8.5 || ^9.5"
+                "monolog/monolog": "^3.0",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "autoload": {
@@ -646,9 +646,9 @@
                 "websocket"
             ],
             "support": {
-                "source": "https://github.com/ElephantIO/elephant.io/tree/v4.2.0"
+                "source": "https://github.com/ElephantIO/elephant.io/tree/v4.1.1"
             },
-            "time": "2023-01-06T05:45:19+00:00"
+            "time": "2022-10-25T06:12:20+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -10347,7 +10347,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "ext-mongodb": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

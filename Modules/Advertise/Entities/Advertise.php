@@ -4,7 +4,6 @@ namespace Modules\Advertise\Entities;
 
 use App\Models\OverrideModel;
 use App\Traits\ScopeModels;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Jenssegers\Mongodb\Eloquent\HybridRelations;
 use Modules\User\Entities\User;
 
@@ -24,12 +23,12 @@ class Advertise extends OverrideModel
         });
     }
 
-    public function addedBy(): BelongsTo
+    public function addedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function statistics(): \Illuminate\Database\Eloquent\Relations\HasMany|\Jenssegers\Mongodb\Relations\HasMany
+    public function statistics(): \Jenssegers\Mongodb\Relations\HasMany
     {
         return $this->hasMany(AdvertiseStatistics::class);
     }

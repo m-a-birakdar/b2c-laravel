@@ -1,14 +1,13 @@
 import express from 'express';
 import qrcodeTerminal from 'qrcode-terminal';
-import Whatsapp from 'whatsapp-web.js'
+import Whatsapp from 'whatsapp-web.js';
 const { Client, LocalAuth, MessageMedia } = Whatsapp;
-import { insertObject } from '../socket/opperations/mongo.js'
+import { insertObject } from '../socket/opperations/mongo.js';
+
 const client = new Client({ authStrategy: new LocalAuth() });
 
 const app = express();
-
 app.use(express.json());
-
 
 app.post('/send', async (req, res) =>  {
     let phone = req.body['phone'] + '@c.us';
@@ -36,7 +35,14 @@ client.on('change_state', state => {
 
 client.on('disconnected', (reason) => {
     insertObject('whatsapp', {
-        type: 'change_state', message: reason, created_at: new Date(),
+        type: 'disconnected', message: reason, created_at: new Date(),
+    });
+});
+
+client.on('message', async (message) => {
+    const media = await MessageMedia.fromUrl('https://www.imtilakgroup.com/assets/images/imt-logo.png');
+    await client.sendMessage(message.from, media, {
+        caption: '*' + message.body + '*' + '\n' + '_' + message.body + '_' + '\n' + '~' + message.body + '~'
     });
 });
 

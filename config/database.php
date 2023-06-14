@@ -178,8 +178,6 @@ $capsule = new Capsule;
 $capsule->addConnection($data['connections']['mysql']);
 $capsule->setAsGlobal();
 $results = Capsule::select('SELECT id FROM tenants');
-//dd($results);
-$merge = [];
 
 foreach (json_decode(json_encode($results), JSON_UNESCAPED_UNICODE) as $item)
     $data['connections'][$item['id'] . '-mongodb'] = array_merge($main, ['database' => $item['id'] . '-mongodb']);
