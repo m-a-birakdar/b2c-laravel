@@ -12,6 +12,16 @@ socket.on('connect', () => {
     console.log(`Connected to server with ID ${socket.id}`);
 });
 
+$('#compose').click(function (){
+    console.log('composer');
+    socket.emit('new_order', {
+        created_at: 'Now'
+    });
+});
+socket.on('new_order', (data) => {
+    console.log(data);
+});
+
 socket.on('new_message', (data) => {
     if (data.receipt_id === parseInt(receipt.val()) || data.sender_id === parseInt(receipt.val()) || data.sender_id === parseInt(user.val())){
         writeMessage(data);

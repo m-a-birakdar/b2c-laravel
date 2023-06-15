@@ -33,16 +33,21 @@ export function Chat(io, socket, tenant)
     function newUser(socket)
     {
         const data = socket.handshake.query;
-        let userId = parseInt(data['user_id']);
-        if (! onlineUsers.some(obj => obj.user_id === userId)){
-            onlineUsers.push({
-                user_id: userId,
-                socket_id: socket.id,
-                tenant: data['tenant'],
-                city_id: 1 // Todo
-            });
+        if ('type' in data && data.type === 'once') {
+            console.log("Type is 'once'");
+        } else {
+            let userId = parseInt(data['user_id']);
+            if (! onlineUsers.some(obj => obj.user_id === userId)){
+                onlineUsers.push({
+                    user_id: userId,
+                    socket_id: socket.id,
+                    tenant: data['tenant'],
+                    city_id: 1 // Todo
+                });
+            }
+            emitUsersOnline();
+            console.log(onlineUsers);
         }
-        emitUsersOnline();
     }
 
     function socketUsersOnline(socket)

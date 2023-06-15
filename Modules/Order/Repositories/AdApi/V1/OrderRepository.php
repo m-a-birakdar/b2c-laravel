@@ -3,17 +3,19 @@
 namespace Modules\Order\Repositories\AdApi\V1;
 
 use App\Exceptions\ApiErrorException;
+use App\Traits\SocketTrait;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Modules\Cart\Entities\Cart;
 use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Order\Entities\Order;
 use Modules\Order\Enums\OrderStatusEnum;
 use Modules\Order\Interfaces\AdApi\V1\OrderRepositoryInterface;
-use Modules\User\Repositories\Web\UserRepository;
 
 class OrderRepository implements OrderRepositoryInterface
 {
-    use BaseRepositoryTrait;
+    use BaseRepositoryTrait, SocketTrait;
 
     public Order|null $model;
 
@@ -38,12 +40,26 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function toProcessing($id): bool|int
     {
-        $this->model = $this->find($id, null, ['id', 'status', 'user_id']);
+        $this->model = $this->find($id, ['address:id,city_id,address'], ['id', 'status', 'user_id', 'payment_method', 'address_id', 'shipping_amount']);
         $this->model->update([
             'status' => OrderStatusEnum::Processing
         ]);
+        $this->socket();
         SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_processing'), $this->model->user_id, 'high');
-         return true;
+        return true;
+    }
+
+    private function socket()
+    {
+        if (env("SOCKET"))
+            $this->emit('new_order', [
+                'order_id' => $this->model->id,
+                'payment_method' => Str::snake($this->model->payment_method_human),
+                'address' => $this->model->address->address,
+                'city_id' => $this->model->address->city_id,
+                'tenant' => tenant()->id,
+                'shipping_amount' => $this->model->shipping_amount ?? 10,
+            ]);
     }
 
     public function toCancel($id): bool|int
@@ -59,6 +75,7 @@ class OrderRepository implements OrderRepositoryInterface
     public function toShipment($array): bool|int
     {
         $this->model = $this->findWhere('id', $array['order_id'], [], ['id', 'status', 'user_id', 'address_id']);
+        Cart::all();
         DB::beginTransaction();
         try {
             $this->setShipment($array['courier_id']);

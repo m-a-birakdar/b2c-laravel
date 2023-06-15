@@ -6,17 +6,16 @@ use ElephantIO\Client;
 
 trait SocketTrait
 {
-    public function emit(): void
+    public function emit($event, $data): void
     {
-        $client = new Client(Client::engine(Client::CLIENT_4X, 'http://localhost:2000'));
+        $connectionUrl = 'http://localhost:2000/?user_id=' . sanctum()->id . '&tenant=' . tenant()->id . '&type=once';
+        $client = new Client(Client::engine(Client::CLIENT_4X, $connectionUrl));
         try {
             $client->initialize();
-            $client->of('/');
-            $client->emit('new_order', ['sender_id' => rand(1,100), 'chat_id' => rand(1,100)]);
+            $client->emit($event, $data);
             $client->close();
         } catch (\Exception $exception){
             echo $exception;
-            $client->close();
         }
     }
 }

@@ -14,7 +14,7 @@ class OrderObserver
 
     public function updated(Order $order): void
     {
-        $this->insert($order);
+//        $this->insert($order);
     }
 
     private function insert($order, $status = null): void

@@ -18,7 +18,7 @@
     <input type="hidden" id="load-messages" value="{{ route('chat.messages') }}">
     <div class="row">
         <div class="col-md-4">
-            <a href="#" class="btn btn-primary btn-block mb-3">Compose</a>
+            <div class="btn btn-primary btn-block mb-3" id="compose">Compose</div>
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ tr('users') }}</h3>
