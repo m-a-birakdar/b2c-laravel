@@ -4,7 +4,7 @@ namespace Modules\Cart\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Cart\Console\NotifyToCheckoutCartCommand;
+use Modules\Cart\Console\AbandonedCartRecoveryCommand;
 
 class CartServiceProvider extends ServiceProvider
 {
@@ -29,7 +29,7 @@ class CartServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
         $this->commands([
-            NotifyToCheckoutCartCommand::class
+            AbandonedCartRecoveryCommand::class
         ]);
     }
 

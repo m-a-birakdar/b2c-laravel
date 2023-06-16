@@ -8,6 +8,11 @@ use Modules\Order\Entities\Order;
 use Modules\Shipment\Enums\ShipmentStatusEnum;
 use Modules\User\Entities\User;
 
+/**
+ * @property mixed $created_at
+ * @property mixed $status
+ */
+
 class Shipment extends Model
 {
     protected $fillable = ['track_number', 'customer_id', 'courier_id', 'status', 'address_id', 'order_id'];
@@ -15,12 +20,12 @@ class Shipment extends Model
     public function getStatusHumanAttribute(): string
     {
         return match ($this->status){
-            ShipmentStatusEnum::NotYetShipped->value => 'NotYetShipped',
-            ShipmentStatusEnum::InTransit->value => 'InTransit',
-            ShipmentStatusEnum::OutForDelivery->value => 'OutForDelivery',
-            ShipmentStatusEnum::Delivered->value => 'Delivered',
-            ShipmentStatusEnum::FailedDelivery->value => 'FailedDelivery',
-            ShipmentStatusEnum::ReturnInProgress->value => 'ReturnInProgress',
+            ShipmentStatusEnum::NotYetShipped->value    => tr('not_yet_shipped'),
+            ShipmentStatusEnum::InTransit->value        => tr('in_transit'),
+            ShipmentStatusEnum::OutForDelivery->value   => tr('out_for_delivery'),
+            ShipmentStatusEnum::Delivered->value        => tr('delivered'),
+            ShipmentStatusEnum::FailedDelivery->value   => tr('failed_delivery'),
+            ShipmentStatusEnum::ReturnInProgress->value => tr('return_in_progress'),
         };
     }
 

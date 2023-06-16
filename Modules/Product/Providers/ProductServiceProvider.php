@@ -4,6 +4,7 @@ namespace Modules\Product\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Product\Console\DiscountProductsNotifyCommand;
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,9 @@ class ProductServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->commands([
+            DiscountProductsNotifyCommand::class
+        ]);
     }
 
     /**

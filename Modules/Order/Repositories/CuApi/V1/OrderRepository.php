@@ -15,13 +15,13 @@ use Modules\Product\Enums\StatisticsEnum;
 use Modules\Product\Jobs\ProductStatisticsJob;
 use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Enums\TypeEnum;
+use Modules\Wallet\Traits\WalletOperationsTrait;
 
 class OrderRepository implements OrderRepositoryInterface
 {
-    use BaseRepositoryTrait;
+    use BaseRepositoryTrait, WalletOperationsTrait;
 
     public Order|null $model;
-    public Wallet $wallet;
 
     public function __construct(Order $model = new Order())
     {
@@ -91,10 +91,8 @@ class OrderRepository implements OrderRepositoryInterface
             $this->model->items()->insert($productsWithOrderId);
             $cart->items()->delete();
             $cart->delete();
-            if($request->input('payment_method') == OrderPaymentMethodEnum::Wallet->value){
-                $this->wallet = $request->wallet;
-                $this->transaction();
-            }
+            if($request->input('payment_method') == OrderPaymentMethodEnum::Wallet->value)
+                $this->make($this->model, TypeEnum::WITHDRAWAL->value, $this->model->total_amount, $request->wallet);
             $this->saveCoupon();
             DB::commit();
             ProductStatisticsJob::dispatch(array_column($request->orderItems, 'product_id'), sanctum()->id, StatisticsEnum::Order, time());
@@ -103,16 +101,6 @@ class OrderRepository implements OrderRepositoryInterface
         } catch (\Exception $e){
             throw new ApiErrorException($e);
         }
-    }
-
-    public function transaction()
-    {
-        $this->wallet->update([
-            'balance' => $this->wallet->balance - $this->model->total_amount
-        ]);
-        $this->model->transaction()->create([
-            'wallet_id' => $this->wallet->id, 'type' => TypeEnum::WITHDRAWAL->value, 'amount' => $this->model->total_amount
-        ]);
     }
 
     public function index(): \Illuminate\Database\Eloquent\Collection|array

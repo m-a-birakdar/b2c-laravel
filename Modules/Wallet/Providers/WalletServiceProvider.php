@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Wallet\Interfaces\CuApi\V1\CardRepositoryInterface;
 use Modules\Wallet\Interfaces\CuApi\V1\TransactionRepositoryInterface;
-use Modules\Wallet\Repositories\Api\V1\CardRepository;
 use Modules\Wallet\Repositories\CuApi\V1\TransactionRepository;
 
 class WalletServiceProvider extends ServiceProvider
@@ -43,7 +42,7 @@ class WalletServiceProvider extends ServiceProvider
         \Modules\Wallet\Interfaces\Web\WalletRepositoryInterface::class => \Modules\Wallet\Repositories\Web\WalletRepository::class,
         \Modules\Wallet\Interfaces\CuApi\V1\WalletRepositoryInterface::class => \Modules\Wallet\Repositories\CuApi\V1\WalletRepository::class,
         TransactionRepositoryInterface::class => TransactionRepository::class,
-        CardRepositoryInterface::class => CardRepository::class,
+        CardRepositoryInterface::class => \Modules\Wallet\Repositories\CuApi\V1\CardRepository::class,
     ];
 
     public function register()
