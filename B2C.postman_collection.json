@@ -815,13 +815,14 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}v1/wallets/transactions",
+											"raw": "{{url-customer}}v1/wallets/transactions/index",
 											"host": [
 												"{{url-customer}}v1"
 											],
 											"path": [
 												"wallets",
-												"transactions"
+												"transactions",
+												"index"
 											]
 										}
 									},
@@ -2018,14 +2019,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-courier}}v1/orders/to-delivered/3",
+									"raw": "{{url-courier}}v1/orders/to-delivered/5",
 									"host": [
 										"{{url-courier}}v1"
 									],
 									"path": [
 										"orders",
 										"to-delivered",
-										"3"
+										"5"
 									]
 								}
 							},
@@ -2136,6 +2137,85 @@
 										"notifications",
 										"read",
 										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "wallets",
+					"item": [
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "index",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token-courier}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-courier}}v1/wallets/transactions/index",
+											"host": [
+												"{{url-courier}}v1"
+											],
+											"path": [
+												"wallets",
+												"transactions",
+												"index"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-courier}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/wallets/show",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"wallets",
+										"show"
 									]
 								}
 							},
@@ -2641,7 +2721,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/orders/to-shipment?order_id=1&courier_id=2",
+									"raw": "{{url-admin}}v1/orders/to-shipment?order_id=5&courier_id=1919",
 									"host": [
 										"{{url-admin}}v1"
 									],
@@ -2652,11 +2732,11 @@
 									"query": [
 										{
 											"key": "order_id",
-											"value": "1"
+											"value": "5"
 										},
 										{
 											"key": "courier_id",
-											"value": "2"
+											"value": "1919"
 										}
 									]
 								}

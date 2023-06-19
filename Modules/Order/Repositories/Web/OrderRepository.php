@@ -41,9 +41,4 @@ class OrderRepository implements OrderRepositoryInterface
     {
         return $this->model->query()->where('id', $id)->delete();
     }
-
-    public function hasReview($id)
-    {
-        return $this->model->query()->whereNull('notify_review_at')->where('id', $id)->first();
-    }
 }

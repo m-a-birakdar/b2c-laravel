@@ -20,8 +20,8 @@ class ShipmentRepository implements ShipmentRepositoryInterface
 
     public function show($orderId): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
-        $order = (new OrderRepository())->find($orderId);
+        $order = ( new OrderRepository() )->find($orderId);
         $shipmentId = $order->shipment->id;
-        return $this->find($shipmentId, [ 'address', 'user']);
+        return $this->find($shipmentId, ['address', 'user']);
     }
 }

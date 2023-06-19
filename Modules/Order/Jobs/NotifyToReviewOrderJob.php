@@ -24,8 +24,8 @@ class NotifyToReviewOrderJob implements ShouldQueue
 
     public function handle()
     {
-        $order = ( new OrderRepository )->hasReview($this->orderId);
-        if ($order){
+        $order = ( new OrderRepository )->findWhere('id', $this->orderId, null, ['id', 'notify_review_at']);
+        if (! $order->notify_review_at){
             SendPrivateNotificationJob::dispatch('order', 'review your order', $this->userId, 'low');
             $order->update([
                 'notify_review_at' => now()

@@ -7,6 +7,7 @@ use Modules\Address\Entities\Address;
 use Modules\Order\Entities\Order;
 use Modules\Shipment\Enums\ShipmentStatusEnum;
 use Modules\User\Entities\User;
+use Modules\Wallet\Entities\Transaction;
 
 /**
  * @property mixed $created_at
@@ -52,5 +53,10 @@ class Shipment extends Model
     public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function transaction(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    {
+        return $this->morphOne(Transaction::class, 'sourceable');
     }
 }

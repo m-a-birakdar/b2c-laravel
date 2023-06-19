@@ -37,6 +37,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapCuApiRoutes();
 
+        $this->mapCoApiRoutes();
+
         $this->mapWebRoutes();
     }
 
@@ -67,5 +69,13 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('cu-api')
             ->namespace($this->moduleNamespace)
             ->group(module_path('Shipment', '/Routes/CuApi.php'));
+    }
+
+    protected function mapCoApiRoutes()
+    {
+        Route::middleware(['api', InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,])
+            ->prefix('co-api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Shipment', '/Routes/CoApi.php'));
     }
 }

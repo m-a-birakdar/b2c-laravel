@@ -8,14 +8,15 @@ use Modules\User\Entities\User;
 /**
  * @property mixed $id
  * @property mixed $balance
+ * @property mixed $number
  */
 
 class Wallet extends Model
 {
-    protected $fillable = ['user_id', 'balance', 'status'];
+    protected $fillable = ['user_id', 'balance', 'status', 'number'];
 
     protected $casts = [
-        'balance' => 'float'
+        'balance' => 'double'
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

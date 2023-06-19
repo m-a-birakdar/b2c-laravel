@@ -38,6 +38,7 @@ class ShipmentServiceProvider extends ServiceProvider
     private array $bind = [
         \Modules\Shipment\Interfaces\Web\ShipmentRepositoryInterface::class => \Modules\Shipment\Repositories\Web\ShipmentRepository::class,
         \Modules\Shipment\Interfaces\CuApi\V1\ShipmentRepositoryInterface::class => \Modules\Shipment\Repositories\CuApi\V1\ShipmentRepository::class,
+        \Modules\Shipment\Interfaces\CoApi\V1\ShipmentRepositoryInterface::class => \Modules\Shipment\Repositories\CoApi\V1\ShipmentRepository::class,
     ];
 
     public function register()

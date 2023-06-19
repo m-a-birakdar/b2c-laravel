@@ -75,7 +75,6 @@ class OrderRepository implements OrderRepositoryInterface
     public function toShipment($array): bool|int
     {
         $this->model = $this->findWhere('id', $array['order_id'], [], ['id', 'status', 'user_id', 'address_id']);
-        Cart::all();
         DB::beginTransaction();
         try {
             $this->setShipment($array['courier_id']);
@@ -94,10 +93,10 @@ class OrderRepository implements OrderRepositoryInterface
     public function setShipment($courierId)
     {
         $this->model->shipment()->create([
-            'track_number' => mt_rand(1000000000, 9999999999),
-            'customer_id' => $this->model->user_id,
-            'courier_id' => $courierId,
-            'address_id' => $this->model->address_id,
+            'track_number'  => mt_rand(1000000000, 9999999999),
+            'customer_id'   => $this->model->user_id,
+            'courier_id'    => $courierId,
+            'address_id'    => $this->model->address_id,
         ]);
     }
 }

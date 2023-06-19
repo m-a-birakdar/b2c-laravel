@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('number')->unique();
             $table->foreignId('user_id')->constrained();
             $table->decimal('balance');
             $table->boolean('status')->default(true);

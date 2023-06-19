@@ -14,7 +14,7 @@ trait WalletOperationsTrait
         $this->mainModel = $model;
         $this->type = $type;
         $this->amount = $amount;
-        $this->wallet = $wallet ? ( new WalletRepository() )->show() : $wallet;
+        $this->wallet = $wallet ?: ( new WalletRepository() )->show();
         $this->makeWallet();
         $this->makeTransaction();
     }

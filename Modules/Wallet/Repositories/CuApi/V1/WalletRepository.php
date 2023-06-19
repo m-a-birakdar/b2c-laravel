@@ -21,7 +21,16 @@ class WalletRepository implements WalletRepositoryInterface
     {
         return $this->model->firstOrCreate(
             ['user_id' => sanctum()->id],
-            ['balance' => 0],
+            ['balance' => 0, 'number' => $this->generateNumber()],
         );
+    }
+
+    private function generateNumber(): string
+    {
+        $exists = true;
+        $new = rand(1000, 9999) . '-' . rand(1000, 9999) . '-' . rand(1000, 9999);
+        while ($exists)
+            $exists = $this->model->where('number', $new)->exists();
+        return $new;
     }
 }

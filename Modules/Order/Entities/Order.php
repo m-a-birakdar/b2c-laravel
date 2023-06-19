@@ -13,6 +13,7 @@ use Modules\Wallet\Entities\Transaction;
 
 /**
  * @property mixed $total_amount
+ * @property mixed $shipping_amount
  * @property mixed $id
  */
 class Order extends Model
