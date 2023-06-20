@@ -4,7 +4,6 @@ namespace Modules\Order\Http\Controllers\AdApi\V1;
 
 use App\Http\Resources\MainResource;
 use Illuminate\Routing\Controller;
-use Modules\Order\Enums\OrderStatusEnum;
 use Modules\Order\Http\Requests\AdApi\V1\OrderToShipmentRequest;
 use Modules\Order\Interfaces\AdApi\V1\OrderRepositoryInterface;
 use Modules\Order\Transformers\AdApi\V1\OneOrderResource;
@@ -21,7 +20,6 @@ class OrderController extends Controller
 
     public function index($status): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        $this->validateStatus($status);
         return OrderResource::collection($this->repository->index($status));
     }
 
@@ -43,11 +41,5 @@ class OrderController extends Controller
     public function toShipment(OrderToShipmentRequest $request): MainResource
     {
         return MainResource::make(null, $this->repository->toShipment($request->validated()));
-    }
-
-    public function validateStatus($status)
-    {
-        $enums = array_map('strtolower', array_column(OrderStatusEnum::cases(), 'name'));
-        abort_if(! in_array($status, $enums), 404);
     }
 }

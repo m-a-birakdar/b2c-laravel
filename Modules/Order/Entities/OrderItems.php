@@ -2,10 +2,10 @@
 
 namespace Modules\Order\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Modules\Product\Entities\Product;
 
-class OrderItems extends Model
+class OrderItems extends OverrideModel
 {
     protected $table = 'order_items';
     protected $fillable = ['order_id', 'product_id', 'quantity', 'price', 'total_price', 'discount'];

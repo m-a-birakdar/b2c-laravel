@@ -19,10 +19,8 @@ class UserRepository implements UserRepositoryInterface
 
     public function status($status): bool
     {
-        $this->find(sanctum()->id);
-        $this->model->update([
+        return sanctum()->update([
             'status' => $status
         ]);
-        return true;
     }
 }

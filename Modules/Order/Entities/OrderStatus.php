@@ -2,9 +2,9 @@
 
 namespace Modules\Order\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 
-class OrderStatus extends Model
+class OrderStatus extends OverrideModel
 {
     protected $table = 'order_status';
     public $timestamps = false;

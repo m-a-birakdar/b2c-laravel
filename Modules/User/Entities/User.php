@@ -2,6 +2,7 @@
 
 namespace Modules\User\Entities;
 
+use App\Traits\OverrideAuditableTrait;
 use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,13 +13,12 @@ use Modules\Cart\Entities\Cart;
 use Modules\Order\Entities\Order;
 use Modules\Wallet\Entities\Transaction;
 use Modules\Wallet\Entities\Wallet;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class User extends Authenticatable implements Auditable
 {
-    use SoftDeletes, HasRoles, HasApiTokens, AuditableTrait, Notifiable, ScopeModels;
+    use SoftDeletes, HasRoles, HasApiTokens, OverrideAuditableTrait, Notifiable, ScopeModels;
 
     protected $table = 'users';
 

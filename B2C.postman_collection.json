@@ -1979,14 +1979,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-courier}}v1/users/status/0",
+									"raw": "{{url-courier}}v1/users/status/1",
 									"host": [
 										"{{url-courier}}v1"
 									],
 									"path": [
 										"users",
 										"status",
-										"0"
+										"1"
 									]
 								}
 							},
@@ -2054,14 +2054,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-courier}}v1/orders/show/1",
+									"raw": "{{url-courier}}v1/orders/show/5",
 									"host": [
 										"{{url-courier}}v1"
 									],
 									"path": [
 										"orders",
 										"show",
-										"1"
+										"5"
 									]
 								}
 							},
@@ -2216,6 +2216,81 @@
 									"path": [
 										"wallets",
 										"show"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "shipments",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-courier}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/shipments/index/now",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"shipments",
+										"index",
+										"now"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-courier}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-courier}}v1/shipments/show/26",
+									"host": [
+										"{{url-courier}}v1"
+									],
+									"path": [
+										"shipments",
+										"show",
+										"26"
 									]
 								}
 							},
@@ -2616,14 +2691,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/orders/index/pending",
+									"raw": "{{url-admin}}v1/orders/index/delivered",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"orders",
 										"index",
-										"pending"
+										"delivered"
 									]
 								}
 							},

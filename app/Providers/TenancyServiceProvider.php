@@ -12,6 +12,7 @@ use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
+use Stancl\Tenancy\Resolvers\DomainTenantResolver;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -99,6 +100,9 @@ class TenancyServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        DomainTenantResolver::$shouldCache = true;
+        DomainTenantResolver::$cacheStore = 'redis';
+        DomainTenantResolver::$cacheTTL = 3600;
         $this->bootEvents();
         $this->mapRoutes();
 

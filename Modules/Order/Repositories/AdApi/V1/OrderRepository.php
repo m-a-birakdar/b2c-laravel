@@ -24,11 +24,18 @@ class OrderRepository implements OrderRepositoryInterface
         $this->model = $model;
     }
 
-    public function index($status): \Illuminate\Database\Eloquent\Collection|array
+    public function index($status)
     {
+        $status = match (ucfirst($status)){
+            OrderStatusEnum::Pending->name => OrderStatusEnum::Pending->value,
+            OrderStatusEnum::Processing->name => OrderStatusEnum::Processing->value,
+            OrderStatusEnum::Shipment->name => OrderStatusEnum::Shipment->value,
+            OrderStatusEnum::Delivered->name => OrderStatusEnum::Delivered->value,
+            OrderStatusEnum::Cancelled->name => OrderStatusEnum::Cancelled->value,
+        };
         return $this->model->with([
-            'user:id,name,phone', 'address:id,address'
-        ])->get(['id', 'user_id', 'address_id', 'status', 'total_amount', 'created_at']);
+            'user:id,name,phone', 'address:id,address', 'shipment:id'
+        ])->where('status', $status)->simplePaginate(null, ['id', 'sku', 'user_id', 'address_id', 'status', 'total_amount', 'created_at']);
     }
 
     public function show($id)

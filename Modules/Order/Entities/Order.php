@@ -2,7 +2,7 @@
 
 namespace Modules\Order\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Modules\Address\Entities\Address;
 use Modules\Order\Enums\OrderPaymentMethodEnum;
 use Modules\Order\Enums\OrderStatusEnum;
@@ -16,7 +16,7 @@ use Modules\Wallet\Entities\Transaction;
  * @property mixed $shipping_amount
  * @property mixed $id
  */
-class Order extends Model
+class Order extends OverrideModel
 {
     protected $fillable = [
         'sku', 'user_id', 'coupon_id', 'status', 'items_count', 'items_qty', 'shipping_amount', 'tax_amount', 'items_amount', 'discount_amount',

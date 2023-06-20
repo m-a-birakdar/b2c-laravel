@@ -2,9 +2,9 @@
 
 namespace Modules\Order\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 
-class OrderReview extends Model
+class OrderReview extends OverrideModel
 {
     protected $table = 'order_reviews';
 

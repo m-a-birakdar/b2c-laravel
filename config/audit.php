@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'implementation' => OwenIt\Auditing\Models\Audit::class,
+    'implementation' => \App\Models\MongoAudit::class,
+//    'implementation' => OwenIt\Auditing\Models\Audit::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ return [
         'morph_prefix' => 'user',
         'guards'       => [
             'web',
+            'sanctum',
             'api'
         ],
         'resolver'     => OwenIt\Auditing\Resolvers\UserResolver::class
@@ -152,7 +154,7 @@ return [
     'drivers' => [
         'database' => [
             'table'      => 'audits',
-            'connection' => null,
+            'connection' => 'mongodb',
         ],
     ],
 
