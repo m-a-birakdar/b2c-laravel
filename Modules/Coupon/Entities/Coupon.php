@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\User\Entities\User;
 
+/**
+ * @property mixed $usage_per_customer
+ * @property mixed $id
+ * @property mixed $usage_limit
+ * @property mixed $usage_count
+ * @property mixed $times_used
+ * @property mixed $expired_at
+ */
 class Coupon extends Model
 {
     use HasFactory;

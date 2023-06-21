@@ -2,19 +2,21 @@
 
 namespace Modules\Cart\Repositories\CuApi\V1;
 
-use App\Exceptions\ApiErrorException;
+use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Illuminate\Support\Facades\DB;
+use Modules\Cart\Entities\CartItem;
 use Modules\Cart\Interfaces\CuApi\V1\CartRepositoryInterface;
 use Modules\Cart\Entities\Cart;
 use Modules\Product\Enums\StatisticsEnum;
 use Modules\Product\Jobs\ProductStatisticsJob;
 
-class CartRepository implements CartRepositoryInterface
+class CartRepository extends DBTransactionRepository implements CartRepositoryInterface
 {
     use BaseRepositoryTrait;
 
     public Cart|null $model;
+
+    public CartItem|null $cartItem;
 
     public function __construct(Cart $model = new Cart())
     {
@@ -45,66 +47,51 @@ class CartRepository implements CartRepositoryInterface
         ]);
     }
 
-    public function getCartAndItems($productId, $add = true): array
+    public function getCartAndItems($productId, $add = true)
     {
         $user = sanctum();
-        $cart = $this->findWhere('user_id', $user->id);
-        if (is_null($cart) && $add)
-            $cart = $user->cart()->create(['items_count' => 0, 'items_qty' => 0]);
-        $item = $cart->items()->where('product_id', $productId)->first();
-        return [$cart, $item];
+        $this->findWhere('user_id', $user->id);
+        if (is_null($this->model) && $add)
+            $user->cart()->create(['items_count' => 0, 'items_qty' => 0]);
+        $this->cartItem = $this->model->items()->where('product_id', $productId)->first();
     }
 
-    /**
-     * @throws ApiErrorException
-     */
     public function add($productId): bool
     {
-        DB::beginTransaction();
-        try {
-            list($cart, $item) = $this->getCartAndItems($productId);
-            if (is_null($item)){
-                $cart->products()->attach($productId, [
+        $this->getCartAndItems($productId);
+        return $this->executeInTransaction(function () use ($productId) {
+            if (is_null($this->cartItem)){
+                $this->model->products()->attach($productId, [
                     'quantity' => 1
                 ]);
-                $cart->incrementEach(['items_count' => 1, 'items_qty' => 1]);
+                $this->model->incrementEach(['items_count' => 1, 'items_qty' => 1]);
             } else {
-                $item->increment('quantity');
-                $cart->increment('items_qty');
+                $this->cartItem->increment('quantity');
+                $this->model->increment('items_qty');
             }
-            DB::commit();
             ProductStatisticsJob::dispatch($productId, sanctum()->id, StatisticsEnum::AddToCart, time());
             return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
     }
 
-    /**
-     * @throws ApiErrorException
-     */
     public function remove($productId): bool
     {
-        DB::beginTransaction();
-        try {
-            list($cart, $item) = $this->getCartAndItems($productId, false);
-            if ($cart->items_qty > 1){
-                if ($item->quantity > 1){
-                    $item->decrement('quantity');
-                    $cart->decrement('items_qty');
+        $this->getCartAndItems($productId, false);
+        return $this->executeInTransaction(function () use ($productId) {
+            if ($this->model->items_qty > 1){
+                if ($this->cartItem->quantity > 1){
+                    $this->cartItem->decrement('quantity');
+                    $this->model->decrement('items_qty');
                 } else {
-                    $item->delete();
-                    $cart->decrementEach(['items_count' => 1, 'items_qty' => 1]);
+                    $this->cartItem->delete();
+                    $this->model->decrementEach(['items_count' => 1, 'items_qty' => 1]);
                 }
             } else {
-                $item->delete();
-                $cart->delete();
+                $this->cartItem->delete();
+                $this->model->delete();
             }
-            DB::commit();
             ProductStatisticsJob::dispatch($productId, sanctum()->id, StatisticsEnum::RemoveFromCart, time());
             return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
     }
 }

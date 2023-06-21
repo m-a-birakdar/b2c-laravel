@@ -22,6 +22,8 @@ class ApiErrorException extends Exception
     public function render(): MainResource
     {
         if ($this->rollBack) DB::rollBack();
+//        if (app()->environment('local'))
+//            throw new Exception($this->exception);
         Log::error($this->exception->getMessage(), [$this->exception]);
         return MainResource::make(null, false, 'Some thing wrong', 500);
     }

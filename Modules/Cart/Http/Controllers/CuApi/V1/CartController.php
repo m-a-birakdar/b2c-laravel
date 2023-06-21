@@ -28,11 +28,11 @@ class CartController extends Controller
 
     public function add($productId): MainResource
     {
-        return MainResource::make($this->repository->add($productId));
+        return MainResource::make(null, $this->repository->add($productId));
     }
 
     public function remove($productId): MainResource
     {
-        return MainResource::make($this->repository->remove($productId));
+        return MainResource::make(null, $this->repository->remove($productId));
     }
 }

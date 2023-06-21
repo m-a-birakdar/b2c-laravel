@@ -12,6 +12,7 @@ use Modules\Address\Transformers\CuApi\V1\AddressResource;
  * @property mixed $user
  * @property mixed $status_human
  * @property mixed $track_number
+ * @property mixed $customer
  */
 
 class ShipmentResource extends JsonResource
@@ -22,7 +23,7 @@ class ShipmentResource extends JsonResource
             'track_number'          => $this->track_number,
             'status'                => $this->status_human,
             'all_shipment_status'   => all_shipment_status(),
-            'user'                  => ShipmentUserResource::make($this->user),
+            'customer'              => ShipmentUserResource::make($this->customer),
             'address'               => AddressResource::make($this->address),
             'created_at'            => $this->created_at_human,
         ];

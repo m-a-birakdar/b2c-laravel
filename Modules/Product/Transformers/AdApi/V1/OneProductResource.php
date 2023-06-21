@@ -15,6 +15,7 @@ use Modules\Product\Transformers\CuApi\V1\OneProductCategoryResource;
  * @property mixed $thumbnail
  * @property mixed $title
  * @property mixed $id
+ * @property mixed $status
  */
 
 class OneProductResource extends JsonResource
@@ -23,15 +24,16 @@ class OneProductResource extends JsonResource
     {
         return [
             'id'            => $this->id,
+            'status'        => $this->status,
             'title'         => $this->title,
             'thumbnail'     => $this->thumbnail,
             'dollar_price'  => (double) $this->price,
-            'lira_price'  => (double) $this->lira_price,
+            'lira_price'    => (double) $this->lira_price,
             'discount'      => $this->discount,
             'sku'           => $this->sku,
             'category'      => OneProductCategoryResource::make($this->category),
             'description'   => $this->details->description,
-            'quantity'   => $this->details->quantity,
+            'quantity'      => $this->details->quantity,
         ];
     }
 }

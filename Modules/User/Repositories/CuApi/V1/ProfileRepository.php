@@ -2,13 +2,12 @@
 
 namespace Modules\User\Repositories\CuApi\V1;
 
-use App\Exceptions\ApiErrorException;
+use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Illuminate\Support\Facades\DB;
 use Modules\User\Entities\User;
 use Modules\User\Interfaces\CuApi\V1\ProfileRepositoryInterface;
 
-class ProfileRepository implements ProfileRepositoryInterface
+class ProfileRepository extends DBTransactionRepository implements ProfileRepositoryInterface
 {
     use BaseRepositoryTrait;
 
@@ -21,9 +20,8 @@ class ProfileRepository implements ProfileRepositoryInterface
 
     public function update(array $array): bool
     {
-        $this->model = (new UserRepository())->find(sanctum()->id, 'details');
-        DB::beginTransaction();
-        try {
+        $this->model = ( new UserRepository() )->find(sanctum()->id, 'details');
+        return $this->executeInTransaction(function () use ($array) {
             $this->model->update([
                 'email' => $array['email']
             ]);
@@ -32,16 +30,13 @@ class ProfileRepository implements ProfileRepositoryInterface
                 $array['email_verified_at'] = null;
             unset($array['email']);
             $this->model->details()->update($array);
-            DB::commit();
             return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
     }
 
     public function updatePassword(array $array): bool|int
     {
-        $this->model = (new UserRepository())->find(sanctum()->id, null, ['id', 'password']);
+        $this->model = ( new UserRepository() )->find(sanctum()->id, null, ['id', 'password']);
         return $this->model->update([
             'password' => bcrypt($array['password'])
         ]);

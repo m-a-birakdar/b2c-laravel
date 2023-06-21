@@ -11,7 +11,7 @@ trait BaseRepositoryTrait
 
     public function findWhere(string $field, $value, $with = null, $columns = ['*'])
     {
-        return $this->source($with)->where($field, $value)->first($columns);
+        return $this->model = $this->source($with)->where($field, $value)->first($columns);
     }
 
     public function findWhereIn(string $field, array $values, $with = null, $columns = ['*'])

@@ -16,7 +16,7 @@ class ProductRepository extends ProductBaseRepository implements ProductReposito
         return $this->getPaginatedProducts($query, $this->select);
     }
 
-    public function show($id, $userId)
+    public function show($id, $userId): ?\Modules\Product\Entities\Product
     {
         $this->mainShow($id);
         $this->model->price = $this->model->price * $this->currency;
@@ -26,7 +26,7 @@ class ProductRepository extends ProductBaseRepository implements ProductReposito
 
     public function getFavorites($productIds): \Illuminate\Contracts\Pagination\Paginator
     {
-        return $this->model->query()->available()->whereIntegerInRaw('id', $productIds)->simplePaginate();
+        return $this->model->available()->whereIntegerInRaw('id', $productIds)->simplePaginate();
     }
 
     public function search($cityId, $userId)

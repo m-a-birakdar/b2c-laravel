@@ -2,11 +2,12 @@
 
 namespace Modules\Product\Repositories;
 
+use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\Currency\Repositories\Web\CurrencyRepository;
 use Modules\Product\Entities\Product;
 
-class ProductBaseRepository
+class ProductBaseRepository extends DBTransactionRepository
 {
     use BaseRepositoryTrait;
 

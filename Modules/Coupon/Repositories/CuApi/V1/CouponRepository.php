@@ -2,19 +2,19 @@
 
 namespace Modules\Coupon\Repositories\CuApi\V1;
 
-use App\Exceptions\ApiErrorException;
+use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Modules\Coupon\Entities\CouponUser;
 use Modules\Coupon\Interfaces\CuApi\V1\CouponRepositoryInterface;
 use Modules\Coupon\Entities\Coupon;
 
-class CouponRepository implements CouponRepositoryInterface
+class CouponRepository extends DBTransactionRepository implements CouponRepositoryInterface
 {
     use BaseRepositoryTrait;
 
     public Coupon|null $model;
+    public CouponUser|null $couponUser;
 
     public function __construct(Coupon $model = new Coupon())
     {
@@ -71,19 +71,15 @@ class CouponRepository implements CouponRepositoryInterface
     public function save($id): bool
     {
         $this->find($id);
-        $relation = CouponUser::query()->where('coupon_id', $id)->where('user_id', sanctum()->id)->first();
-        DB::beginTransaction();
-        try {
+        $this->couponUser = ( new CouponUserRepository() )->first($id);
+        return $this->executeInTransaction(function () {
             $this->model->increment('times_used');
-            $relation ? $relation->increment('times_used') : CouponUser::query()->create([
-                'coupon_id' => $id,
+            $this->couponUser ? $this->couponUser->increment('times_used') : $this->couponUser->update([
+                'coupon_id' => $this->model->id,
                 'user_id' => sanctum()->id,
                 'times_used' => 1,
             ]);
-            DB::commit();
             return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
     }
 }

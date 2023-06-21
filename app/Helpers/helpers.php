@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
@@ -67,14 +68,7 @@ if (! function_exists('all_shipment_status'))
 {
     function all_shipment_status(): array
     {
-        return [
-            ShipmentStatusEnum::NotYetShipped->name,
-            ShipmentStatusEnum::InTransit->name,
-            ShipmentStatusEnum::OutForDelivery->name,
-            ShipmentStatusEnum::Delivered->name,
-            ShipmentStatusEnum::FailedDelivery->name,
-            ShipmentStatusEnum::ReturnInProgress->name,
-        ];
+        return array_column(ShipmentStatusEnum::cases(), 'name');
     }
 }
 
@@ -94,10 +88,20 @@ if (! function_exists('ba'))
     }
 }
 
-if (! function_exists('write_log'))
+if (! function_exists('lo'))
 {
-    function write_log($type, $message, $data = []): void
+    function lo($type, $message, $data = []): void
     {
         Log::{$type}($message, $data);
+    }
+}
+
+if (! function_exists('th'))
+{
+    function th($data): void
+    {
+        throw new HttpResponseException(response()->json([
+            'throw' => $data
+        ]));
     }
 }

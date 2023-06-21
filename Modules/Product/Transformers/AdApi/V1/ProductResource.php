@@ -26,7 +26,7 @@ class ProductResource extends ProductBaseResource
             'status'        => $this->status,
             'thumbnail'     => $this->thumbnail,
             'dollar_price'  => (double) $this->price,
-            'lira_price'  => (double) $this->price * self::$currency,
+            'lira_price'    => (double) $this->price * self::$currency,
             'discount'      => $this->discount,
         ];
     }

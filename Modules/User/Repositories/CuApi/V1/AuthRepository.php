@@ -2,13 +2,11 @@
 
 namespace Modules\User\Repositories\CuApi\V1;
 
-use App\Exceptions\ApiErrorException;
+use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Modules\Notification\Jobs\SendPrivateNotificationJob;
@@ -18,10 +16,9 @@ use Modules\User\Interfaces\CuApi\V1\AuthRepositoryInterface;
 use Modules\User\Entities\User;
 use Modules\User\Jobs\Cu\SendOTPCode;
 use Modules\Whatsapp\Enums\PriorityEnum;
-use Modules\Whatsapp\Enums\TypeEnum;
 use Modules\Whatsapp\Repositories\Web\WhatsappRepository;
 
-class AuthRepository implements AuthRepositoryInterface
+class AuthRepository extends DBTransactionRepository implements AuthRepositoryInterface
 {
     use BaseRepositoryTrait;
 
@@ -35,10 +32,9 @@ class AuthRepository implements AuthRepositoryInterface
         $this->OTPCode = $OTPCode;
     }
 
-    public function welcome($array)
+    public function welcome($array): ?User
     {
-        DB::beginTransaction();
-        try {
+        $this->executeInTransaction(function () use ($array) {
             $this->model = $this->model->create();
             $this->model->details()->create([
                 'last_active_at' => now(),
@@ -46,14 +42,11 @@ class AuthRepository implements AuthRepositoryInterface
                 'device_info' => $array['device_info'],
             ]);
             $this->model->syncRoles('customer');
-            DB::commit();
-            return $this->model;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
+        return $this->model;
     }
 
-    public function login(User $user)
+    public function login(User $user): User
     {
         $user->details()->update([
             'last_active_at' => now()
@@ -63,26 +56,19 @@ class AuthRepository implements AuthRepositoryInterface
         return $user;
     }
 
-    /**
-     * @throws ApiErrorException
-     */
-    public function register($array)
+    public function register($array): ?User
     {
-        DB::beginTransaction();
-        try {
-            $this->find($array['id']);
+        $this->find($array['id']);
+        $this->executeInTransaction(function () use ($array) {
             $this->model->update(array_merge($array, ['phone_verified_at' => now(), 'password' => bcrypt($array['password'])]));
             $this->model->details()->update([
                 'last_active_at' => now(),
             ]);
             $this->model->syncRoles('customer');
-            DB::commit();
-            $this->model->setAttribute('token', $this->model->createToken($array['phone'])->plainTextToken);
-            SendPrivateNotificationJob::dispatch(nCu('user.register', 'title'), nCu('user.register'), $this->model);
-            return $this->model;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
+        $this->model->setAttribute('token', $this->model->createToken($array['phone'])->plainTextToken);
+        SendPrivateNotificationJob::dispatch(nCu('user.register', 'title'), nCu('user.register'), $this->model);
+        return $this->model;
     }
 
     public function logout()
@@ -98,21 +84,17 @@ class AuthRepository implements AuthRepositoryInterface
     public function sendOtp($array): bool
     {
         $code = rand(1000, 9999);
-        DB::beginTransaction();
-        try {
+        $this->executeInTransaction(function () use ($array, $code) {
             $this->OTPCode->where('phone', $array['phone'])->delete();
             $this->OTPCode->create([
                 'phone' => $array['phone'], 'otp' => $code, 'expire_at' => Carbon::now()->addMinutes(2)
             ]);
-            DB::commit();
             ( new WhatsappRepository )->store([
                 'priority' => PriorityEnum::HIGH, 'phone' =>  preg_replace('/00/', '', $array['phone'], 1), 'message' => 'text',
             ]);
-            SendOTPCode::dispatch($array['phone'], $code);
-            return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
+        SendOTPCode::dispatch($array['phone'], $code);
+        return true;
     }
 
     public function verifyOtp($array): bool
@@ -127,48 +109,37 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function verifyEmail($array): bool
     {
-        $user = (new UserRepository())->findWhere('id', sanctum()->id, 'details:id,user_id,email_verified_at', ['id', 'email']);
-        $token = hash_hmac('sha256', Str::random(40), $user->email);
-        DB::beginTransaction();
-        try {
-            $user->details()->update([
+        $this->model = ( new UserRepository() )->findWhere('id', sanctum()->id, 'details:id,user_id,email_verified_at', ['id', 'email']);
+        $token = hash_hmac('sha256', Str::random(40), $this->model->email);
+        $this->executeInTransaction(function () use ($token) {
+            $this->model->details()->update([
                 'email_verified_at' => null
             ]);
-            DB::table('password_reset_tokens')->where('email', $user->email)->delete();
+            DB::table('password_reset_tokens')->where('email', $this->model->email)->delete();
             DB::table('password_reset_tokens')->insert([
                 'token' => $token,
-                'email' => $user->email,
+                'email' => $this->model->email,
                 'created_at' => now()
             ]);
-            DB::commit();
-
-            $resetUrl = URL::route('verify-email', [
-                'token' => $token,
-                'email' => $user->email,
-            ]);
-
-            Mail::to($user->email)->send(new VerifyEmail($resetUrl, $user));
-
-            return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
+        $resetUrl = URL::route('verify-email', [
+            'token' => $token,
+            'email' => $this->model->email,
+        ]);
+        Mail::to($this->model->email)->send(new VerifyEmail($resetUrl, $this->model));
+        return true;
     }
 
     public function verifyEmailToken($array): bool
     {
-        $user = (new UserRepository())->findWhere('email', $array['email'], 'details:id,user_id,email_verified_at', ['id', 'email']);
-        DB::beginTransaction();
-        try {
+        $this->model = ( new UserRepository() )->findWhere('email', $array['email'], 'details:id,user_id,email_verified_at', ['id', 'email']);
+        $this->executeInTransaction(function () use ($array) {
             DB::table('password_reset_tokens')->where('email', $array['email'])->delete();
-            $user->details()->update([
+            $this->model->details()->update([
                 'email_verified_at' => now()
             ]);
-            DB::commit();
-            SendPrivateNotificationJob::dispatch(nCu('user.verify_email', 'title'), nCu('user.verify_email'), $user);
-            return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
+        SendPrivateNotificationJob::dispatch(nCu('user.verify_email', 'title'), nCu('user.verify_email'), $this->model);
+        return true;
     }
 }

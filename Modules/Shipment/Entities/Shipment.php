@@ -2,7 +2,7 @@
 
 namespace Modules\Shipment\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Modules\Address\Entities\Address;
 use Modules\Order\Entities\Order;
 use Modules\Shipment\Enums\ShipmentStatusEnum;
@@ -14,7 +14,7 @@ use Modules\Wallet\Entities\Transaction;
  * @property mixed $status
  */
 
-class Shipment extends Model
+class Shipment extends OverrideModel
 {
     protected $fillable = ['track_number', 'customer_id', 'courier_id', 'status', 'address_id', 'order_id'];
 

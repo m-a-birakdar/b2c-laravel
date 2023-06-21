@@ -2,18 +2,16 @@
 
 namespace Modules\Order\Repositories\AdApi\V1;
 
-use App\Exceptions\ApiErrorException;
+use App\Repositories\DBTransactionRepository;
 use App\Traits\SocketTrait;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Modules\Cart\Entities\Cart;
 use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Order\Entities\Order;
 use Modules\Order\Enums\OrderStatusEnum;
 use Modules\Order\Interfaces\AdApi\V1\OrderRepositoryInterface;
 
-class OrderRepository implements OrderRepositoryInterface
+class OrderRepository extends DBTransactionRepository implements OrderRepositoryInterface
 {
     use BaseRepositoryTrait, SocketTrait;
 
@@ -82,19 +80,15 @@ class OrderRepository implements OrderRepositoryInterface
     public function toShipment($array): bool|int
     {
         $this->model = $this->findWhere('id', $array['order_id'], [], ['id', 'status', 'user_id', 'address_id']);
-        DB::beginTransaction();
-        try {
+        return $this->executeInTransaction(function () use ($array) {
             $this->setShipment($array['courier_id']);
             $this->model->update([
                 'status' => OrderStatusEnum::Shipment
             ]);
-            DB::commit();
             SendPrivateNotificationJob::dispatch(nCo('order', 'title'), nCo('order.to_shipment'), $array['courier_id'], 'high', 'courier');
             SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_shipment'), $this->model->user_id, 'high');
             return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
     }
 
     public function setShipment($courierId)

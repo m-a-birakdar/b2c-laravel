@@ -7,6 +7,7 @@ use App\Traits\ScopeModels;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Jenssegers\Mongodb\Eloquent\HybridRelations;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Address\Entities\Address;
 use Modules\Cart\Entities\Cart;
@@ -16,9 +17,13 @@ use Modules\Wallet\Entities\Wallet;
 use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @property mixed $email
+ * @property mixed $phone
+ */
 class User extends Authenticatable implements Auditable
 {
-    use SoftDeletes, HasRoles, HasApiTokens, OverrideAuditableTrait, Notifiable, ScopeModels;
+    use SoftDeletes, HasRoles, HasApiTokens, OverrideAuditableTrait, Notifiable, ScopeModels, HybridRelations;
 
     protected $table = 'users';
 

@@ -2551,6 +2551,16 @@
 						{
 							"name": "update",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PUT",
 								"header": [
 									{
@@ -2560,7 +2570,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/currencies/update/1?value=17.6",
+									"raw": "{{url-admin}}v1/currencies/update/1?value=17.62",
 									"host": [
 										"{{url-admin}}v1"
 									],
@@ -2572,7 +2582,7 @@
 									"query": [
 										{
 											"key": "value",
-											"value": "17.6"
+											"value": "17.62"
 										}
 									]
 								}
@@ -2587,6 +2597,16 @@
 						{
 							"name": "index",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [
 									{
@@ -2612,6 +2632,16 @@
 						{
 							"name": "search",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [
 									{
@@ -2621,7 +2651,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/products/search?text=a",
+									"raw": "{{url-admin}}v1/products/search?text=amy w",
 									"host": [
 										"{{url-admin}}v1"
 									],
@@ -2632,7 +2662,63 @@
 									"query": [
 										{
 											"key": "text",
-											"value": "a"
+											"value": "amy w"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-admin}}v1/products/update?product_id=18&status=1&price=12.85&quantity=12&discount=12",
+									"host": [
+										"{{url-admin}}v1"
+									],
+									"path": [
+										"products",
+										"update"
+									],
+									"query": [
+										{
+											"key": "product_id",
+											"value": "18"
+										},
+										{
+											"key": "status",
+											"value": "1"
+										},
+										{
+											"key": "price",
+											"value": "12.85"
+										},
+										{
+											"key": "quantity",
+											"value": "12"
+										},
+										{
+											"key": "discount",
+											"value": "12"
 										}
 									]
 								}
@@ -2642,6 +2728,16 @@
 						{
 							"name": "show",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-admin}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [
 									{

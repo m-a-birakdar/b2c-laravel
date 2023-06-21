@@ -22,6 +22,6 @@ class ShipmentRepository implements ShipmentRepositoryInterface
     {
         $order = ( new OrderRepository() )->find($orderId);
         $shipmentId = $order->shipment->id;
-        return $this->find($shipmentId, ['address', 'user']);
+        return $this->find($shipmentId, ['address', 'customer']);
     }
 }

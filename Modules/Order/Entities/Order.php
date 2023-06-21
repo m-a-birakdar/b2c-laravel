@@ -15,7 +15,12 @@ use Modules\Wallet\Entities\Transaction;
  * @property mixed $total_amount
  * @property mixed $shipping_amount
  * @property mixed $id
+ * @property mixed $user_id
+ * @property mixed $address_id
+ * @property mixed $address
+ * @property mixed $payment_method_human
  */
+
 class Order extends OverrideModel
 {
     protected $fillable = [

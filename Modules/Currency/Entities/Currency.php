@@ -2,9 +2,9 @@
 
 namespace Modules\Currency\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 
-class Currency extends Model
+class Currency extends OverrideModel
 {
     protected $fillable = ['name', 'key', 'value'];
 

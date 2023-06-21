@@ -2,9 +2,9 @@
 
 namespace Modules\Order\Repositories\CuApi\V1;
 
-use App\Exceptions\ApiErrorException;
+use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Illuminate\Support\Facades\DB;
+use Modules\Cart\Entities\Cart;
 use Modules\Coupon\Repositories\CuApi\V1\CouponRepository;
 use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Order\Enums\OrderPaymentMethodEnum;
@@ -13,11 +13,10 @@ use Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface;
 use Modules\Order\Entities\Order;
 use Modules\Product\Enums\StatisticsEnum;
 use Modules\Product\Jobs\ProductStatisticsJob;
-use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Enums\TypeEnum;
 use Modules\Wallet\Traits\WalletOperationsTrait;
 
-class OrderRepository implements OrderRepositoryInterface
+class OrderRepository extends DBTransactionRepository implements OrderRepositoryInterface
 {
     use BaseRepositoryTrait, WalletOperationsTrait;
 
@@ -31,19 +30,19 @@ class OrderRepository implements OrderRepositoryInterface
     private $totalAmountAfterCoupon;
     private $coupon;
 
-    private function checkCoupon($request)
+    private function checkCoupon()
     {
-        if ($request->has('coupon_code')){
+        if ($this->orderRequest->has('coupon_code')){
             $coupon = new CouponRepository();
             $coupon->check([
-                'code' => $request->input('coupon_code'),
-                'order_value' => $request->totalPriceAmount,
+                'code' => $this->orderRequest->input('coupon_code'),
+                'order_value' => $this->orderRequest->totalPriceAmount,
             ]);
             if ($coupon->status){
                 $this->coupon = $coupon->model;
-                $this->setAmountAfterCoupon($request->totalPriceAmount);
+                $this->setAmountAfterCoupon($this->orderRequest->totalPriceAmount);
             } else {
-                $this->totalAmountAfterCoupon = $request->totalPriceAmount;
+                $this->totalAmountAfterCoupon = $this->orderRequest->totalPriceAmount;
             }
         }
     }
@@ -63,44 +62,46 @@ class OrderRepository implements OrderRepositoryInterface
             ( new CouponRepository )->save($this->coupon->id);
     }
 
-    /**
-     * @throws ApiErrorException
-     */
+    private OrderRequest $orderRequest;
+    private Cart $cart;
+
     public function save(OrderRequest $request): bool
     {
-        $this->checkCoupon($request);
-        DB::beginTransaction();
-        $cart = $request->cart;
-        try {
-            $this->model = $this->model->create([
-                'sku' => mt_rand(1000000000, 9999999999),
-                'user_id' => sanctum()->id,
-                'coupon_id' => $this->coupon->id ?? null,
-                'address_id' => $request->address_id,
-                'payment_method' => $request->payment_method,
-                'items_count' => $cart->items_count,
-                'items_qty' => $cart->items_qty,
-                'shipping_amount' => $cart->shipping_amount,
-                'items_amount' => $request->totalPriceAmount,
-                'discount_amount' => $request->totalDiscountAmount,
-                'total_amount' => $cart->shipping_amount + $request->totalPriceAmount
-            ]);
-            $productsWithOrderId = collect($request->orderItems)->map(function ($product) {
+        $this->orderRequest = $request;
+        $this->cart = $this->orderRequest->cart;
+        $this->checkCoupon();
+        return $this->executeInTransaction(function () {
+            $this->createOrder();
+            $productsWithOrderId = collect($this->orderRequest->orderItems)->map(function ($product) {
                 return array_merge($product, ['order_id' => $this->model->id]);
             })->toArray();
             $this->model->items()->insert($productsWithOrderId);
-            $cart->items()->delete();
-            $cart->delete();
-            if($request->input('payment_method') == OrderPaymentMethodEnum::Wallet->value)
-                $this->make($this->model, TypeEnum::WITHDRAWAL->value, $this->model->total_amount, $request->wallet);
+            $this->cart->items()->delete();
+            $this->cart->delete();
+            if($this->orderRequest->input('payment_method') == OrderPaymentMethodEnum::Wallet->value)
+                $this->make($this->model, TypeEnum::WITHDRAWAL->value, $this->model->total_amount, $this->orderRequest->wallet);
             $this->saveCoupon();
-            DB::commit();
-            ProductStatisticsJob::dispatch(array_column($request->orderItems, 'product_id'), sanctum()->id, StatisticsEnum::Order, time());
+            ProductStatisticsJob::dispatch(array_column($this->orderRequest->orderItems, 'product_id'), sanctum()->id, StatisticsEnum::Order, time());
             SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_pending'), $this->model->user_id, 'high');
             return true;
-        } catch (\Exception $e){
-            throw new ApiErrorException($e);
-        }
+        });
+    }
+
+    private function createOrder()
+    {
+        $this->model = $this->model->create([
+            'sku' => mt_rand(1000000000, 9999999999),
+            'user_id' => sanctum()->id,
+            'coupon_id' => $this->coupon->id ?? null,
+            'address_id' => $this->orderRequest->address_id,
+            'payment_method' => $this->orderRequest->payment_method,
+            'items_count' => $this->cart->items_count,
+            'items_qty' => $this->cart->items_qty,
+            'shipping_amount' => $this->cart->shipping_amount,
+            'items_amount' => $this->orderRequest->totalPriceAmount,
+            'discount_amount' => $this->orderRequest->totalDiscountAmount,
+            'total_amount' => $this->cart->shipping_amount + $this->orderRequest->totalPriceAmount
+        ]);
     }
 
     public function index(): \Illuminate\Database\Eloquent\Collection|array

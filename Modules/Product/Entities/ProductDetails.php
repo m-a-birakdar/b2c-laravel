@@ -2,10 +2,10 @@
 
 namespace Modules\Product\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProductDetails extends Model
+class ProductDetails extends OverrideModel
 {
     use HasFactory;
 

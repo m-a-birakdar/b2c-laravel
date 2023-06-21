@@ -2,20 +2,22 @@
 
 namespace Modules\Product\Entities;
 
+use App\Models\OverrideModel;
 use App\Traits\ScopeModels;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
-use Jenssegers\Mongodb\Eloquent\HybridRelations;
 use Modules\Category\Entities\SubCategory;
 use Modules\City\Entities\City;
 use Modules\Order\Entities\Order;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Product extends Model implements Auditable
+/**
+ * @property mixed $price
+ * @property float|int|mixed $lira_price
+ */
+
+class Product extends OverrideModel
 {
-    use HasFactory, ScopeModels, AuditableTrait, HybridRelations;
+    use HasFactory, ScopeModels;
 
     protected $fillable = ['city_id', 'category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
 

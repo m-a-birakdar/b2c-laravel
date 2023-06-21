@@ -4,6 +4,10 @@ namespace Modules\Cart\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed $quantity
+ */
+
 class CartItem extends Model
 {
     protected $table = 'cart_items';
