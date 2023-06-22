@@ -6,6 +6,7 @@ use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\User\Entities\User;
 use Modules\User\Interfaces\CuApi\V1\ProfileRepositoryInterface;
+use Modules\User\Repositories\UserDetailsBaseRepository;
 
 class ProfileRepository extends DBTransactionRepository implements ProfileRepositoryInterface
 {
@@ -29,7 +30,7 @@ class ProfileRepository extends DBTransactionRepository implements ProfileReposi
             if (array_key_exists('email', $array))
                 $array['email_verified_at'] = null;
             unset($array['email']);
-            $this->model->details()->update($array);
+            ( new UserDetailsBaseRepository )->update(sanctum()->id, $array);
             return true;
         });
     }

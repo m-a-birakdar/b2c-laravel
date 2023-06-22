@@ -72,11 +72,8 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
         $this->checkCoupon();
         return $this->executeInTransaction(function () {
             $this->createOrder();
-            $productsWithOrderId = collect($this->orderRequest->orderItems)->map(function ($product) {
-                return array_merge($product, ['order_id' => $this->model->id]);
-            })->toArray();
-            $this->model->items()->insert($productsWithOrderId);
-            $this->cart->items()->delete();
+            $this->createOrderItems();
+            $this->removeCartItems();
             $this->cart->delete();
             if($this->orderRequest->input('payment_method') == OrderPaymentMethodEnum::Wallet->value)
                 $this->make($this->model, TypeEnum::WITHDRAWAL->value, $this->model->total_amount, $this->orderRequest->wallet);
@@ -85,6 +82,18 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
             SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_pending'), $this->model->user_id, 'high');
             return true;
         });
+    }
+
+    private function removeCartItems()
+    {
+        foreach ($this->cart->items as $item)
+            $item->delete();
+    }
+
+    private function createOrderItems()
+    {
+        foreach ($this->orderRequest->orderItems as $orderItem)
+            $this->model->items()->create(array_merge($orderItem, ['order_id' => $this->model->id]));
     }
 
     private function createOrder()
@@ -120,7 +129,7 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
 
     public function review($array): \Illuminate\Database\Eloquent\Model
     {
-        $this->find($array['order_id']);
+        $this->find($array['order_id'], null, ['id']);
         return $this->model->review()->create(array_merge($array, ['user_id' => sanctum()->id]));
     }
 }

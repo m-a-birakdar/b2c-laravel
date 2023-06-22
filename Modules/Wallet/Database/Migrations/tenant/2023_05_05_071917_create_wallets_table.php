@@ -10,10 +10,12 @@ return new class extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('number')->unique();
+            $table->string('number')->unique()->index();
             $table->foreignId('user_id')->constrained();
             $table->decimal('balance');
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->default(true)->index();
+            $table->boolean('allow_send')->default(true);
+            $table->boolean('allow_receive')->default(true);
             $table->timestamps();
         });
     }

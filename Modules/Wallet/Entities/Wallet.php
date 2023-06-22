@@ -2,18 +2,20 @@
 
 namespace Modules\Wallet\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Modules\User\Entities\User;
 
 /**
  * @property mixed $id
  * @property mixed $balance
  * @property mixed $number
+ * @property mixed $allow_send
+ * @property mixed $allow_receive
  */
 
-class Wallet extends Model
+class Wallet extends OverrideModel
 {
-    protected $fillable = ['user_id', 'balance', 'status', 'number'];
+    protected $fillable = ['user_id', 'balance', 'status', 'number', 'allow_send', 'allow_receive'];
 
     protected $casts = [
         'balance' => 'double'

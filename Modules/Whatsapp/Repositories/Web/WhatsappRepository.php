@@ -3,10 +3,9 @@
 namespace Modules\Whatsapp\Repositories\Web;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Modules\Whatsapp\Interfaces\Web\WhatsappRepositoryInterface;
 use Modules\Whatsapp\Entities\Whatsapp;
 
-class WhatsappRepository implements WhatsappRepositoryInterface
+class WhatsappRepository
 {
     use BaseRepositoryTrait;
 

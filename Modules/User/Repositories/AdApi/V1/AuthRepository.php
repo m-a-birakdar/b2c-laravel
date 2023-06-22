@@ -5,6 +5,7 @@ namespace Modules\User\Repositories\AdApi\V1;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\User\Entities\User;
 use Modules\User\Interfaces\AdApi\V1\AuthRepositoryInterface;
+use Modules\User\Repositories\UserDetailsBaseRepository;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -17,14 +18,18 @@ class AuthRepository implements AuthRepositoryInterface
         $this->model = $model;
     }
 
-    public function login(User $user)
+    public function login(User $user): User
     {
         $user->setAttribute('token', $user->createToken($user->phone)->plainTextToken);
+        ( new UserDetailsBaseRepository )->update($user->id, [
+            'last_active_at' => now()
+        ]);
         return $user;
     }
 
     public function logout()
     {
+        // Todo: write audit log
         return sanctum()->tokens()->delete();
     }
 

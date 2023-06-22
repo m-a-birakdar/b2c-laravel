@@ -40,7 +40,7 @@ class CardRepository extends DBTransactionRepository implements CardRepositoryIn
     protected function makeCard()
     {
         $this->model->update([
-            'status' => false
+            'status' => 0
         ]);
     }
 }

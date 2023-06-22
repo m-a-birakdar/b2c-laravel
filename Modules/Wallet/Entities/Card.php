@@ -2,10 +2,10 @@
 
 namespace Modules\Wallet\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Card extends Model
+class Card extends OverrideModel
 {
     use HasFactory;
 

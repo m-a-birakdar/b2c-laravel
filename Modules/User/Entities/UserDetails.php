@@ -2,10 +2,15 @@
 
 namespace Modules\User\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Modules\User\Enums\GenderEnum;
 
-class UserDetails extends Model
+/**
+ * @property mixed $last_active_at
+ * @property mixed $gender
+ */
+
+class UserDetails extends OverrideModel
 {
     protected $table = 'user_details';
 

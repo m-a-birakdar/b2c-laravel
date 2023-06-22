@@ -20,7 +20,7 @@ class UserRepository implements UserRepositoryInterface
     public function status($status): bool
     {
         return sanctum()->update([
-            'status' => $status
+            'status' => (int) $status
         ]);
     }
 }

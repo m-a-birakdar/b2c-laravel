@@ -2,12 +2,17 @@
 
 namespace Modules\Wallet\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Order\Entities\Order;
 use Modules\Shipment\Entities\Shipment;
 
-class Transaction extends Model
+/**
+ * @property mixed $created_at
+ * @property mixed $sourceable_type
+ */
+
+class Transaction extends OverrideModel
 {
     protected $fillable = ['wallet_id', 'type', 'amount'];
 

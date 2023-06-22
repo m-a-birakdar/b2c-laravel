@@ -2,6 +2,7 @@
 
 namespace Modules\Wallet\Traits;
 
+use Illuminate\Support\Facades\DB;
 use Modules\Wallet\Enums\TypeEnum;
 use Modules\Wallet\Repositories\CuApi\V1\WalletRepository;
 
@@ -15,18 +16,23 @@ trait WalletOperationsTrait
         $this->type = $type;
         $this->amount = $amount;
         $this->wallet = $wallet ?: ( new WalletRepository() )->show();
+        DB::transactionLevel() > 0 ?
+            $this->queries() :
+            $this->executeInTransaction(function (){
+                $this->queries();
+            });
+    }
+
+    private function queries(): void
+    {
         $this->makeWallet();
         $this->makeTransaction();
     }
 
     protected function makeWallet(): void
     {
-        if ($this->type == TypeEnum::DEPOSIT->value)
-            $balance = $this->wallet->balance + $this->amount;
-        else
-            $balance = $this->wallet->balance - $this->amount;
         $this->wallet->update([
-            'balance' => $balance
+            'balance' => $this->wallet->balance + ($this->type == TypeEnum::DEPOSIT->value ? $this->amount : - $this->amount )
         ]);
     }
 

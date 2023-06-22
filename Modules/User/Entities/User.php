@@ -20,7 +20,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @property mixed $email
  * @property mixed $phone
+ * @property mixed $id
+ * @property mixed $status
+ * @property mixed $password
  */
+
 class User extends Authenticatable implements Auditable
 {
     use SoftDeletes, HasRoles, HasApiTokens, OverrideAuditableTrait, Notifiable, ScopeModels, HybridRelations;

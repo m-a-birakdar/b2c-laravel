@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
             throw new MainException(false, tr('auth.check_phone'), 422);
         if (! Hash::check($this->input('password'), $this->user->password))
             throw new MainException(false, tr('auth.check_password'), 422);
-        if (! $this->user->hasRole('delivery'))
+        if (! $this->user->hasRole('courier'))
             throw new MainException(false, tr('auth.you_dont_have_permission'), 422);
         if (! $this->user->status)
             throw new MainException(false, tr('auth.account_is_not_available_now'), 422);

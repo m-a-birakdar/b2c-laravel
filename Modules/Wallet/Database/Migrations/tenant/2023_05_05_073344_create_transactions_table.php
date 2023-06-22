@@ -12,7 +12,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignId('wallet_id')->constrained();
             $table->morphs('sourceable');
-            $table->string('type');
+            $table->string('type')->index();
             $table->decimal('amount');
             $table->timestamps();
         });

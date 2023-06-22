@@ -8,7 +8,10 @@ use Jenssegers\Mongodb\Eloquent\HybridRelations;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * @method available()
+ * @method mixed available()
+ * @property mixed $status
+ * @property mixed $user_id
+ * @method create(array $array)
  */
 
 class OverrideModel extends Model implements Auditable

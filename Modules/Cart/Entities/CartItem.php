@@ -2,13 +2,13 @@
 
 namespace Modules\Cart\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 
 /**
  * @property mixed $quantity
  */
 
-class CartItem extends Model
+class CartItem extends OverrideModel
 {
     protected $table = 'cart_items';
     protected $fillable = ['cart_id', 'product_id', 'quantity'];

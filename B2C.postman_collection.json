@@ -150,14 +150,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/carts/add/3",
+									"raw": "{{url-customer}}v1/carts/add/18",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"carts",
 										"add",
-										"3"
+										"18"
 									]
 								}
 							},
@@ -239,7 +239,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{token-customer}}",
 											"type": "string"
 										}
 									]
@@ -253,15 +253,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/carts/remove/4",
+									"raw": "{{url-customer}}v1/carts/remove/18",
 									"host": [
-										"{{url}}api"
+										"{{url-customer}}v1"
 									],
 									"path": [
-										"v1",
 										"carts",
 										"remove",
-										"4"
+										"18"
 									]
 								}
 							},
@@ -855,7 +854,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-customer}}v1/wallets/cards/recharge?card_number=4556892176855229&card_cvv=741",
+											"raw": "{{url-customer}}v1/wallets/cards/recharge?card_number=4716968989755868&card_cvv=348",
 											"host": [
 												"{{url-customer}}v1"
 											],
@@ -867,11 +866,11 @@
 											"query": [
 												{
 													"key": "card_number",
-													"value": "4556892176855229"
+													"value": "4716968989755868"
 												},
 												{
 													"key": "card_cvv",
-													"value": "741"
+													"value": "348"
 												}
 											]
 										}
@@ -1804,7 +1803,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-courier}}v1/users/auth/login?phone=00901010101010&password=123",
+											"raw": "{{url-courier}}v1/users/auth/login?phone=00902020202020&password=123",
 											"host": [
 												"{{url-courier}}v1"
 											],
@@ -1816,7 +1815,7 @@
 											"query": [
 												{
 													"key": "phone",
-													"value": "00901010101010"
+													"value": "00902020202020"
 												},
 												{
 													"key": "password",
@@ -1889,7 +1888,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-courier}}v1/users/profile/update?gender=0&image_file=123&birth_date=2010-10-12&email=123@sdf.sdfsdasd",
+											"raw": "{{url-courier}}v1/users/profile/update?gender=0&birth_date=2010-10-12&email=123@sdf.sdfsdasd",
 											"host": [
 												"{{url-courier}}v1"
 											],
@@ -1905,7 +1904,8 @@
 												},
 												{
 													"key": "image_file",
-													"value": "123"
+													"value": "123",
+													"disabled": true
 												},
 												{
 													"key": "birth_date",
@@ -1979,14 +1979,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-courier}}v1/users/status/1",
+									"raw": "{{url-courier}}v1/users/status/0",
 									"host": [
 										"{{url-courier}}v1"
 									],
 									"path": [
 										"users",
 										"status",
-										"1"
+										"0"
 									]
 								}
 							},
@@ -2321,7 +2321,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-admin}}v1/users/auth/login?phone=00901010101010&password=123",
+											"raw": "{{url-admin}}v1/users/auth/login?phone=00901010101010&password=123222",
 											"host": [
 												"{{url-admin}}v1"
 											],
@@ -2337,7 +2337,7 @@
 												},
 												{
 													"key": "password",
-													"value": "123"
+													"value": "123222"
 												}
 											]
 										}
@@ -2406,7 +2406,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-admin}}v1/users/profile/update?gender=0&image_file=123&birth_date=2010-10-12&email=123@sdf.sdfsdasd",
+											"raw": "{{url-admin}}v1/users/profile/update?gender=1&birth_date=2010-10-13&email=123@sdf.sdfsdasddsadsd",
 											"host": [
 												"{{url-admin}}v1"
 											],
@@ -2418,19 +2418,20 @@
 											"query": [
 												{
 													"key": "gender",
-													"value": "0"
+													"value": "1"
 												},
 												{
 													"key": "image_file",
-													"value": "123"
+													"value": "123fasdf",
+													"disabled": true
 												},
 												{
 													"key": "birth_date",
-													"value": "2010-10-12"
+													"value": "2010-10-13"
 												},
 												{
 													"key": "email",
-													"value": "123@sdf.sdfsdasd"
+													"value": "123@sdf.sdfsdasddsadsd"
 												}
 											]
 										}
@@ -2459,7 +2460,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{url-admin}}v1/users/profile/update-password?password=1232&password_confirmation=1232",
+											"raw": "{{url-admin}}v1/users/profile/update-password?password=123222&password_confirmation=123222",
 											"host": [
 												"{{url-admin}}v1"
 											],
@@ -2471,11 +2472,11 @@
 											"query": [
 												{
 													"key": "password",
-													"value": "1232"
+													"value": "123222"
 												},
 												{
 													"key": "password_confirmation",
-													"value": "1232"
+													"value": "123222"
 												}
 											]
 										}
@@ -2691,34 +2692,31 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/products/update?product_id=18&status=1&price=12.85&quantity=12&discount=12",
+									"raw": "{{url-admin}}v1/products/update/18?status=1&price=8.33&quantity=182&discount=0.44",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"products",
-										"update"
+										"update",
+										"18"
 									],
 									"query": [
-										{
-											"key": "product_id",
-											"value": "18"
-										},
 										{
 											"key": "status",
 											"value": "1"
 										},
 										{
 											"key": "price",
-											"value": "12.85"
+											"value": "8.33"
 										},
 										{
 											"key": "quantity",
-											"value": "12"
+											"value": "182"
 										},
 										{
 											"key": "discount",
-											"value": "12"
+											"value": "0.44"
 										}
 									]
 								}
@@ -2822,14 +2820,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/orders/to-processing/2",
+									"raw": "{{url-admin}}v1/orders/to-processing/10",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"orders",
 										"to-processing",
-										"2"
+										"10"
 									]
 								}
 							},
@@ -2857,14 +2855,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/orders/to-cancel/1",
+									"raw": "{{url-admin}}v1/orders/to-cancel/10",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"orders",
 										"to-cancel",
-										"1"
+										"10"
 									]
 								}
 							},
@@ -2892,7 +2890,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/orders/to-shipment?order_id=5&courier_id=1919",
+									"raw": "{{url-admin}}v1/orders/to-shipment?order_id=12&courier_id=1919",
 									"host": [
 										"{{url-admin}}v1"
 									],
@@ -2903,7 +2901,7 @@
 									"query": [
 										{
 											"key": "order_id",
-											"value": "5"
+											"value": "12"
 										},
 										{
 											"key": "courier_id",
@@ -3011,14 +3009,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-admin}}v1/notifications/read/1",
+									"raw": "{{url-admin}}v1/notifications/read/648072cc0d559db8c80febc3",
 									"host": [
 										"{{url-admin}}v1"
 									],
 									"path": [
 										"notifications",
 										"read",
-										"1"
+										"648072cc0d559db8c80febc3"
 									]
 								}
 							},

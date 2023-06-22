@@ -9,12 +9,15 @@ use Modules\Cart\Interfaces\CuApi\V1\CartRepositoryInterface;
 use Modules\Cart\Entities\Cart;
 use Modules\Product\Enums\StatisticsEnum;
 use Modules\Product\Jobs\ProductStatisticsJob;
+use Modules\User\Entities\User;
 
 class CartRepository extends DBTransactionRepository implements CartRepositoryInterface
 {
     use BaseRepositoryTrait;
 
     public Cart|null $model;
+
+    public User|null $user;
 
     public CartItem|null $cartItem;
 
@@ -49,33 +52,38 @@ class CartRepository extends DBTransactionRepository implements CartRepositoryIn
 
     public function getCartAndItems($productId, $add = true)
     {
-        $user = sanctum();
-        $this->findWhere('user_id', $user->id);
+        $this->findWhere('user_id', $this->user->id);
         if (is_null($this->model) && $add)
-            $user->cart()->create(['items_count' => 0, 'items_qty' => 0]);
-        $this->cartItem = $this->model->items()->where('product_id', $productId)->first();
+            $this->model = $this->model->create(['user_id' => $this->user->id, 'items_count' => 0, 'items_qty' => 0]);
+        $this->cartItem = $this->model->items()?->where('product_id', $productId)->first();
     }
 
     public function add($productId): bool
     {
+        $this->user = sanctum();
         $this->getCartAndItems($productId);
         return $this->executeInTransaction(function () use ($productId) {
             if (is_null($this->cartItem)){
-                $this->model->products()->attach($productId, [
+                $this->model->items()->create([
+                    'product_id' => $productId,
                     'quantity' => 1
                 ]);
-                $this->model->incrementEach(['items_count' => 1, 'items_qty' => 1]);
+                $this->model->update([
+                    'items_count' => $this->model->items_count + 1,
+                    'items_qty' => $this->model->items_qty + 1,
+                ]);
             } else {
                 $this->cartItem->increment('quantity');
                 $this->model->increment('items_qty');
             }
-            ProductStatisticsJob::dispatch($productId, sanctum()->id, StatisticsEnum::AddToCart, time());
+            ProductStatisticsJob::dispatch($productId, $this->user->id, StatisticsEnum::AddToCart, time());
             return true;
         });
     }
 
     public function remove($productId): bool
     {
+        $this->user = sanctum();
         $this->getCartAndItems($productId, false);
         return $this->executeInTransaction(function () use ($productId) {
             if ($this->model->items_qty > 1){
@@ -84,13 +92,16 @@ class CartRepository extends DBTransactionRepository implements CartRepositoryIn
                     $this->model->decrement('items_qty');
                 } else {
                     $this->cartItem->delete();
-                    $this->model->decrementEach(['items_count' => 1, 'items_qty' => 1]);
+                    $this->model->update([
+                        'items_count' => $this->model->items_count - 1,
+                        'items_qty' => $this->model->items_qty - 1,
+                    ]);
                 }
             } else {
                 $this->cartItem->delete();
                 $this->model->delete();
             }
-            ProductStatisticsJob::dispatch($productId, sanctum()->id, StatisticsEnum::RemoveFromCart, time());
+            ProductStatisticsJob::dispatch($productId, $this->user->id, StatisticsEnum::RemoveFromCart, time());
             return true;
         });
     }

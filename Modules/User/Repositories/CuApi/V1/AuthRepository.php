@@ -90,7 +90,7 @@ class AuthRepository extends DBTransactionRepository implements AuthRepositoryIn
                 'phone' => $array['phone'], 'otp' => $code, 'expire_at' => Carbon::now()->addMinutes(2)
             ]);
             ( new WhatsappRepository )->store([
-                'priority' => PriorityEnum::HIGH, 'phone' =>  preg_replace('/00/', '', $array['phone'], 1), 'message' => 'text',
+                'priority' => PriorityEnum::HIGH->value, 'phone' => preg_replace('/00/', '', $array['phone'], 1), 'message' => 'otp message',
             ]);
         });
         SendOTPCode::dispatch($array['phone'], $code);

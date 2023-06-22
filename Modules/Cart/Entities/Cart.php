@@ -2,7 +2,7 @@
 
 namespace Modules\Cart\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Modules\Product\Entities\Product;
 use Modules\User\Entities\User;
 
@@ -10,8 +10,10 @@ use Modules\User\Entities\User;
  * @property mixed $shipping_amount
  * @property mixed $items_qty
  * @property mixed $items_count
+ * @property mixed $items
  */
-class Cart extends Model
+
+class Cart extends OverrideModel
 {
     protected $fillable = ['user_id', 'items_count', 'items_qty', 'shipping_amount', 'items_amount', 'notify_at'];
 

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use Jenssegers\Mongodb\Eloquent\Model;
 
-class MongoAudit extends TenantModelMongo implements \OwenIt\Auditing\Contracts\Audit
+class MongoAudit extends Model implements \OwenIt\Auditing\Contracts\Audit
 {
     use \OwenIt\Auditing\Audit;
 

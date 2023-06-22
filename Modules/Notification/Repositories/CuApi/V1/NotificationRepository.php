@@ -5,6 +5,7 @@ namespace Modules\Notification\Repositories\CuApi\V1;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\Notification\Entities\Notification;
 use Modules\Notification\Interfaces\CuApi\V1\NotificationRepositoryInterface;
+use MongoDB\BSON\UTCDateTime;
 
 class NotificationRepository implements NotificationRepositoryInterface
 {
@@ -29,11 +30,11 @@ class NotificationRepository implements NotificationRepositoryInterface
         if ($id){
             $this->model = $this->find($id);
             return $this->model->update([
-                'read_at' => now()
+                'read_at' => new UTCDateTime(time() * 1000)
             ]);
         }
         return $this->model->whereNull('read_at')->where('user_id', sanctum()->id)->update([
-            'read_at' => now()
+            'read_at' => new UTCDateTime(time() * 1000)
         ]);
     }
 }

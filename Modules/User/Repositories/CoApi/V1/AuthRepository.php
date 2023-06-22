@@ -7,6 +7,7 @@ use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Illuminate\Support\Facades\DB;
 use Modules\User\Entities\User;
 use Modules\User\Interfaces\CoApi\V1\AuthRepositoryInterface;
+use Modules\User\Repositories\UserDetailsBaseRepository;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -19,9 +20,12 @@ class AuthRepository implements AuthRepositoryInterface
         $this->model = $model;
     }
 
-    public function login(User $user)
+    public function login(User $user): User
     {
         $user->setAttribute('token', $user->createToken($user->phone)->plainTextToken);
+        ( new UserDetailsBaseRepository )->update($user->id, [
+            'last_active_at' => now()
+        ]);
         return $user;
     }
 

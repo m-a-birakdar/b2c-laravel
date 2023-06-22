@@ -11,7 +11,6 @@ use Modules\Wallet\Entities\Transaction;
 
 /**
  * @property mixed $created_at
- * @property mixed $status
  */
 
 class Shipment extends OverrideModel
