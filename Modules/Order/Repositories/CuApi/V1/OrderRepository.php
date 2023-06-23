@@ -22,66 +22,69 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
 
     public Order|null $model;
 
+    public CouponRepository $couponRepository;
+
+    private OrderRequest $orderRequest;
+
+    private Cart $cart;
+
+    private float $totalAmountAfterCoupon, $totalAmountToInsert;
+
     public function __construct(Order $model = new Order())
     {
         $this->model = $model;
     }
 
-    private $totalAmountAfterCoupon;
-    private $coupon;
-
     private function checkCoupon()
     {
         if ($this->orderRequest->has('coupon_code')){
-            $coupon = new CouponRepository();
-            $coupon->check([
+            $this->couponRepository = new CouponRepository();
+            $this->couponRepository->check([
                 'code' => $this->orderRequest->input('coupon_code'),
                 'order_value' => $this->orderRequest->totalPriceAmount,
             ]);
-            if ($coupon->status){
-                $this->coupon = $coupon->model;
-                $this->setAmountAfterCoupon($this->orderRequest->totalPriceAmount);
-            } else {
-                $this->totalAmountAfterCoupon = $this->orderRequest->totalPriceAmount;
-            }
+            $this->totalAmountAfterCoupon = $this->couponRepository->model && $this->couponRepository->status ? $this->setAmountAfterCoupon() : $this->orderRequest->totalPriceAmount;
+        } else {
+            $this->totalAmountAfterCoupon = $this->orderRequest->totalPriceAmount;
         }
     }
 
-    private function setAmountAfterCoupon($total)
+    private function setAmountAfterCoupon(): float
     {
-        if ($this->coupon->type == \Modules\Coupon\Enums\TypeEnum::FIXED->value){
-            $this->totalAmountAfterCoupon = $total - $this->coupon->value;
-        } else {
-            $this->totalAmountAfterCoupon = $total - ($total * $this->coupon->value / 100);
-        }
+        $total = $this->orderRequest->totalPriceAmount;
+        $this->totalAmountAfterCoupon = $total - ($this->couponRepository->model->type == \Modules\Coupon\Enums\TypeEnum::FIXED->value ? $this->couponRepository->model->value : ($total * $this->couponRepository->model->value / 100));
+        return (double) number_format($this->totalAmountAfterCoupon, 2);
     }
 
     private function saveCoupon()
     {
-        if ($this->coupon)
-            ( new CouponRepository )->save($this->coupon->id);
+        if ($this->couponRepository->model)
+            $this->couponRepository->save();
     }
-
-    private OrderRequest $orderRequest;
-    private Cart $cart;
 
     public function save(OrderRequest $request): bool
     {
         $this->orderRequest = $request;
         $this->cart = $this->orderRequest->cart;
         $this->checkCoupon();
-        return $this->executeInTransaction(function () {
+        $this->totalAmountToInsert = $this->cart->shipping_amount + $this->totalAmountAfterCoupon;
+        $this->executeInTransaction(function () {
             $this->createOrder();
             $this->createOrderItems();
             $this->removeCartItems();
             $this->cart->delete();
-            if($this->orderRequest->input('payment_method') == OrderPaymentMethodEnum::Wallet->value)
-                $this->make($this->model, TypeEnum::WITHDRAWAL->value, $this->model->total_amount, $this->orderRequest->wallet);
+            $this->walletTransaction();
             $this->saveCoupon();
-            ProductStatisticsJob::dispatch(array_column($this->orderRequest->orderItems, 'product_id'), sanctum()->id, StatisticsEnum::Order, time());
-            SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_pending'), $this->model->user_id, 'high');
-            return true;
         });
+        ProductStatisticsJob::dispatch(array_column($this->orderRequest->orderItems, 'product_id'), sanctum()->id, StatisticsEnum::Order, time());
+        SendPrivateNotificationJob::dispatch(nCu('order', 'title'), nCu('order.to_pending'), $this->model->user_id, 'high');
+        return true;
+    }
+
+    private function walletTransaction()
+    {
+        if($this->orderRequest->input('payment_method') == OrderPaymentMethodEnum::Wallet->value)
+            $this->make($this->model, TypeEnum::WITHDRAWAL, $this->totalAmountToInsert, $this->orderRequest->wallet);
     }
 
     private function removeCartItems()
@@ -101,7 +104,7 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
         $this->model = $this->model->create([
             'sku' => mt_rand(1000000000, 9999999999),
             'user_id' => sanctum()->id,
-            'coupon_id' => $this->coupon->id ?? null,
+            'coupon_id' => $this->couponRepository->model->id ?? null,
             'address_id' => $this->orderRequest->address_id,
             'payment_method' => $this->orderRequest->payment_method,
             'items_count' => $this->cart->items_count,
@@ -109,15 +112,13 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
             'shipping_amount' => $this->cart->shipping_amount,
             'items_amount' => $this->orderRequest->totalPriceAmount,
             'discount_amount' => $this->orderRequest->totalDiscountAmount,
-            'total_amount' => $this->cart->shipping_amount + $this->orderRequest->totalPriceAmount
+            'total_amount' => $this->totalAmountToInsert
         ]);
     }
 
-    public function index(): \Illuminate\Database\Eloquent\Collection|array
+    public function index(): \Illuminate\Contracts\Pagination\Paginator
     {
-        return $this->getWhere('user_id', sanctum()->id, [
-            'products:id,thumbnail'
-        ], ['id', 'sku', 'status', 'total_amount', 'created_at',]);
+        return $this->model->with('products:id,thumbnail')->where('user_id', sanctum()->id)->orderByDesc('id')->simplePaginate(null, ['id', 'sku', 'status', 'total_amount', 'created_at',]);
     }
 
     public function show($orderId): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null

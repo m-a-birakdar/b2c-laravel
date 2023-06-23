@@ -14,16 +14,19 @@ class CouponRepository extends DBTransactionRepository implements CouponReposito
     use BaseRepositoryTrait;
 
     public Coupon|null $model;
+
     public CouponUser|null $couponUser;
+
+    public bool $status = false;
+
+    public string $message = '';
+
+    public int $id;
 
     public function __construct(Coupon $model = new Coupon())
     {
         $this->model = $model;
     }
-
-    public bool $status = false;
-    public string $message = '';
-    public int $id;
 
     public function check(array $array)
     {
@@ -68,18 +71,15 @@ class CouponRepository extends DBTransactionRepository implements CouponReposito
         return $userUsageCount && $this->model->usage_per_customer <= $userUsageCount->times_used;
     }
 
-    public function save($id): bool
+    public function save(): void
     {
-        $this->find($id);
-        $this->couponUser = ( new CouponUserRepository() )->first($id);
-        return $this->executeInTransaction(function () {
-            $this->model->increment('times_used');
-            $this->couponUser ? $this->couponUser->increment('times_used') : $this->couponUser->update([
-                'coupon_id' => $this->model->id,
-                'user_id' => sanctum()->id,
-                'times_used' => 1,
-            ]);
-            return true;
-        });
+        $couponUserRepository = new CouponUserRepository;
+        $this->couponUser = $couponUserRepository->first($this->model->id);
+        $this->model->increment('times_used');
+        $this->couponUser ? $this->couponUser->increment('times_used') : $couponUserRepository->store([
+            'coupon_id' => $this->model->id,
+            'user_id' => sanctum()->id,
+            'times_used' => 1,
+        ]);
     }
 }

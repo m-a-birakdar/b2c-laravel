@@ -41,4 +41,9 @@ class ProductBaseRepository extends DBTransactionRepository
         $q = $query->orderByRaw($this->order);
         return is_null($limit) ? $q->simplePaginate(5, $select) : $q->limit($limit)->get($select);
     }
+
+    public function exists($id)
+    {
+        return $this->model->where('id', $id)->exists();
+    }
 }

@@ -3,12 +3,20 @@
 namespace Modules\Wallet\Traits;
 
 use Illuminate\Support\Facades\DB;
+use Modules\Order\Entities\Order;
+use Modules\Shipment\Entities\Shipment;
+use Modules\User\Entities\User;
+use Modules\Wallet\Entities\Card;
+use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Enums\TypeEnum;
 use Modules\Wallet\Repositories\CuApi\V1\WalletRepository;
 
 trait WalletOperationsTrait
 {
-    private $mainModel, $wallet, $type, $amount;
+    private User|Shipment|Card|Order $mainModel;
+    private TypeEnum $type;
+    private Wallet|null $wallet;
+    private int|float $amount;
 
     public function make($model, $type, $amount, $wallet = null): void
     {
@@ -32,7 +40,7 @@ trait WalletOperationsTrait
     protected function makeWallet(): void
     {
         $this->wallet->update([
-            'balance' => $this->wallet->balance + ($this->type == TypeEnum::DEPOSIT->value ? $this->amount : - $this->amount )
+            'balance' => $this->wallet->balance + ($this->type == TypeEnum::DEPOSIT ? $this->amount : - $this->amount )
         ]);
     }
 

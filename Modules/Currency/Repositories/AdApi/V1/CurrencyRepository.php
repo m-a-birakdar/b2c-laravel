@@ -2,28 +2,17 @@
 
 namespace Modules\Currency\Repositories\AdApi\V1;
 
-use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
-use Modules\Currency\Entities\Currency;
 use Modules\Currency\Interfaces\AdApi\V1\CurrencyRepositoryInterface;
+use Modules\Currency\Repositories\CurrencyBaseRepository;
 
-class CurrencyRepository implements CurrencyRepositoryInterface
+class CurrencyRepository extends CurrencyBaseRepository implements CurrencyRepositoryInterface
 {
-    use BaseRepositoryTrait;
-
-    public Currency|null $model;
-
-    public function __construct(Currency $model)
+    public function show($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
-        $this->model = $model;
+        return $this->find($id);
     }
 
-    public function show($id)
-    {
-        $this->find($id);
-        return $this->model;
-    }
-
-    public function update(array $array, $id)
+    public function update(array $array, $id): bool
     {
         $this->find($id);
         return $this->model->update($array);

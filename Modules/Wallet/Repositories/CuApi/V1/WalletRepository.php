@@ -4,6 +4,7 @@ namespace Modules\Wallet\Repositories\CuApi\V1;
 
 use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
+use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\User\Repositories\CuApi\V1\UserRepository;
 use Modules\Wallet\Enums\TypeEnum;
 use Modules\Wallet\Http\Requests\CuApi\V1\SendRequest;
@@ -39,12 +40,15 @@ class WalletRepository extends DBTransactionRepository implements WalletReposito
         return $new;
     }
 
-    public function send(SendRequest $array)
+    public function send(SendRequest $array): bool
     {
-        return $this->executeInTransaction(function () use ($array) {
-            $this->make(sanctum(), TypeEnum::WITHDRAWAL->value, $array->amount, $array->fromWallet);
-            $this->make((new UserRepository)->find($array->toWallet->user_id), TypeEnum::DEPOSIT->value, $array->amount, $array->toWallet);
-            return true;
+        $user = sanctum();
+        $this->executeInTransaction(function () use ($array, $user) {
+            $this->make($user, TypeEnum::WITHDRAWAL, $array->amount, $array->fromWallet);
+            $this->make((new UserRepository)->find($array->toWallet->user_id), TypeEnum::DEPOSIT, $array->amount, $array->toWallet);
         });
+        SendPrivateNotificationJob::dispatch(nCu('wallet', 'title'), nCu('wallet.send_money'), $user->id, 'high');
+        SendPrivateNotificationJob::dispatch(nCu('wallet', 'title'), nCu('wallet.send_money'), $array->toWallet->user_id, 'high');
+        return true;
     }
 }

@@ -6,6 +6,7 @@ use App\Models\OverrideModel;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Order\Entities\Order;
 use Modules\Shipment\Entities\Shipment;
+use Modules\User\Entities\User;
 
 /**
  * @property mixed $created_at
@@ -26,6 +27,7 @@ class Transaction extends OverrideModel
             Card::class => tr('card'),
             Order::class => tr('order'),
             Shipment::class => tr('shipment'),
+            User::class => tr('user'),
             default => tr('default')
         };
     }

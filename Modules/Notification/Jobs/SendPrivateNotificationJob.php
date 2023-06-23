@@ -46,7 +46,7 @@ class SendPrivateNotificationJob implements ShouldQueue
             $this->save();
 //            $this->send();
         } else {
-            Log::channel('notification')->error('user id ' . $this->user->id . ' Not have fcm token');
+            lo('error', 'user id ' . $this->user->id . ' Not have fcm token', [], 'notification');
         }
     }
 

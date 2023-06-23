@@ -90,9 +90,9 @@ if (! function_exists('ba'))
 
 if (! function_exists('lo'))
 {
-    function lo($type, $message, $data = []): void
+    function lo($type, $message, $data = [], $channel = 'stack'): void
     {
-        Log::{$type}($message, $data);
+        Log::channel($channel)->{$type}($message, $data);
     }
 }
 

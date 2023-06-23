@@ -13,13 +13,13 @@ class CouponUserRepository
         $this->model = $model;
     }
 
-    public function first($id): \Illuminate\Database\Eloquent\Builder|null
+    public function first($id)
     {
-        return $this->model = $this->model->query()->where('coupon_id', $id)->where('user_id', sanctum()->id)->first();
+        return $this->model->query()->where('coupon_id', $id)->where('user_id', sanctum()->id)->first();
     }
 
-    public function update($array)
+    public function store($array)
     {
-        return $this->model->update($array);
+        return $this->model->create($array);
     }
 }

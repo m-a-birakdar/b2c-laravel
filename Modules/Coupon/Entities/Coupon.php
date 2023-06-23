@@ -2,7 +2,7 @@
 
 namespace Modules\Coupon\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\User\Entities\User;
 
@@ -13,8 +13,11 @@ use Modules\User\Entities\User;
  * @property mixed $usage_count
  * @property mixed $times_used
  * @property mixed $expired_at
+ * @property mixed $value
+ * @property mixed $type
  */
-class Coupon extends Model
+
+class Coupon extends OverrideModel
 {
     use HasFactory;
 

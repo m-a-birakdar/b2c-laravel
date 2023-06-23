@@ -4,18 +4,11 @@ namespace Modules\User\Repositories\CuApi\V1;
 
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\User\Interfaces\CuApi\V1\UserRepositoryInterface;
-use Modules\User\Entities\User;
+use Modules\User\Repositories\UserBaseRepository;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends UserBaseRepository implements UserRepositoryInterface
 {
     use BaseRepositoryTrait;
-
-    public User|null $model;
-
-    public function __construct(User $model = new User())
-    {
-        $this->model = $model;
-    }
 
     public function index($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
     {

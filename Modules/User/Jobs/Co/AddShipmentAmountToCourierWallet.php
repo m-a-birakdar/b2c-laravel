@@ -33,6 +33,6 @@ class AddShipmentAmountToCourierWallet implements ShouldQueue
 
     public function handle(): void
     {
-        $this->make($this->shipment, TypeEnum::DEPOSIT->value, $this->value, $this->walletModel);
+        $this->make($this->shipment, TypeEnum::DEPOSIT, $this->value, $this->walletModel);
     }
 }

@@ -22,7 +22,7 @@ class Product extends OverrideModel
     protected $fillable = ['city_id', 'category_id', 'title', 'sku', 'status', 'thumbnail', 'price', 'discount', 'rank'];
 
     protected $casts = [
-        'price' => 'decimal:2',
+        'price' => 'double',
         'lira_price' => 'decimal:2',
         'discount' => 'double',
         'status' => 'bool',

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('usage_limit')->nullable();
             $table->integer('usage_per_customer')->nullable();
             $table->integer('times_used')->default(0);
-            $table->timestamp('expired_at');
+            $table->dateTime('expired_at');
             $table->timestamps();
         });
     }

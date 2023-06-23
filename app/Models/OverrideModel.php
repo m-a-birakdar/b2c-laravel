@@ -12,6 +12,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property mixed $status
  * @property mixed $user_id
  * @method create(array $array)
+ * @method increment(string $column)
+ * @method decrement(string $column)
  */
 
 class OverrideModel extends Model implements Auditable

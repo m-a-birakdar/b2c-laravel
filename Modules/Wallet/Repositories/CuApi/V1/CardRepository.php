@@ -31,7 +31,7 @@ class CardRepository extends DBTransactionRepository implements CardRepositoryIn
         $this->model = $request->card;
         $this->executeInTransaction(function () {
             $this->makeCard();
-            $this->make($this->model, TypeEnum::DEPOSIT->value, $this->model->value);
+            $this->make($this->model, TypeEnum::DEPOSIT, $this->model->value);
         });
         SendPrivateNotificationJob::dispatch(nCu('wallet', 'title'), nCu('wallet.changes'), sanctum()->id, 'high');
         return true;

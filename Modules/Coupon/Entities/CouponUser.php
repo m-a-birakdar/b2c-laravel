@@ -2,9 +2,9 @@
 
 namespace Modules\Coupon\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\OverrideModel;
 
-class CouponUser extends Model
+class CouponUser extends OverrideModel
 {
     protected $table = 'coupon_user';
 

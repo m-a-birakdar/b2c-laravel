@@ -15,7 +15,7 @@ use Modules\User\Entities\User;
 
 class Cart extends OverrideModel
 {
-    protected $fillable = ['user_id', 'items_count', 'items_qty', 'shipping_amount', 'items_amount', 'notify_at'];
+    protected $fillable = ['user_id', 'items_count', 'items_qty', 'shipping_amount', 'items_amount', 'notify_at', 'checkout_at'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

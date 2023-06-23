@@ -2,21 +2,11 @@
 
 namespace Modules\City\Repositories\CuApi\V1;
 
-use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\City\Interfaces\CuApi\V1\CityRepositoryInterface;
-use Modules\City\Entities\City;
+use Modules\City\Repositories\CityBaseRepository;
 
-class CityRepository implements CityRepositoryInterface
+class CityRepository extends CityBaseRepository implements CityRepositoryInterface
 {
-    use BaseRepositoryTrait;
-
-    public City|null $model;
-
-    public function __construct(City $model)
-    {
-        $this->model = $model;
-    }
-
     public function index($columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
     {
         return $this->model->query()->get();

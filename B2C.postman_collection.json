@@ -150,14 +150,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/carts/add/18",
+									"raw": "{{url-customer}}v1/carts/add/12",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"carts",
 										"add",
-										"18"
+										"12"
 									]
 								}
 							},
@@ -232,6 +232,40 @@
 							"response": []
 						},
 						{
+							"name": "flush",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/carts/flush",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"carts",
+										"flush"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "remove",
 							"request": {
 								"auth": {
@@ -253,14 +287,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/carts/remove/18",
+									"raw": "{{url-customer}}v1/carts/remove/12",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"carts",
 										"remove",
-										"18"
+										"12"
 									]
 								}
 							},
@@ -293,7 +327,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/orders/save?address_id=1&payment_method=1&coupon_code=88549",
+									"raw": "{{url-customer}}v1/orders/save?address_id=1&payment_method=2&coupon_code=68784-5422",
 									"host": [
 										"{{url-customer}}v1"
 									],
@@ -308,11 +342,11 @@
 										},
 										{
 											"key": "payment_method",
-											"value": "1"
+											"value": "2"
 										},
 										{
 											"key": "coupon_code",
-											"value": "88549"
+											"value": "68784-5422"
 										}
 									]
 								}
@@ -542,7 +576,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/coupons/check?code=88549&order_value=100",
+									"raw": "{{url-customer}}v1/coupons/check?code=68784-5422&order_value=1531.42",
 									"host": [
 										"{{url-customer}}v1"
 									],
@@ -553,11 +587,11 @@
 									"query": [
 										{
 											"key": "code",
-											"value": "88549"
+											"value": "68784-5422"
 										},
 										{
 											"key": "order_value",
-											"value": "100"
+											"value": "1531.42"
 										}
 									]
 								}
@@ -591,14 +625,15 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/advertises/index/1",
+									"raw": "{{url-customer}}v1/advertises/index/1/4",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"advertises",
 										"index",
-										"1"
+										"1",
+										"4"
 									]
 								}
 							},
@@ -626,13 +661,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{url-customer}}v1/advertises/one/1",
+									"raw": "{{url-customer}}v1/advertises/one/1/1",
 									"host": [
 										"{{url-customer}}v1"
 									],
 									"path": [
 										"advertises",
 										"one",
+										"1",
 										"1"
 									]
 								}
@@ -908,6 +944,50 @@
 									"path": [
 										"wallets",
 										"show"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "send",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token-customer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-customer}}v1/wallets/send?amount=125&to=9446-4422-8426",
+									"host": [
+										"{{url-customer}}v1"
+									],
+									"path": [
+										"wallets",
+										"send"
+									],
+									"query": [
+										{
+											"key": "amount",
+											"value": "125"
+										},
+										{
+											"key": "to",
+											"value": "9446-4422-8426"
+										}
 									]
 								}
 							},

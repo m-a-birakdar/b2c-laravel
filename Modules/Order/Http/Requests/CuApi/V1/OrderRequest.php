@@ -38,9 +38,12 @@ class OrderRequest extends FormRequest
         }
     }
 
-    public Cart $cart;
+    public Cart|null $cart;
+
     public Wallet $wallet;
-    public int $totalPriceAmount = 0, $totalDiscountAmount = 0;
+
+    public int|float $totalPriceAmount = 0, $totalDiscountAmount = 0;
+
     public array $orderItems = [];
 
     public function getCartInfo()
@@ -48,6 +51,8 @@ class OrderRequest extends FormRequest
         $this->cart = ( new CartRepository )->findWhere('user_id', sanctum()->id, [
             'products:id,price,discount'
         ]);
+        if (! $this->cart || count($this->cart->products) == 0)
+            throw new MainException(false, tr('add_to_your_cart'), 422);
         $this->orderItems = [];
         foreach ($this->cart->products as $product) {
             $totalPrice = $product->pivot->quantity * $product->price;

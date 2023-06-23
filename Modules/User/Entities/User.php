@@ -23,6 +23,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property mixed $id
  * @property mixed $status
  * @property mixed $password
+ * @property $details
  */
 
 class User extends Authenticatable implements Auditable
