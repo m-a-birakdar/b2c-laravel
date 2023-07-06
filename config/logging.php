@@ -1,8 +1,11 @@
 <?php
 
+use App\Logging\CustomizeFormatter;
+use Monolog\Handler\FilterHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Monolog\Handler\TelegramBotHandler;
 
 return [
 
@@ -55,6 +58,15 @@ return [
             'driver' => 'stack',
             'channels' => ['single'],
             'ignore_exceptions' => false,
+        ],
+
+        'telegram' => [
+            'driver'  => 'monolog',
+            'handler' => FilterHandler::class,
+            'tap' => [CustomizeFormatter::class],
+            'with' => [
+                'handler' => new TelegramBotHandler(apiKey: env("TELEGRAM_BOT"), channel: env("TELEGRAM_CHANNEL"), parseMode: 'Markdown')
+            ],
         ],
 
         'single' => [
