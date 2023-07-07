@@ -5,6 +5,7 @@ namespace Modules\Order\Repositories\CuApi\V1;
 use App\Repositories\DBTransactionRepository;
 use Birakdar\EasyBuild\Traits\BaseRepositoryTrait;
 use Modules\Cart\Entities\Cart;
+use Modules\Coupon\Entities\Coupon;
 use Modules\Coupon\Repositories\CuApi\V1\CouponRepository;
 use Modules\Notification\Jobs\SendPrivateNotificationJob;
 use Modules\Order\Enums\OrderPaymentMethodEnum;
@@ -26,7 +27,7 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
 
     private OrderRequest $orderRequest;
 
-    private Cart $cart;
+    private Cart|null $cart = null;
 
     private float $totalAmountAfterCoupon, $totalAmountToInsert;
 
@@ -37,8 +38,8 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
 
     private function checkCoupon()
     {
+        $this->couponRepository = new CouponRepository();
         if ($this->orderRequest->has('coupon_code')){
-            $this->couponRepository = new CouponRepository();
             $this->couponRepository->check([
                 'code' => $this->orderRequest->input('coupon_code'),
                 'order_value' => $this->orderRequest->totalPriceAmount,
@@ -58,7 +59,7 @@ class OrderRepository extends DBTransactionRepository implements OrderRepository
 
     private function saveCoupon()
     {
-        if ($this->couponRepository->model)
+        if ($this->couponRepository->model->exists)
             $this->couponRepository->save();
     }
 

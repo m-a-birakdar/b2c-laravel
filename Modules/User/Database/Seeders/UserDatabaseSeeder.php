@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Sanctum;
+use Modules\Address\Repositories\CuApi\V1\AddressRepository;
 use Modules\User\Entities\User;
 
 class UserDatabaseSeeder extends Seeder
@@ -40,13 +42,11 @@ class UserDatabaseSeeder extends Seeder
         $user->syncRoles('customer');
         $thisToken = $user->createToken('00903030303030')->plainTextToken;
         $token .= 'Customer ' . $thisToken . PHP_EOL;
-        $req = Request::create('http://bar.tenant.local/cu-api/v1/addresses', 'Post', [
+        Sanctum::actingAs($user);
+        ( new AddressRepository )->store([
             'city_id' => 1,
             'address' => Str::random(100)
         ]);
-        $req->header('Authorization', 'Bearer' . $thisToken);
-        $req->header('Accept', 'Application/json');
-        app()->handle($req);
         Storage::put('token.txt', $token);
     }
 }

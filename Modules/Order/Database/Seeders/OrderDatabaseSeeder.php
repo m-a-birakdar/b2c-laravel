@@ -3,31 +3,28 @@
 namespace Modules\Order\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Http\Request;
+use Laravel\Sanctum\Sanctum;
+use Modules\Cart\Repositories\CuApi\V1\CartRepository;
+use Modules\Order\Http\Requests\CuApi\V1\OrderRequest;
+use Modules\Order\Repositories\CuApi\V1\OrderRepository;
+use Modules\User\Entities\User;
 
 class OrderDatabaseSeeder extends Seeder
 {
-    private string $token;
-
     public function run(): void
     {
-        $token = file_get_contents(base_path('storage/tenantbar/app/token.txt'));
-        $token = explode('Customer ', $token);
-        $this->token = str_replace("\r\n", '', $token[1]);
-        for ($i = 0; $i < 3; $i++){
+        $user = User::find(3);
+        Sanctum::actingAs($user);
+        echo $user->id . PHP_EOL;
+        for ($i = 0; $i < 10; $i++){
             for ($j = 0; $j < 10; $j++)
-                $this->request('http://bar.tenant.local/cu-api/v1/carts/add/' . rand(1,10));
-            $this->request('http://bar.tenant.local/cu-api/v1/orders/save', 'POST', [
+                ( new CartRepository )->add(rand(1,10));
+            $request = new OrderRequest([
                 'address_id' => 1,
                 'payment_method' => 1,
             ]);
+            $request->passedValidation();
+            ( new OrderRepository() )->save($request);
         }
-    }
-
-    private function request(string $uri, string $method = 'GET', array $parameters = []): void
-    {
-        $req = Request::create($uri, $method, $parameters);
-        $req->header('Authorization', 'Bearer' . $this->token);
-        app()->handle($req);
     }
 }

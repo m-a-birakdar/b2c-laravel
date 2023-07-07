@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Exceptions\ApiErrorException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DBTransactionRepository
 {
@@ -16,6 +17,7 @@ class DBTransactionRepository
             return $result;
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage(), [$e]);
             throw new ApiErrorException($e);
         }
     }

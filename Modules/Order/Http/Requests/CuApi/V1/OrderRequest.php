@@ -27,7 +27,7 @@ class OrderRequest extends FormRequest
         ];
     }
 
-    protected function passedValidation()
+    public function passedValidation(): void
     {
         $this->getCartInfo();
         if($this->input('payment_method') == OrderPaymentMethodEnum::Wallet->value){
@@ -38,7 +38,7 @@ class OrderRequest extends FormRequest
         }
     }
 
-    public Cart|null $cart;
+    public Cart|null $cart = null;
 
     public Wallet $wallet;
 
