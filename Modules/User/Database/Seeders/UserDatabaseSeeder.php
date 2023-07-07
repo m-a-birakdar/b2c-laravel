@@ -3,8 +3,8 @@
 namespace Modules\User\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\User\Entities\User;
@@ -40,11 +40,13 @@ class UserDatabaseSeeder extends Seeder
         $user->syncRoles('customer');
         $thisToken = $user->createToken('00903030303030')->plainTextToken;
         $token .= 'Customer ' . $thisToken . PHP_EOL;
-        Http::withToken($thisToken)->acceptJson()->post('http://bar.tenant.local/cu-api/v1/addresses', [
+        $req = Request::create('http://bar.tenant.local/cu-api/v1/addresses', 'Post', [
             'city_id' => 1,
             'address' => Str::random(100)
         ]);
+        $req->header('Authorization', 'Bearer' . $thisToken);
+        $req->header('Accept', 'Application/json');
+        app()->handle($req);
         Storage::put('token.txt', $token);
-//        User::factory()->count(10)->create();
     }
 }
