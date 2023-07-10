@@ -18,7 +18,7 @@ class InvoiceController extends Controller
 
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return UserResource::collection($this->repository->index());
+        return InvoiceResource::collection($this->repository->index());
     }
 
     public function store(InvoiceRequest $request)
@@ -26,9 +26,9 @@ class InvoiceController extends Controller
         return $this->repository->store($request->validated());
     }
 
-    public function show($id): UserResource
+    public function show($id): InvoiceResource
     {
-        return UserResource::make($this->repository->show($id));
+        return InvoiceResource::make($this->repository->show($id));
     }
 
     public function update(InvoiceRequest $request, $id)

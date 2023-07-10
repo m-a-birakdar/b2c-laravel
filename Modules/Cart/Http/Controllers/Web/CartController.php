@@ -2,7 +2,6 @@
 
 namespace Modules\Cart\Http\Controllers\Web;
 
-use Modules\Cart\Http\Requests\Web\CartRequest;
 use Illuminate\Routing\Controller;
 use Modules\Cart\Interfaces\Web\CartRepositoryInterface;
 
@@ -25,7 +24,7 @@ class CartController extends Controller
         return view('cart::create');
     }
 
-    public function store(CartRequest $request): \Illuminate\Http\RedirectResponse
+    public function store($request): \Illuminate\Http\RedirectResponse
     {
         $this->repository->store($request->validated());
         return back();
@@ -45,7 +44,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function update(CartRequest $request, $id): \Illuminate\Http\RedirectResponse
+    public function update($request, $id): \Illuminate\Http\RedirectResponse
     {
         $this->repository->update($request->validated(), $id);
         return back();

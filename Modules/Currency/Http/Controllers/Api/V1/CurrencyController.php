@@ -18,7 +18,7 @@ class CurrencyController extends Controller
 
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return UserResource::collection($this->repository->index());
+        return CurrencyResource::collection($this->repository->index());
     }
 
     public function store(CurrencyRequest $request)
@@ -26,9 +26,9 @@ class CurrencyController extends Controller
         return $this->repository->store($request->validated());
     }
 
-    public function show($id): UserResource
+    public function show($id): CurrencyResource
     {
-        return UserResource::make($this->repository->show($id));
+        return CurrencyResource::make($this->repository->show($id));
     }
 
     public function update(CurrencyRequest $request, $id)

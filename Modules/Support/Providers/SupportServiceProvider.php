@@ -2,6 +2,7 @@
 
 namespace Modules\Support\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -37,7 +38,6 @@ class SupportServiceProvider extends ServiceProvider
 
     private array $bind = [
         \Modules\Support\Interfaces\Web\SupportRepositoryInterface::class => \Modules\Support\Repositories\Web\SupportRepository::class,
-        \Modules\Support\Interfaces\Ajax\SupportRepositoryInterface::class => \Modules\Support\Repositories\Ajax\SupportRepository::class,
         \Modules\Support\Interfaces\Api\V1\SupportRepositoryInterface::class => \Modules\Support\Repositories\Api\V1\SupportRepository::class,
     ];
 
@@ -97,7 +97,7 @@ class SupportServiceProvider extends ServiceProvider
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

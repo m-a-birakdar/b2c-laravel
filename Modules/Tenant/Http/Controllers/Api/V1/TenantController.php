@@ -18,7 +18,7 @@ class TenantController extends Controller
 
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return UserResource::collection($this->repository->index());
+        return TenantResource::collection($this->repository->index());
     }
 
     public function store(TenantRequest $request)
@@ -26,9 +26,9 @@ class TenantController extends Controller
         return $this->repository->store($request->validated());
     }
 
-    public function show($id): UserResource
+    public function show($id): TenantResource
     {
-        return UserResource::make($this->repository->show($id));
+        return TenantResource::make($this->repository->show($id));
     }
 
     public function update(TenantRequest $request, $id)
