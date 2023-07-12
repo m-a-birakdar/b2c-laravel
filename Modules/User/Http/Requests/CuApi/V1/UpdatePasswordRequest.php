@@ -15,6 +15,6 @@ class UpdatePasswordRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return auth()->guard('sanctum')->check();
+        return auth('sanctum')->check();
     }
 }

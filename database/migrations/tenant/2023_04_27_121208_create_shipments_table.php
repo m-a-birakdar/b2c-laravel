@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('track_number')->unique();
+            $table->string('track_number')->index()->unique();
             $table->foreignId('customer_id')->constrained('users');
             $table->foreignId('courier_id')->constrained('users');
             $table->tinyInteger('status')->default(ShipmentStatusEnum::NotYetShipped->value);

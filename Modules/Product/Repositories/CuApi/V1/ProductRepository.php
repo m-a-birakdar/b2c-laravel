@@ -31,7 +31,7 @@ class ProductRepository extends ProductBaseRepository implements ProductReposito
 
     public function search($cityId, $userId)
     {
-        $text = request('text');
+        $text = str_replace(' ', '%', request('text'));
         $query = $this->model->available()->where('title', 'Like', '%' . request('text') . '%')->where('city_id', $cityId);
         SaveSearchValueJob::dispatch($userId, $text, time());
         return $this->getPaginatedProducts($query, $this->select);

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code')->index();
+            $table->string('code')->unique()->index();
             $table->tinyInteger('type');
             $table->decimal('value');
             $table->integer('usage_count')->nullable();
