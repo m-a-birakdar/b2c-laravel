@@ -5,7 +5,7 @@ namespace Modules\Order\Http\Controllers\CuApi\V1;
 use App\Http\Resources\MainResource;
 use Illuminate\Routing\Controller;
 use Modules\Order\Http\Requests\CuApi\V1\OrderRequest;
-use Modules\Order\Http\Requests\OrderReviewRequest;
+use Modules\Order\Http\Requests\CuApi\V1\OrderReviewRequest;
 use Modules\Order\Interfaces\CuApi\V1\OrderRepositoryInterface;
 use Modules\Order\Transformers\CuApi\V1\OrderResource;
 use Modules\Order\Transformers\CuApi\V1\OrderShowResource;

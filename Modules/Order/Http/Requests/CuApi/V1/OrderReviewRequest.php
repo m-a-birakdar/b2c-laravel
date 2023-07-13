@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Order\Http\Requests;
+namespace Modules\Order\Http\Requests\CuApi\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,6 +17,6 @@ class OrderReviewRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return auth()->guard('sanctum')->check();
+        return auth('sanctum')->check();
     }
 }
